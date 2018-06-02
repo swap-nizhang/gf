@@ -5,7 +5,7 @@
         <table class="formation" border="1" cellpadding="0">
         </table>
         <div class="fairy_container">
-            <div class="button hover select_fairy">選擇妖精</div>
+            <div class="button hover select_fairy">Select fairy</div>
             <div class="fairy_control_container xhidden">
                 <div class="item button hover fairy"></div>
                 <div class="item control">
@@ -38,7 +38,7 @@
                         <option value="10">10</option>
                         <option value="1">1</option>
                     </select>
-                    <label class="skill_control_label"><input type="checkbox" class="skill_control">技能</label>
+                    <label class="skill_control_label"><input type="checkbox" class="skill_control">Skill</label>
                     <select class="skill_level">
                         <option value="10">10</option>
                         <option value="9">9</option>
@@ -76,16 +76,16 @@
         </div>
         <div class="clear"></div>
         <div class="fairy_performance">
-            <div class="title head">妖精小隊加成</div>
-            <div class="title">傷害</div>
+            <div class="title head">Fairy bonus</div>
+            <div class="title">DMG</div>
             <div class="value dmg">-</div>
-            <div class="title">命中</div>
+            <div class="title">ACC</div>
             <div class="value hit">-</div>
-            <div class="title">迴避</div>
+            <div class="title">EVA</div>
             <div class="value dodge">-</div>
             <div class="title">護甲</div>
             <div class="value armor">-</div>
-            <div class="title">暴傷</div>
+            <div class="title">CRIT DMG</div>
             <div class="value criDmg">-</div>
             <div class="clear"></div>
         </div>
@@ -140,7 +140,7 @@
     <div class="button hover remove">移除</div>
     <table class="picker_table">
     </table>
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div id="picker_by_type" title="選擇人形">
@@ -148,12 +148,12 @@
         光環效果
         <select class="attr">
             <option value=""></option>
-            <option value="hit">命中</option>
-            <option value="dmg">傷害</option>
-            <option value="fireOfRate">射速</option>
-            <option value="dodge">迴避</option>
+            <option value="hit">ACC</option>
+            <option value="dmg">DMG</option>
+            <option value="fireOfRate">ROF</option>
+            <option value="dodge">EVA</option>
             <option value="armor">護甲</option>
-            <option value="criRate">暴擊率</option>
+            <option value="criRate">CRIT%</option>
             <option value="cooldownTime">技能冷卻</option>
         </select>
     </div>
@@ -185,7 +185,7 @@
         <table class="picker_table">
         </table>
     </div>
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div id="picker_equipment" title="選擇裝備">
@@ -213,7 +213,7 @@
         <table class="picker_table">
         </table>
     </div>
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div id="picker_fairy" title="選擇妖精">
@@ -230,7 +230,7 @@
         </table>
     </div>
 
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div id="detail" title="">
@@ -240,10 +240,10 @@
 
 <div id="detailCalculate" title="">
     <div class="control_input"><input type="text" id="times" value="100"/>次數</div>
-    <div class="button hover startSimulation">開始模擬</div>
+    <div class="button hover startSimulation">Calculate</div>
     <div id="text"></div>
     <div id="detailCalculateContainer" style="min-width: 1000px; height: 400px; margin: 0 auto"></div>
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div id="updateDialog" title="">
@@ -259,12 +259,12 @@
     </div>
     <br>
     <div class="text"></div>
-    <div class="button hover close">關閉</div>
+    <div class="button hover close">Close</div>
 </div>
 
 <div class="factory">
     <div class="grid_container">
-        <div class="add_button hover">加入人形</div>
+        <div class="add_button hover">Add T-Doll</div>
         <div class="char xhidden">
             <div class="img"></div>
             <div class="aura_container">
@@ -305,7 +305,7 @@
                     </select>
                 </div>
                 <div class="item skill_control_container">
-                    <label><input type="checkbox" class="skill_control">技能</label>
+                    <label><input type="checkbox" class="skill_control">Skill</label>
                 </div>
                 <div class="item">
                     <select class="skill_stack">
@@ -405,34 +405,34 @@
     </div>
 
     <div class="char_performance">
-        <div class="title name">名稱</div>
+        <div class="title name">Name</div>
         <div class="value name">-</div>
         <div class="clear"></div>
-        <div class="title hp">血量</div>
+        <div class="title hp">HP</div>
         <div class="value hp">-</div>
-        <div class="title dmg">傷害</div>
+        <div class="title dmg">DMG</div>
         <div class="value dmg">-</div>
         <div class="clear"></div>
-        <div class="title hit">命中</div>
+        <div class="title hit">ACC</div>
         <div class="value hit">-</div>
         <div class="clear"></div>
-        <div class="title dodge">迴避</div>
+        <div class="title dodge">EVA</div>
         <div class="value dodge">-</div>
         <div class="clear"></div>
-        <div class="title fireOfRate">射速</div>
+        <div class="title fireOfRate">ROF</div>
         <div class="value fireOfRate">-</div>
         <div class="title attackFrame">幀數</div>
         <div class="value attackFrame">-</div>
         <div class="clear"></div>
-        <div class="title criRate">暴擊率</div>
+        <div class="title criRate">CRIT%</div>
         <div class="value criRate">-</div>
-        <div class="title criDmg">暴擊傷害</div>
+        <div class="title criDmg">CRIT DMG</div>
         <div class="value criDmg">-</div>
-        <div class="title armorPiercing">穿甲</div>
+        <div class="title armorPiercing">AP</div>
         <div class="value armorPiercing">-</div>
         <div class="title armor">護甲</div>
         <div class="value armor">-</div>
-        <div class="title ammoCount">彈量</div>
+        <div class="title ammoCount">ROUNDS</div>
         <div class="value ammoCount">-</div>
         <div class="title perDmg">每次傷害</div>
         <div class="value perDmg">-</div>
