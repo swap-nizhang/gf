@@ -48,7 +48,7 @@
     "addAmmoCount":"Increase Ammo count by {0} for the current salvo",
     "singleLink":"單一小人傷害",
     "multiLink":"擴編總傷害",
-    "last_update":"最後更新",
+    "last_update":"Last update ",
     "attackToArmor":"若對裝甲{0}倍傷害",
     "extraToTarget":"目標額外",
     "contact":"contact",
