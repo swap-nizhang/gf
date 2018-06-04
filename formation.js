@@ -53,7 +53,7 @@ var mFormation = [];
 var mGridToUI = [];
 var mGridToChar = [];
 var mGridHasChar = [];
-var mDmgLinkMode = SINGLE_LINK;
+var mDmgLinkMode = MULTI_LINK;
 var mIsDetailCalculate = false;
 var mFairy = null;
 var mVersion = "tw";
@@ -1573,23 +1573,10 @@ function updatePerformance() {
     var url = [location.protocol, '//', location.host, location.pathname].join('');
     $("#code").val(url + "?pre=" + JSON.stringify(preLoadCode));
 
-
-
-
-
-
-
     //20180602
     var resultArr = dmgNs();
     $(".value.d8sSum").html(resultArr[0]);
     $(".value.d20sSum").html(resultArr[1]);
-
-
-
-
-
-
-
 
 }
 
@@ -1597,7 +1584,7 @@ function updatePerformance() {
 
 function setEquipment(grid) {
 	var charObj = mGridToChar[grid];
-	//updateCharObsForBase2(charObj, grid);
+
 	//charObj.c.friendship = "friendly";
 
 	if (charObj.type == "rf") {
@@ -1645,9 +1632,6 @@ function setEquipment(grid) {
 		charObj.equipment[2] = 72;
 		charObj.equipment[3] = 8;
 	}
-
-
-
 
 	if (charObj.type == "mg") {
 		charObj.equipment[1] = 20;
@@ -1748,7 +1732,6 @@ function setEquipment(grid) {
 	if (charObj.name == "MP-446" && charObj.mod) {
 		charObj.equipment[1] = 114;
 	}
-	//updateCharObs();
 
 }
 
