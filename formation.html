@@ -1,11 +1,11 @@
 <div class="tab_formation">
     <div class="panel">
         <label class="view_equipment_button hover"><input type="checkbox" class="view_equipment">Equip</label>
-        <label class="skill_all_button hover"><input type="checkbox" class="skill_all">All skills</label>
+        <label class="skill_all_button hover"><input type="checkbox" class="skill_all">All Skills</label>
         <table class="formation" border="1" cellpadding="0">
         </table>
         <div class="fairy_container">
-            <div class="button hover select_fairy">Select fairy</div>
+            <div class="button hover select_fairy">Select Fairy</div>
             <div class="fairy_control_container xhidden">
                 <div class="item button hover fairy"></div>
                 <div class="item control">
@@ -61,9 +61,9 @@
 
     <div class="panel">
         <div class="calculate_control">
-            <div class="button hover calculate">期望計算輸出表</div> <!--期望計算輸出表-->
-            <div class="control_input"><input type="text" class="endTime" value="20"/>秒</div>
-            <div class="control_input walkTime">戰鬥開場走路<input type="text" value="0"/>秒</div>
+            <div class="button hover calculate">Plot DPS Graph</div>
+            <div class="control_input"><input type="text" class="endTime" value="20"/>s</div>
+            <div class="control_input walkTime">walk time<input type="text" value="0"/>s</div>
             <div class="button hover dmgLinkSwitch ">單一小人傷害</div>
             <div class="clear"></div>
             <div class="button hover simulation">模擬計算輸出表</div>
@@ -100,7 +100,7 @@
             <div class="control_input"><label class="hover"><input type="checkbox" class="enemyEliteTarget">Boss</label></div>
             <div class="control_input"><label class="hover"><input type="checkbox" class="battleisNight">Night</label></div>
             <div class="battleFortress_container">
-                <label class="hover"><input type="checkbox" class="battleFortress">緊急堡壘的效果</label>
+                <label class="hover"><input type="checkbox" class="battleFortress">Toggle emergency fortess?</label>
                 <select class="fortress_level">
                     <option value="10">10</option>
                     <option value="9">9</option>
@@ -239,14 +239,14 @@
 </div>
 
 <div id="detailCalculate" title="">
-    <div class="control_input"><input type="text" id="times" value="100"/>次數</div>
+    <div class="control_input"><input type="text" id="times" value="100"/>repeats</div>
     <div class="button hover startSimulation">Calculate</div>
     <div id="text"></div>
     <div id="detailCalculateContainer" style="min-width: 1000px; height: 400px; margin: 0 auto"></div>
     <div class="button hover close">Close</div>
 </div>
 
-<--!<div id="updateDialog" title="">
+<div id="updateDialog" title="">
     <div>
         <a href="https://github.com/ynntk4815/gf">
             <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png">github</a>
@@ -260,7 +260,7 @@
     <br>
     <div class="text"></div>
     <div class="button hover close">Close</div>
-</div>-->
+</div>
 
 <div class="factory">
     <div class="grid_container">
@@ -434,7 +434,7 @@
         <div class="value armor">-</div>
         <div class="title ammoCount">ROUNDS</div>
         <div class="value ammoCount">-</div>
-        <div class="title perDmg">每次傷害</div>
+        <div class="title perDmg">DMG/Shot</div>
         <div class="value perDmg">-</div>
         <div class="title dps">DPS</div>
         <div class="value dps">-</div>
