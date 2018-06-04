@@ -313,6 +313,10 @@
     box-shadow:15px 0px 0px 0px #DFB6FF inset;
 }
 
+.button.unreleased {
+    box-shadow:15px 0px 0px 0px #FF6A38 inset;
+}
+
 .pick_button.unreleased {
     box-shadow:15px 0px 0px 0px #FF6A38 inset;
 }
