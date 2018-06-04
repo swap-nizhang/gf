@@ -212,7 +212,7 @@
             "ammoCount":{"min": "1", "max":"1"},
             "dodge":{"min": "-1", "max":"-1"}
         }},
-    {"id":"68", "name":"IOP極限彈鏈箱", "type":"belt_box", "rarity":"5", "strengthenCoefficient":"0.07",
+    {"id":"68", "name":"IOP Maximum Ammo Box", "type":"belt_box", "rarity":"5", "strengthenCoefficient":"0.07",
         "effect":{
             "ammoCount":{"min": "2", "max":"3"},
             "dodge":{"min": "-3", "max":"-2"}
@@ -312,7 +312,7 @@
             "dodge":{"min": "2", "max":"4", "strengthenCoefficient":"0.03"},
             "criDmg":{"min": "15", "max":"20", "strengthenCoefficient":"0.05"}
         }},
-    {"id":"87", "name":"破舊披風", "type":"cloak", "rarity":"2", "strengthenCoefficient":"0.0",
+    {"id":"87", "name":"Ragged Cape", "type":"cloak", "rarity":"2", "strengthenCoefficient":"0.0",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "3", "max":"4"}
@@ -322,12 +322,12 @@
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "5", "max":"7"}
         }},
-    {"id":"89", "name":"城市迷彩披風", "type":"cloak", "rarity":"4", "strengthenCoefficient":"0.08",
+    {"id":"89", "name":"Urban Camouflage Cape", "type":"cloak", "rarity":"4", "strengthenCoefficient":"0.08",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "8", "max":"10"}
         }},
-    {"id":"90", "name":"熱光學迷彩披風", "type":"cloak", "rarity":"5", "strengthenCoefficient":"0.07",
+    {"id":"90", "name":"Thermoptic Camouflage Cape", "type":"cloak", "rarity":"5", "strengthenCoefficient":"0.07",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "11", "max":"15"}
