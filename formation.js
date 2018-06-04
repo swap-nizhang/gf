@@ -31,6 +31,7 @@ const BUFF = "buff";
 const FORTRESS = "fortress";
 const ALLY = "ally";
 const EXTRA = "extra";
+const UNRELEASED = "unreleased";
 const CHAR_RARITY_LISTS = ["2", "3", "4", "5", "extra"];
 const CRI_RATE = "criRate";
 const VERSION = "version";
