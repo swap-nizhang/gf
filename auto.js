@@ -48,7 +48,7 @@ $( document ).ready(function () {
 
 
 			$("body").prepend(
-				'秒數: <input id="sec" value="'+_SEC +'"/><br />'+
+				'<div id="secDiv">秒數: <input id="sec" value="'+_SEC +'"/></div>'+
 				charTable +
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'HG/RF b陣\';findHGRF2()">HG/RF b陣</a> &nbsp; '+
@@ -197,6 +197,8 @@ function initTable() {
 	_SEC = $("#sec").val();
 	$("body > a").remove();
 	$("body > div > table").css("display","none");
+	$("#secDiv").css("display","none");
+	$("body").prepend('<div id="percentDiv"></div>');
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
 				"<th>"+"d"+ _SEC + "s"+"</th>"+
@@ -457,15 +459,12 @@ function loopCore(
 		
 	}
 	
-
-	//console.log(I1,I2,I3,I4,I5);
-	/*console.log(ARR1[I1].name,
-							ARR2[I2].name,
-							ARR3[I3].name,
-							ARR4[I4].name,
-							ARR5[I5].name); 
-	*/
-	
+	if (I4Changed) {
+		$("#percentDiv").text(
+			parseInt((I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
+			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length) *10000) / 100 +"%"
+		);
+	}
 	if (I1 == ARR1.length) { 
 		//DONE
 		
