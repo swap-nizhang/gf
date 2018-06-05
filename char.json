@@ -4330,11 +4330,11 @@
         "hit":{"1":2, "100":13},
         "fireOfRate":{"1":60, "100":82},
         "skill":{
-            "name":"機動專注",
+            "name":"Mobility Focus",
             "firstCooldownTime":6,
             "cooldownTime":{"1":10, "10": 8},
             "detailText":{
-                "val":"提升自身火力{0}%和迴避{1}%,持續{2}秒"},
+                "val":"[Buff] own damage by {0}% and evasion by {1}% for {2} seconds."},
             "effects":[
                 {"filter":"active", "type":"buff", "target":"self","attribute":"dmg", "value":{"1":110, "10":160}, "time":{"1":3, "10":5}},
                 {"filter":"active", "type":"buff", "target":"self","attribute":"dodge", "value":{"1":25, "10":40}, "time":{"1":3, "10":5}}
@@ -4528,11 +4528,11 @@
         "dodge":{"1":12, "100":69},
         "fireOfRate":{"1":65, "100":91},
         "skill":{
-            "name":"弦月舞者",
+            "name":"Moon Dancer",
             "firstCooldownTime":6,
             "cooldownTime":{"1":10, "10":8},
             "detailText":{
-                "0":"降低攻速和命中{0}%,提升移速{1}%和閃避{2}%,持續{3}秒",
+                "0":"Reduce own ROF by {0}%, increase evasion by {2}% and speed by {1} lasts {3} seconds.",
                 "format":[{"effectIndex":0, "attr":"value"}, {"effectIndex":2, "attr":"value"}, {"effectIndex":3, "attr":"value"}, {"effectIndex":3, "attr":"time"}]},
             "effects":[
                 {"filter":"active", "type":"debuff", "target":"self","attribute":"fireOfRate", "value":{"1":40, "10":20}, "time":{"1":3, "10":5}},
