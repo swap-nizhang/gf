@@ -50,14 +50,18 @@ $( document ).ready(function () {
 			$("body").prepend(
 				'<div id="secDiv">秒數: <input id="sec" value="'+_SEC +'"/></div>'+
 				charTable +
+				'<div id="selDiv">'+
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'HG/RF b陣\';findHGRF2()">HG/RF b陣</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'HG/RF 4保1 F陣\';findHGRF3()">HG/RF 4保1 F陣</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'HG/RF 4保1 b陣\';findHGRF4()">HG/RF 4保1 b陣</a> &nbsp; <br /><br />'+
 				'<a href="#" onclick="document.title = \'SMG/AR/HG F陣\';findSMGAR3()">SMG/AR/HG F陣</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'SMG/AR/HG b陣\';findSMGAR4()">SMG/AR/HG b陣</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'SMG/AR/HG b陣\';findSMGAR4()">SMG/AR/HG b陣</a> &nbsp; <br /><br />'+
 				'<a href="#" onclick="document.title = \'MG/SG/HG T陣\';findMGSG1()">MG/SG/HG T陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'MG/SG/HG |:陣\';findMGSG3()">MG/SG/HG |:陣</a> &nbsp; ' +
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74196\';findMGSG4()">MG/SG/HG 74196</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp;<br /><br /> '
+				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp;<br /><br /> &nbsp;' +
+				'</div>'
 			);
 			
 			//adapter
@@ -85,14 +89,6 @@ function updateCheckBox(type,obj){
 			if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg").prop("checked",$(obj).prop("checked"));}
 		} else {
 			$(".checkB").prop("checked",false);
-			/*for (var i =0; i < $(".chrare:checked").length;i++) {
-				if ($(obj)[0].id == "chtypehg") { $(".checkTypehg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtyperf") { $(".checkTyperf." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtypear") { $(".checkTypear." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtypesg") { $(".checkTypesg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-			}*/
 
 			for (var i =0; i < $(".chrare:checked").length;i++) {
 				for (var j =0; j < $(".chtype:checked").length;j++) {
@@ -110,13 +106,7 @@ function updateCheckBox(type,obj){
 			if ($(obj)[0].id == "chrare6") { $(".checkRare6").prop("checked",$(obj).prop("checked"));}
 		} else {
 			$(".checkB").prop("checked",false);
-			/*for (var i =0; i < $(".chtype:checked").length;i++) {
-				if ($(obj)[0].id == "chrare2") { $(".checkRare2." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chrare3") { $(".checkRare3." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chrare4") { $(".checkRare4." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chrare5") { $(".checkRare5." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chrare6") { $(".checkRare6." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
-			}*/
+
 			for (var i =0; i < $(".chrare:checked").length;i++) {
 				for (var j =0; j < $(".chtype:checked").length;j++) {
 					$("."+ $(".chtype:checked:eq("+j+")").attr("son") + "." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",true);
@@ -149,19 +139,13 @@ function _gridToUi(grid, elementName) {
 							   }; 
 					}
 					if (attr == ".skill_stack") { 
-						/*var haveStack = getFilterEffects(getCharObjByGrid(grid)).filter(workWhenHaveBuffFilter(getCharObjByGrid(grid))).filter(v => v.type == "buff" || v.type == "debuff").filter(v => {
-							return "stackMax" in v;
-						});*/
 						return { 
-								val: function(){ return "0"; /*haveStack[0].stackMax; */} 
+								val: function(){ return "0"; } 
 							   };  
 					}
 					if (attr == ".skill_effect") {
-						/*var effectGrouped = getFilterEffectsForUI(getCharObjByGrid(grid)).filter(workWhenHaveBuffFilter(getCharObjByGrid(grid))).filter(v => v.type == "buff" || v.type == "debuff").filter(v => {
-							return v.grouped;
-						});					*/	
 						return { 
-								val: function(){ return "1"; /*(effectGrouped.length > 0 ? effectGrouped[0].indexGrouped: 0); */ } 
+								val: function(){ return "1";  } 
 							   };  
 					}
 					if (attr == ".skill_level") { 
@@ -198,6 +182,7 @@ function initTable() {
 	$("body > a").remove();
 	$("body > div > table").css("display","none");
 	$("#secDiv").css("display","none");
+	$("#selDiv").css("display","none");
 	$("body").prepend('<div id="percentDiv"></div>');
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
@@ -337,14 +322,14 @@ function getDateDiff(t1, t2) {
 
 
 function loopCore(
-					LOC1,LOC2,LOC3,LOC4,LOC5,
-					ARR1, I1,
-					ARR2, I2,
-					ARR3, I3,
-					ARR4, I4,
-					ARR5, I5, isBreak,
-					returnFunction
-					) {
+				LOC1,LOC2,LOC3,LOC4,LOC5,
+				ARR1, I1,
+				ARR2, I2,
+				ARR3, I3,
+				ARR4, I4,
+				ARR5, I5, isBreak,
+				returnFunction
+				) {
 	
 	
 
@@ -837,6 +822,192 @@ function findHGRF2() {
 
 }
 
+
+
+function findHGRF3() {
+	initTable();
+
+
+	
+
+	// 7 8 9
+	// 4 5 6
+	// 1 2 3
+
+	RESULTLIST = new Array();
+	var hg = new Array();
+	var rf = new Array();
+	var smg = new Array();
+	var ar = new Array();
+	var mg = new Array();
+	var sg = new Array();
+
+
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
+	for (var i = 0; i < mCharData.length;i++) {
+
+		if (mCharData[i].version == "cn") continue;
+	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
+
+
+		mCharData[i].used = 0;
+		if (mCharData[i].type == "hg") {
+			hg[hg.length] = mCharData[i];
+		}
+		if (mCharData[i].type == "rf") {
+			rf[rf.length] = mCharData[i];
+		}
+
+	}
+
+	rf.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+
+	var hg1 = hg.slice();
+
+	
+	
+	
+	loopCore(
+		7,4,1,8,5,
+		hg1, 0,
+		rf, 0,
+		hg, 0,
+		hg, 0,
+		hg, 0, false,
+		function () {
+			
+			updatePerformance = updatePerformance2;
+			updateSkillControlUI = updateSkillControlUI2;
+			updateAuraUI = updateAuraUI2;
+			updateEquipmentUI = updateEquipmentUI2;
+
+			getDateDiff(new Date(), startTime);
+			var resultHtml = "<table border='1' width='100%'>"+
+					"<tr>"+
+						"<th>"+"d"+ _SEC + "s"+"</th>"+
+						"<th>team</th>"+
+					"</tr>";
+
+			for (var g = 0; g < RESULTLIST.length;g++) {
+				resultHtml += 
+					"<tr>"+
+						"<td>"+RESULTLIST[g].dps+"</td>"+
+						"<td>"+RESULTLIST[g].team+"</td>"+
+					"</tr>";
+			}
+
+			resultHtml += "</table>";
+
+			$("body").html(resultHtml);
+	
+		}
+	);
+		
+	
+
+
+}
+
+
+function findHGRF4() {
+	initTable();
+
+
+	
+
+	// 7 8 9
+	// 4 5 6
+	// 1 2 3
+
+	RESULTLIST = new Array();
+	var hg = new Array();
+	var rf = new Array();
+	var smg = new Array();
+	var ar = new Array();
+	var mg = new Array();
+	var sg = new Array();
+
+
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
+	for (var i = 0; i < mCharData.length;i++) {
+
+		if (mCharData[i].version == "cn") continue;
+	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
+
+
+		mCharData[i].used = 0;
+		if (mCharData[i].type == "hg") {
+			hg[hg.length] = mCharData[i];
+		}
+		if (mCharData[i].type == "rf") {
+			rf[rf.length] = mCharData[i];
+		}
+
+	}
+
+	rf.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+
+	var hg1 = hg.slice();
+
+	
+	
+	
+	loopCore(
+		7,4,1,5,2,
+		hg1, 0,
+		rf, 0,
+		hg, 0,
+		hg, 0,
+		hg, 0, false,
+		function () {
+			
+			updatePerformance = updatePerformance2;
+			updateSkillControlUI = updateSkillControlUI2;
+			updateAuraUI = updateAuraUI2;
+			updateEquipmentUI = updateEquipmentUI2;
+
+			getDateDiff(new Date(), startTime);
+			var resultHtml = "<table border='1' width='100%'>"+
+					"<tr>"+
+						"<th>"+"d"+ _SEC + "s"+"</th>"+
+						"<th>team</th>"+
+					"</tr>";
+
+			for (var g = 0; g < RESULTLIST.length;g++) {
+				resultHtml += 
+					"<tr>"+
+						"<td>"+RESULTLIST[g].dps+"</td>"+
+						"<td>"+RESULTLIST[g].team+"</td>"+
+					"</tr>";
+			}
+
+			resultHtml += "</table>";
+
+			$("body").html(resultHtml);
+	
+		}
+	);
+		
+	
+
+
+}
 
 
 
