@@ -3532,7 +3532,7 @@
             "grid":[
                 {"x":"0", "y":"1"},
                 {"x":"0", "y":"-1"}]}},
-    {"id":"167", "name":"HK45", "type":"hg", "rarity":"3",
+    {"id":"00167", "name":"HK45", "type":"hg", "rarity":"3",
         "hp":{"1":"33", "100":"66"},
         "dmg":{"1":"13", "100":"34"},
         "dodge":{"1":"11", "100":"80"},
@@ -4003,20 +4003,20 @@
                 {"x":"-1", "y":"-1"},
                 {"x":"0", "y":"-1"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"1001", "name":"諾愛兒", "type":"hg", "rarity":"extra",
+    {"id":"1001", "name":"Noel", "type":"hg", "rarity":"extra",
         "hp":{"1":"30", "100":"60"},
         "dmg":{"1":"14", "100":"39"},
         "dodge":{"1":"10", "100":"82"},
         "hit":{"1":"8", "100":"60"},
         "fireOfRate":{"1":"44", "100":"65"},
         "skill":{
-            "name":"零槍-魔狼牙/思兼",
+            "name":"Zero Gun/Fenrir",
             "type":"attack",
             "target":"enemy",
             "firstCooldownTime":"6",
             "cooldownTime":{"1":"15", "10": "12"},
             "detailText":{
-                "val":"向敵方衝刺<br>並對小範圍內的敵人造成8次{0}倍的傷害。"
+                "val":"Dash towards the enemy,<br>inflicts {0}x damage for 8 hits within a small area."
                 },
             "effect":{
                 "attack":{"1":"0.6", "10":"1.2", "attackSkillTimes":"8"},
