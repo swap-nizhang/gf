@@ -4592,7 +4592,7 @@
             "firstCooldownTime":6,
             "cooldownTime":{"1":15, "10":12},
             "detailText":{
-                "0":"提升我方全體火力{0}%,持續{1}秒",
+                "0":"Increase allies' damage by {0}% for {1} seconds.",
                 "format":[{"effectIndex":0, "attr":"value"}, {"effectIndex":0, "attr":"time"}]},
             "effects":[
                 {"filter":"active", "type":"buff", "target":"ally","attribute":"dmg", "value":{"1":11, "10":20}, "time":{"1":5, "2":6, "4":6, "5":7, "7":7, "8":8, "10":8}}
@@ -4716,7 +4716,7 @@
             "firstCooldownTime":1,
             "cooldownTime":{"1":15, "10":12},
             "detailText":{
-                "0":"投擲煙霧彈對半徑2.5範圍內的敵人, 降低其{0}的攻擊速度和{1}的移動速度, 持續{2}秒",
+                "0":"Launch a smoke grenade that decreases the enemies' ROF by {0} and movement speed by {1} within a radius of 2.5 units for {2} seconds.",
                 "format":[{"effectIndex":0, "attr":"value"}, {"effectIndex":1, "attr":"value"}, {"effectIndex":0, "attr":"time"}]},
             "effects":[
                 {"filter":"active", "type":"debuff", "target":"enemy","attribute":"fireOfRate", "value":{"1":25, "10":40}, "time":{"1":2.5, "10":4}},
@@ -4725,7 +4725,7 @@
         "mod2Skill":{
             "name":"絕境神射手",
             "detailText":{
-                "0":"扔出煙霧彈後,接下來7次攻擊會依次瞄準從遠至近的目標,每次攻擊造成{0}%的傷害",
+                "0":"After a smoke grenade is tossed, the next 7 attacks will target enemies in sequence from the nearest to the farthest for {0}% damage.",
                 "format":[{"effectIndex":1, "attr":"value", "percent":true}]},
             "effects":[
                 {"filter":"active", "type":"buff", "target":"self","attribute":"dmg", "value":{"0":0}, "initStack":7, "cleanBuff":"same"},
@@ -4979,11 +4979,11 @@
         "dodge":{"1":7, "100":60},
         "fireOfRate":{"1":24, "100":37},
         "skill":{
-            "name":"臨界點射擊",
+            "name":"Critical Point Shot",
             "firstCooldownTime":4,
             "cooldownTime":{"1":15, "10":12},
             "detailText":{
-                "0":"進行1秒的瞄準後對最近目標造成{0}%的傷害<br>但傷害可能會被閃避且射擊後需要消耗2秒再次裝填。",
+                "0":"Aims for 1 second and shoots the nearest enemy for {0}% damage.<br>This shot can be avoided, in that case, reload for 2 seconds and aim again.",
                 "format":[{"effectIndex":0, "attr":"value", "percent":true}]},
             "effects":[
                 {"filter":"active", "type":"attack", "target":"enemy", "prepareTime":1, "postReloadTime":2, "allLinkDo":true, "value":{"1":8, "10":12}, "toFixedCount":1}
