@@ -4,3 +4,5 @@ English fork of ynntk4815's calculators, the original chinese calculators can be
 [Logistics calculator](https://gfeAsdf.github.io/gf/main.html)
 
 [DPS/Formation sim](https://gfeAsdf.github.io/gf/main2.html)
+
+[T-Doll Gacha sim](https://i.imgur.com/iYieU8U.mp4)
