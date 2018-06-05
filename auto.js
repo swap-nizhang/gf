@@ -15,8 +15,41 @@ $( document ).ready(function () {
 	setTimeout(
 		function(){
 			$(".enemyEliteTarget").prop("checked",true);
+
+
+			var charTable = "<div><table width='100%' border='1'>";
+			var typeArray = ["hg", "rf","smg","ar","sg","mg"];
+			charTable += "<tr><th></th>";
+			for (var i = 0; i < typeArray.length;i++) {
+				charTable += "<th><input class='chtype' id='chtype"+typeArray[i]+"' son='checkType"+typeArray[i]+"' type='checkbox' onclick='updateCheckBox(1,this)'>" + typeArray[i].toUpperCase() + "</th>";
+
+			}
+			charTable += "</tr>";
+
+			for (var rarity = 6; rarity  >= 2;rarity--) {
+				charTable += "<tr>";
+				charTable += "<td><input class='chrare' id='chrare"+rarity+"' son='checkRare"+rarity+"' type='checkbox' onclick='updateCheckBox(2,this)'>" + (rarity==6?"extra":rarity) + "</td>";
+				for (var i = 0; i < typeArray.length;i++) {
+					charTable += "<td>";
+
+					for (var j = 0; j < mCharData.length;j++) {
+						if (mCharData[j].version == "cn") continue;
+						if (mCharData[j].type != typeArray[i]) continue;
+						if (mCharData[j].rarity != (rarity==6?"extra":rarity)) continue;
+						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].name + "'>" + mCharData[j].name + "<br />";
+					}
+					charTable += "</td>";
+				}
+				charTable += "</tr>";
+
+			}
+			charTable += "</table></div>";
+
+
+
 			$("body").prepend(
-				'秒數: <input id="sec" value="'+_SEC +'"/>'+
+				'秒數: <input id="sec" value="'+_SEC +'"/><br />'+
+				charTable +
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'HG/RF b陣\';findHGRF2()">HG/RF b陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'SMG/AR/HG F陣\';findSMGAR3()">SMG/AR/HG F陣</a> &nbsp; '+
@@ -24,7 +57,7 @@ $( document ).ready(function () {
 				'<a href="#" onclick="document.title = \'MG/SG/HG T陣\';findMGSG1()">MG/SG/HG T陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'MG/SG/HG |:陣\';findMGSG3()">MG/SG/HG |:陣</a> &nbsp; ' +
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74196\';findMGSG4()">MG/SG/HG 74196</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp; '
+				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp;<br /><br /> '
 			);
 			
 			//adapter
@@ -36,6 +69,66 @@ $( document ).ready(function () {
 
 
 });
+
+
+function updateCheckBox(type,obj){
+	//$(\".checkType"+ typeArray[i] +"\").prop(\"checked\",$(this).prop(\"checked\"));
+	//$(\".checkRare"+ rarity +"\").prop(\"checked\",$(this).prop(\"checked\"));
+
+	if (type == 1) {
+		if ($(".chrare:checked").length == 0) {
+			if ($(obj)[0].id == "chtypehg") { $(".checkTypehg").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chtyperf") { $(".checkTyperf").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chtypear") { $(".checkTypear").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chtypesg") { $(".checkTypesg").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg").prop("checked",$(obj).prop("checked"));}
+		} else {
+			$(".checkB").prop("checked",false);
+			/*for (var i =0; i < $(".chrare:checked").length;i++) {
+				if ($(obj)[0].id == "chtypehg") { $(".checkTypehg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtyperf") { $(".checkTyperf." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypear") { $(".checkTypear." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypesg") { $(".checkTypesg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+			}*/
+
+			for (var i =0; i < $(".chrare:checked").length;i++) {
+				for (var j =0; j < $(".chtype:checked").length;j++) {
+					$("."+ $(".chtype:checked:eq("+j+")").attr("son") + "." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",true);
+				}
+			}
+		}
+
+	} else {
+		if ($(".chtype:checked").length == 0) {
+			if ($(obj)[0].id == "chrare2") { $(".checkRare2").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chrare3") { $(".checkRare3").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chrare4") { $(".checkRare4").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chrare5") { $(".checkRare5").prop("checked",$(obj).prop("checked"));}
+			if ($(obj)[0].id == "chrare6") { $(".checkRare6").prop("checked",$(obj).prop("checked"));}
+		} else {
+			$(".checkB").prop("checked",false);
+			/*for (var i =0; i < $(".chtype:checked").length;i++) {
+				if ($(obj)[0].id == "chrare2") { $(".checkRare2." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare3") { $(".checkRare3." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare4") { $(".checkRare4." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare5") { $(".checkRare5." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare6") { $(".checkRare6." + $(".chtype:checked:eq("+i+")").attr("son")).prop("checked",$(obj).prop("checked"));}
+			}*/
+			for (var i =0; i < $(".chrare:checked").length;i++) {
+				for (var j =0; j < $(".chtype:checked").length;j++) {
+					$("."+ $(".chtype:checked:eq("+j+")").attr("son") + "." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",true);
+				}
+			}
+		}
+	}
+	
+
+}
+
+
 //function updateCharObsForBase2(charObj, grid) 
 function _gridToUi(grid, elementName) {
     if (elementName == FRIENDSHIP) {
@@ -103,6 +196,7 @@ var updateEquipmentUI2 = updateEquipmentUI;
 function initTable() {
 	_SEC = $("#sec").val();
 	$("body > a").remove();
+	$("body > div > table").css("display","none");
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
 				"<th>"+"d"+ _SEC + "s"+"</th>"+
@@ -122,11 +216,13 @@ function initTable() {
 	
 	console.log(startTime);
 	for (var i = 0; i < mCharData.length;i++) {
-		if (mCharData[i].name == "競爭者") continue;
-		if (mCharData[i].name == "K2") continue;
+
+		var isUseSkill = true;
+		if (mCharData[i].name == "競爭者") isUseSkill = false;
+		if (mCharData[i].name == "K2") isUseSkill = false;
 		
-		mCharData[i].isUseSkill = true;
-		mGridToChar[7].isUseSkill = true;
+		mCharData[i].isUseSkill = isUseSkill;
+		mGridToChar[7].isUseSkill = isUseSkill;
 	}
 
 }
@@ -567,60 +663,19 @@ function findHGRF1() {
 	var rfhg = new Array();
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
 
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
-	
-/*
-		if (mCharData[i].name == "IWS 2000") continue;
-		if (mCharData[i].name == "Five-seveN") continue;
-		if (mCharData[i].name == "WA2000") continue;
-		if (mCharData[i].name == "謝爾久科夫") continue;
-		if (mCharData[i].name == "MP-446") continue;
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
-
-		if (mCharData[i].name == "納甘左輪") continue;
-
-		if (mCharData[i].name == "李-恩菲爾德") continue;
-		if (mCharData[i].name == "斯捷奇金") continue;
-		if (mCharData[i].name == "FN-49") continue;
-		if (mCharData[i].name == "PPK") continue;
-		if (mCharData[i].name == "Mk23") continue;
-
-		if (mCharData[i].name == "JS05") continue;
-		if (mCharData[i].name == "灰熊MKV") continue;
-		if (mCharData[i].name == "卡爾卡諾M91/38") continue;
-		if (mCharData[i].name == "CZ-75") continue;
-		if (mCharData[i].name == "克莉爾") continue;
-
-
-		if (mCharData[i].name == "MDR") continue;
-		if (mCharData[i].name == "M4A1") continue;
-		if (mCharData[i].name == "ST AR-15") continue;
-		if (mCharData[i].name == "SR-3MP") continue;
-		if (mCharData[i].name == "K5") continue;
-
-		if (mCharData[i].name == "G11") continue;
-		if (mCharData[i].name == "競爭者") continue;
-		if (mCharData[i].name == "AK-12") continue;
-		if (mCharData[i].name == "密獾") continue;
-		if (mCharData[i].name == "索米") continue;
-
-		if (mCharData[i].name == "AN-94") continue;
-		if (mCharData[i].name == "利貝羅勒") continue;
-		if (mCharData[i].name == "K2") continue;
-		if (mCharData[i].name == "維爾德MkⅡ") continue;
-		if (mCharData[i].name == "UMP45") continue;
-
-		if (mCharData[i].name == "G36") continue;
-		if (mCharData[i].name == "HK416") continue;
-		if (mCharData[i].name == "OTs-14") continue;
-		if (mCharData[i].name == "柯爾特左輪") continue;
-		if (mCharData[i].name == "SCW") continue;
-*/
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "hg") {
@@ -708,60 +763,18 @@ function findHGRF2() {
 	var rfhg = new Array();
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
 
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
-	
-/*
-		if (mCharData[i].name == "IWS 2000") continue;
-		if (mCharData[i].name == "Five-seveN") continue;
-		if (mCharData[i].name == "WA2000") continue;
-		if (mCharData[i].name == "謝爾久科夫") continue;
-		if (mCharData[i].name == "MP-446") continue;
-
-
-		if (mCharData[i].name == "納甘左輪") continue;
-
-		if (mCharData[i].name == "李-恩菲爾德") continue;
-		if (mCharData[i].name == "斯捷奇金") continue;
-		if (mCharData[i].name == "FN-49") continue;
-		if (mCharData[i].name == "PPK") continue;
-		if (mCharData[i].name == "Mk23") continue;
-
-		if (mCharData[i].name == "JS05") continue;
-		if (mCharData[i].name == "灰熊MKV") continue;
-		if (mCharData[i].name == "卡爾卡諾M91/38") continue;
-		if (mCharData[i].name == "CZ-75") continue;
-		if (mCharData[i].name == "克莉爾") continue;
-
-
-		if (mCharData[i].name == "MDR") continue;
-		if (mCharData[i].name == "M4A1") continue;
-		if (mCharData[i].name == "ST AR-15") continue;
-		if (mCharData[i].name == "SR-3MP") continue;
-		if (mCharData[i].name == "K5") continue;
-
-		if (mCharData[i].name == "G11") continue;
-		if (mCharData[i].name == "競爭者") continue;
-		if (mCharData[i].name == "AK-12") continue;
-		if (mCharData[i].name == "密獾") continue;
-		if (mCharData[i].name == "索米") continue;
-
-		if (mCharData[i].name == "AN-94") continue;
-		if (mCharData[i].name == "利貝羅勒") continue;
-		if (mCharData[i].name == "K2") continue;
-		if (mCharData[i].name == "維爾德MkⅡ") continue;
-		if (mCharData[i].name == "UMP45") continue;
-
-		if (mCharData[i].name == "G36") continue;
-		if (mCharData[i].name == "HK416") continue;
-		if (mCharData[i].name == "OTs-14") continue;
-		if (mCharData[i].name == "柯爾特左輪") continue;
-		if (mCharData[i].name == "SCW") continue;
-*/
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "hg") {
@@ -853,12 +866,18 @@ function findMGSG1() {
 
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
-
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "hg") {
@@ -957,11 +976,18 @@ function findSMGAR3() {
 	var arhg = new Array();
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "ar") {
@@ -1062,11 +1088,18 @@ function findSMGAR4() {
 	var arhg = new Array();
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
-		if (mCharData[i].rarity != 5) continue;
 	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "ar") {
@@ -1165,11 +1198,18 @@ function findMGSG3() {
 
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "mg") {
@@ -1262,11 +1302,18 @@ function findMGSG4() {	initTable();
 
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
 	
-		if (mCharData[i].rarity != 5) continue;
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "mg") {
@@ -1361,10 +1408,18 @@ function findMGSG5() {	initTable();
 
 
 
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
 	for (var i = 0; i < mCharData.length;i++) {
 
 		if (mCharData[i].version == "cn") continue;
-		if (mCharData[i].rarity != 5) continue;
+	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].name+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
 		if (mCharData[i].type == "mg") {
