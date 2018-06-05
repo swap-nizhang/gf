@@ -142,7 +142,7 @@
             "armor":{"min": "6", "max":"8"},
             "dodge":{"min": "-3", "max":"-2"}
         }},
-    {"id":"49", "name":"16Lab紅外指示器", "type":"night_battle_equipment", "rarity":"5", "strengthenCoefficient":"0.0",
+    {"id":"49", "name":"16Lab IR", "type":"night_battle_equipment", "rarity":"5", "strengthenCoefficient":"0.0",
         "effect":{
             "nightSight":{"min": "100", "max":"100"}
         }},
@@ -312,17 +312,17 @@
             "dodge":{"min": "2", "max":"4", "strengthenCoefficient":"0.03"},
             "criDmg":{"min": "15", "max":"20", "strengthenCoefficient":"0.05"}
         }},
-    {"id":"87", "name":"Cape", "type":"cloak", "rarity":"2", "strengthenCoefficient":"0.0",
+    {"id":"87", "name":"Ragged", "type":"cloak", "rarity":"2", "strengthenCoefficient":"0.0",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "3", "max":"4"}
         }},
-    {"id":"88", "name":"Cape", "type":"cloak", "rarity":"3", "strengthenCoefficient":"0.09",
+    {"id":"88", "name":"Camouflage", "type":"cloak", "rarity":"3", "strengthenCoefficient":"0.09",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "5", "max":"7"}
         }},
-    {"id":"89", "name":"Camouflage Cape", "type":"cloak", "rarity":"4", "strengthenCoefficient":"0.08",
+    {"id":"89", "name":"Urban", "type":"cloak", "rarity":"4", "strengthenCoefficient":"0.08",
         "effect":{
             "movementSpeed":{"min": "-3", "max":"-3"},
             "criDmg":{"min": "8", "max":"10"}
