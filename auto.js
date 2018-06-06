@@ -14,6 +14,8 @@ $( document ).ready(function () {
 	//$(".endTime").val(8);
 	setTimeout(
 		function(){
+
+
 			$(".enemyEliteTarget").prop("checked",true);
 
 
@@ -75,6 +77,7 @@ $( document ).ready(function () {
 });
 
 
+
 function updateCheckBox(type,obj){
 	//$(\".checkType"+ typeArray[i] +"\").prop(\"checked\",$(this).prop(\"checked\"));
 	//$(\".checkRare"+ rarity +"\").prop(\"checked\",$(this).prop(\"checked\"));
@@ -125,6 +128,28 @@ function _gridToUi(grid, elementName) {
         return { 
 				attr: function(){ return FRIENDLY; } 
 			   };
+    } else if (elementName == EQUIPMENT_CONTAINER) {
+        return { 
+				find: function(item){
+										if ((item == ".equipment_1") || (item == ".equipment_2") || (item == ".equipment_3")) {
+											return { 
+													html: function(){ 
+																		return { 
+																				click: function(){ return null },
+																				off: function(){ return null }
+																				};  
+																	} 
+												   }; 
+										}
+					
+										if ((item == ".equipment_strengthen_1") || (item == ".equipment_strengthen_2") || (item == ".equipment_strengthen_3")) {
+											return { 
+													val: function(){ return "10" } 
+												   }; 
+										}
+					
+									} 
+			   };
     } else if (elementName == CONTROL_CONTAINER) {
         return { 
 				find: function(attr){
@@ -166,17 +191,13 @@ function _gridToUi(grid, elementName) {
 				}
 			};
 				
-    } else {
+    } /*else {
+		
 		return __gridToUi(grid, elementName);
-	}
+	}*/
 }
 
 
-
-var updatePerformance2 = updatePerformance;
-var updateSkillControlUI2 = updateSkillControlUI;
-var updateAuraUI2 = updateAuraUI;
-var updateEquipmentUI2 = updateEquipmentUI;
 function initTable() {
 	_SEC = $("#sec").val();
 	$("body > a").remove();
@@ -193,7 +214,6 @@ function initTable() {
 
 	$("body").append(resultHtml);
 	
-
 	
 	updatePerformance = function(){};
 	updateSkillControlUI = function(){};
@@ -216,95 +236,8 @@ function initTable() {
 
 
 
-function addChar2(grid, id) {
- 
-   var t = getChar(id);
-
-   mGridToChar[grid] = t;
-
-
-    var g = getGridUiObj(grid).attr("grid_value");
-    if (mGridHasChar.indexOf(g) >= 0) {
-
-    } else {
-        mGridHasChar.push(g);
-    }
-
-
-    setEquipment(grid)
-    updateCharObs();
-
-}
-
-
-function updatePerformance3() {
-
-	var SEC = _SEC; 
-
-	var ally = copyList(getAlly());
-	allyInit(ally);
-	var enemy = copyObject(ally[0]);
-	enemyInit(enemy);
-
-	//Nsdmg
-	var dpsSum = 0;
-	var sim = battleSimulation(SEC*FRAME_PER_SECOND, 0, copyList(ally), copyObject(enemy), false);
-	for (var i =0; i < sim.y.length; i++) {
-		dpsSum+= sim.y[i].data[SEC*FRAME_PER_SECOND];
-	}
-	return parseInt(dpsSum);
-}
-
-
-function dmgNs(SEC) {
-
-	if (SEC == null) { SEC = _SEC; }
-
-	var ally = copyList(getAlly());
-	allyInit(ally);
-	var enemy = copyObject(ally[0]);
-	enemyInit(enemy);
-
-	//Nsdmg
-	var dpsSum = 0;
-	var sim = battleSimulation(SEC*FRAME_PER_SECOND, 0, copyList(ally), copyObject(enemy), false);
-	for (var i =0; i < sim.y.length; i++) {
-		dpsSum+= sim.y[i].data[SEC*FRAME_PER_SECOND];
-	}
-	return parseInt(dpsSum);
-}
-
 
 var RESULTLIST = new Array();
-var highestDps = 0;
-var charList = new Array();
-
-var highestDNs = 0;
-
-function insertResult(dps, team, charList) { 
-
-	eval("var obj = { dps: dps , "+ "d"+ _SEC + "s" +": 0, team: team , char:charList};");
-
-	if (obj.dps > highestDps *buffer) {	
-
-
-		RESULTLIST[RESULTLIST.length] = obj;
-	
-		if (highestDps < obj.dps) {
-			highestDps = obj.dps;
-		}
-	
-		//console.log(obj.dps, obj["d"+ _SEC + "s"], obj.team);
-		var resultHtml = 
-					"<tr>"+
-						"<th>"+obj.dps+"</th>"+
-						"<th>"+obj.team+"</th>"+
-					"</tr>";
-			$("body > table").prepend(resultHtml);
-
-
-	}
-}
 
 
 function getDateDiff(t1, t2) {
@@ -321,308 +254,109 @@ function getDateDiff(t1, t2) {
 
 
 
+var w;
+var threadCount = 8;
+var doneCount = 0;
+var percentArr = new Array();
+function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
+				ARR1,
+				ARR2,
+				ARR3,
+				ARR4,
+				ARR5) {
+	w = new Array();
+    if(typeof(Worker) !== "undefined") {
+		
+		var ARR1CORE = new Array();
+		if (ARR1.length < threadCount) {
+			threadCount = ARR1.length;
+		}
+		
+		var jobPerCore = Math.ceil(ARR1.length / threadCount);
+		threadCount = Math.ceil(ARR1.length / jobPerCore);
+		console.log("ARR1", ARR1.length);
+		console.log("threadCount", threadCount);
+		console.log("jobPerCore", jobPerCore);
+		for (var i = 0; i < threadCount; i++) {
+			w[i] = new Worker("autoWorkers.js");
+			
+			ARR1CORE[i] = new Array();
+			for (var u = jobPerCore*i; u < Math.min(jobPerCore*i + jobPerCore, ARR1.length);u++) {
+				ARR1CORE[i][ARR1CORE[i].length] = ARR1[u];
+			}
+			percentArr[i] = 0;
+		}
+		
+		for (var i = 0; i < threadCount; i++) {
+				
+			w[i].postMessage([
+				i,
+				LOC1,LOC2,LOC3,LOC4,LOC5,
+				ARR1CORE[i],ARR2,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData]);
+			w[i].onmessage = function(event) {
+				if (event.data[0] == "done") {
+					doneCount++;
+					if (doneCount == threadCount) {
+						RESULTLIST.sort(function(a, b){return b.dps-a.dps});
+						console.log(RESULTLIST);
+
+						getDateDiff(new Date(), startTime);
+						var resultHtml = "<table border='1' width='100%'>"+
+								"<tr>"+
+									"<th>"+"d"+ _SEC + "s"+"</th>"+
+									"<th>team</th>"+
+								"</tr>";
+
+						for (var g = 0; g < RESULTLIST.length;g++) {
+							resultHtml += 
+								"<tr>"+
+									"<td>"+RESULTLIST[g].dps+"</td>"+
+									"<td>"+RESULTLIST[g].team+"</td>"+
+								"</tr>";
+						}
+
+						resultHtml += "</table>";
+
+						$("body").html(resultHtml);
+					}
+				} else if (event.data[0] == "percent") {
+					//console.log(event.data[1],event.data[2]);
+					percentArr[event.data[1]] = event.data[2];
+					var sumP = 0;
+					for (var g = 0; g < percentArr.length;g++) {
+						sumP += percentArr[g]/threadCount;
+					}
+					$("#percentDiv").text(
+						parseInt(sumP *10000) / 100 +"%"
+					);
+					
+				} else {
+					$("body > table").prepend(event.data[0]);
+					var obj = { dps: event.data[1] , team: event.data[2] };
+					RESULTLIST[RESULTLIST.length] = obj;
+				}
+			};
+		}
+		
+		
+    } else {
+        console.log("Sorry! No Web Worker support.");
+    }
+}
+
+
+
 function loopCore(
 				LOC1,LOC2,LOC3,LOC4,LOC5,
-				ARR1, I1,
-				ARR2, I2,
-				ARR3, I3,
-				ARR4, I4,
-				ARR5, I5, isBreak,
-				returnFunction
+				ARR1,ARR2,ARR3,ARR4,ARR5
 				) {
 	
+    if(typeof(Worker) !== "undefined") {
 	
-
-	var I4Changed = false;
-	var I3Changed = false;
-	var I2Changed = false;
-	var I1Changed = false;
+		startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
+				ARR1,ARR2,ARR3,ARR4,ARR5);
 	
-	if (I1 + I2 + I3 + I4 + I5 == 0) {
-		I4Changed = true;
-		I3Changed = true;
-		I2Changed = true;
-		I1Changed = true;
-	}
-	
-	
-	if (!isBreak) {
-		//I5++; 
-	} else {
-		I4Changed = true;
-		I3Changed = true;
-		I2Changed = true;
 	} 
-	var toBreak = false;
-
-	if (I5 == ARR5.length) { I5 = 0; I4++; I4Changed = true; }
-	if (I4 == ARR4.length) { I4 = 0; I3++; I3Changed = true; }
-	if (I3 == ARR3.length) { I3 = 0; I2++; I2Changed = true; }
-	if (I2 == ARR2.length) { 
-		I2 = 0; I1++; I1Changed = true; 
-		console.log("Round", I1); 
-		
-			
-
-		//CLEAN UP ARR
-		for (var i = 0; i < ARR2.length;i++) {
-			ARR2[i].checked = 0;
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			ARR3[i].checked = 0;
-		}
-		for (var i = 0; i < ARR4.length;i++) {
-			ARR4[i].checked = 0;
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			ARR5[i].checked = 0;
-		}
-
-		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
-
-
-		for (var t = 0; t <  RESULTLIST.length;t++) {
-
-			if (RESULTLIST[t].dps > highestDps *buffer) {
-				
-				if (t < 200) {
-					for (var r = 0; r < RESULTLIST[t].char.length;r++) {
-						RESULTLIST[t].char[r].used += Math.pow(10, r);
-					}
-				} 
-			} else {
-				RESULTLIST.pop();
-			}
-		}
-
-		ARR2.sort(function(a, b){return b.used-a.used});
-		ARR3.sort(function(a, b){return b.used-a.used});
-		ARR4.sort(function(a, b){return b.used-a.used});
-		ARR5.sort(function(a, b){return b.used-a.used});
-
-
-		for (var i = 0; i < ARR2.length;i++) {
-			if (ARR2[i].checked == 0) {
-				ARR2[i].used /= 10000.0;
-				ARR2[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			if (ARR3[i].checked == 0) {
-				ARR3[i].used /= 10000.0;
-				ARR3[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR4.length;i++) {
-			if (ARR4[i].checked == 0) {
-				ARR4[i].used /= 10000.0;
-				ARR4[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			if (ARR5[i].checked == 0) {
-				ARR5[i].used /= 10000.0;
-				ARR5[i].checked = 1;
-			}
-		}
-		
-		while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used < 0.00000001) {
-			ARR2.pop();
-		}
-		while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used < 0.00000001) {
-			ARR3.pop();
-		}
-		while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-			ARR4.pop();
-		}
-		while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-			ARR5.pop();
-		}
-
-
-
-		
-	}
-	
-	if (I4Changed) {
-		$("#percentDiv").text(
-			parseInt((I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length) *10000) / 100 +"%"
-		);
-	}
-	if (I1 == ARR1.length) { 
-		//DONE
-		
-		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
-		console.log(RESULTLIST);
-
-		for (var j = 0; j < RESULTLIST.length; j++) {
-			if (RESULTLIST[j].dps > highestDps* buffer) {
-				for (var y =0; y < RESULTLIST[j].char.length;y++) {
-					if (charList.indexOf(RESULTLIST[j].char[y]) === -1){
-						charList[charList.length] = RESULTLIST[j].char[y];
-						////charCount++;;
-						}
-				}
-			}
-		}
-
-		for (var y =0; y <ARR2.length;y++) {
-			if (charList.indexOf(ARR2[y]) === -1){
-				charList[charList.length] = ARR2[y];
-				}
-		}
-		for (var y =0; y <ARR3.length;y++) {
-			if (charList.indexOf(ARR3[y]) === -1){
-				charList[charList.length] = ARR3[y];
-				}
-		}
-		for (var y =0; y <ARR4.length;y++) {
-			if (charList.indexOf(ARR4[y]) === -1){
-				charList[charList.length] = ARR4[y];
-				}
-		}
-		for (var y =0; y <ARR5.length;y++) {
-			if (charList.indexOf(ARR5[y]) === -1){
-				charList[charList.length] = ARR5[y];
-				}
-		}
-		charList.sort(function(b,a){return (b.rarity == "extra"?6:b.rarity) - (a.rarity == "extra"?6:a.rarity)});
-		console.log(charList);
-		
-		
-		returnFunction();
-	}
-	else {
-		
-
-		if (I1Changed) { addChar2(LOC1,ARR1[I1].id); }
-		if (I2Changed) { addChar2(LOC2,ARR2[I2].id); }
-		if (I3Changed) { addChar2(LOC3,ARR3[I3].id); }
-		if (I4Changed) { addChar2(LOC4,ARR4[I4].id); }
-
-		addChar2(LOC5,ARR5[I5].id); 
-		
-		
-		var checkRepeat = [
-							ARR1[I1].name,
-							ARR2[I2].name,
-							ARR3[I3].name,
-							ARR4[I4].name,
-							ARR5[I5].name
-						];
-		if ((new Set(checkRepeat)).size === checkRepeat.length) {
-			//no repeat
-
-			var dps = updatePerformance3();
-
-			if (dps < highestDps *0.6) {
-				I4++;
-				I5 = 0;
-				toBreak = true;
-			} else {
-
-				
-				insertResult(dps, 
-				//I1 + " " + I2 + " " + I3 + " " + I4 + " " + I5 + " " +
-					ARR1[I1].name + " " +
-					ARR2[I2].name + " " +
-					ARR3[I3].name + " | " +
-
-					ARR4[I4].name + " " +
-					ARR5[I5].name,
-					
-					[ARR1[I1],ARR2[I2],ARR3[I3],ARR4[I4],ARR5[I5]]
-				);			
-				
-			}
-
-		} else {
-			checkRepeat = [
-							ARR1[I1].name,
-							ARR2[I2].name
-						];
-			if ((new Set(checkRepeat)).size === checkRepeat.length) {
-				//no repeat
-				
-				checkRepeat = [
-								ARR1[I1].name,
-								ARR2[I2].name,
-								ARR3[I3].name
-							];
-				if ((new Set(checkRepeat)).size === checkRepeat.length) {
-					//no repeat
-					
-					checkRepeat = [
-									ARR1[I1].name,
-									ARR2[I2].name,
-									ARR3[I3].name,
-									ARR4[I4].name
-								];
-					if ((new Set(checkRepeat)).size === checkRepeat.length) {
-						//no repeat
-						I5++;
-						toBreak = true;
-					
-					} else {
-						// I4 repeat
-						I4++;
-						I5 = 0;
-						toBreak = true;
-					}
-		
-				
-				} else {
-					// I3 repeat
-					I3++;
-					I4 = 0;
-					I5 = 0;
-					toBreak = true;
-				}
-				
-			} else {
-				// I2 repeat
-				I2++;
-				I3 = 0;
-				I4 = 0;
-				I5 = 0;
-				toBreak = true;
-			}
-			
-		}
-	
-	
-		if (!toBreak) {
-			I5++; 
-		} 
-		setTimeout(
-			function() {
-					loopCore(
-						LOC1,LOC2,LOC3,LOC4,LOC5,
-						ARR1, I1,
-						ARR2, I2,
-						ARR3, I3,
-						ARR4, I4,
-						ARR5, I5, toBreak,
-						returnFunction
-					);
-			},
-			10
-		);
-						
-
-
-
-
-
-				
-		
-		
-		
-	}
-
-
-	
 	
 }
 
@@ -684,38 +418,11 @@ function findHGRF1() {
 	
 	loopCore(
 		7,4,1,8,5,
-		rf1, 0,
-		rfhg, 0,
-		rf, 0,
-		hg, 0,
-		hg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		rf1,
+		rfhg,
+		rf,
+		hg,
+		hg
 	);
 		
 	
@@ -783,38 +490,11 @@ function findHGRF2() {
 	
 	loopCore(
 		7,4,1,5,2,
-		rf1, 0,
-		rfhg, 0,
-		rf, 0,
-		hg, 0,
-		hg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		rf1,
+		rfhg,
+		rf,
+		hg,
+		hg
 	);
 		
 	
@@ -877,38 +557,11 @@ function findHGRF3() {
 	
 	loopCore(
 		7,4,1,8,5,
-		hg1, 0,
-		rf, 0,
-		hg, 0,
-		hg, 0,
-		hg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		hg1,
+		rf,
+		hg,
+		hg,
+		hg
 	);
 		
 	
@@ -970,38 +623,11 @@ function findHGRF4() {
 	
 	loopCore(
 		7,4,1,5,2,
-		hg1, 0,
-		rf, 0,
-		hg, 0,
-		hg, 0,
-		hg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		hg1,
+		rf,
+		hg,
+		hg,
+		hg
 	);
 		
 	
@@ -1077,38 +703,11 @@ function findMGSG1() {
 	
 	loopCore(
 		7,4,1,5,6,
-		mg1, 0,
-		mghg, 0,
-		mg, 0,
-		hg, 0,
-		sg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		mg1,
+		mghg,
+		mg,
+		hg,
+		sg
 	);
 		
 	
@@ -1184,38 +783,11 @@ function findSMGAR3() {
 	
 	loopCore(
 		7,4,1,8,5,
-		ar1, 0,
-		arhg, 0,
-		ar, 0,
-		smghg, 0,
-		smg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		ar1,
+		arhg,
+		ar,
+		smghg,
+		smg
 	);
 		
 	
@@ -1296,38 +868,11 @@ function findSMGAR4() {
 	
 	loopCore(
 		7,4,1,5,2,
-		ar1, 0,
-		arhg, 0,
-		ar, 0,
-		smg, 0,
-		smghg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		ar1,
+		arhg,
+		ar,
+		smg,
+		smghg
 	);
 		
 	
@@ -1405,38 +950,11 @@ function findMGSG3() {
 	
 	loopCore(
 		7,4,1,9,3,
-		mg1, 0,
-		mghg, 0,
-		mg, 0,
-		sg, 0,
-		sg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		mg1,
+		mghg,
+		mg,
+		sg,
+		sg
 	);
 		
 	
@@ -1509,38 +1027,11 @@ function findMGSG4() {	initTable();
 	
 	loopCore(
 		7,4,1,9,6,
-		mg1, 0,
-		mghg, 0,
-		mg, 0,
-		sg, 0,
-		sg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		mg1,
+		mghg,
+		mg,
+		sg,
+		sg
 	);
 		
 	
@@ -1615,38 +1106,11 @@ function findMGSG5() {	initTable();
 	
 	loopCore(
 		7,4,1,6,3,
-		mg1, 0,
-		mghg, 0,
-		mg, 0,
-		sg, 0,
-		sg, 0, false,
-		function () {
-			
-			updatePerformance = updatePerformance2;
-			updateSkillControlUI = updateSkillControlUI2;
-			updateAuraUI = updateAuraUI2;
-			updateEquipmentUI = updateEquipmentUI2;
-
-			getDateDiff(new Date(), startTime);
-			var resultHtml = "<table border='1' width='100%'>"+
-					"<tr>"+
-						"<th>"+"d"+ _SEC + "s"+"</th>"+
-						"<th>team</th>"+
-					"</tr>";
-
-			for (var g = 0; g < RESULTLIST.length;g++) {
-				resultHtml += 
-					"<tr>"+
-						"<td>"+RESULTLIST[g].dps+"</td>"+
-						"<td>"+RESULTLIST[g].team+"</td>"+
-					"</tr>";
-			}
-
-			resultHtml += "</table>";
-
-			$("body").html(resultHtml);
-	
-		}
+		mg1,
+		mghg,
+		mg,
+		sg,
+		sg
 	);
 		
 	
