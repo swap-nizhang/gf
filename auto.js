@@ -253,7 +253,7 @@ function getDateDiff(t1, t2) {
 }
 
 
-
+var highestDps = 0;
 var w;
 var threadCount = 8;
 var doneCount = 0;
@@ -329,6 +329,13 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					$("#percentDiv").text(
 						parseInt(sumP *10000) / 100 +"%"
 					);
+					
+					if (event.data[3] > highestDps) {
+						highestDps = event.data[3];
+						for (var i = 0; i < threadCount; i++) {
+							w[i].postMessage(["highestDps",highestDps]);
+						}
+					}
 					
 				} else {
 					$("body > table").prepend(event.data[0]);

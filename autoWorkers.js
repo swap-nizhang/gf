@@ -60,6 +60,12 @@ var draggable = {
 onmessage = function(e) {
 	console.log('Message received from main script');
 	var recieved = e.data;
+	
+	if (recieved[0] == "highestDps") {
+		highestDps = recieved[1];
+		return;
+	}
+	
 	name = "Thread" + recieved[0];
 	threadId = recieved[0];
     importScripts("lib/random.min.js");
@@ -447,7 +453,7 @@ function loopCore(
 		);*/
 		
 		postMessage(["percent", threadId, (I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length)]);
+			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length), highestDps]);
 	}
 	if (I1 == ARR1.length) { 
 		//DONE
