@@ -272,19 +272,29 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 			threadCount = ARR1.length;
 		}
 		
-		var jobPerCore = Math.ceil(ARR1.length / threadCount);
-		threadCount = Math.ceil(ARR1.length / jobPerCore);
-		console.log("ARR1", ARR1.length);
+		//var jobPerCore = Math.ceil(ARR1.length / threadCount);
+		/*threadCount = Math.ceil(ARR1.length / jobPerCore);
+		console.log("ARR1", ARR1.length);*/
 		console.log("threadCount", threadCount);
-		console.log("jobPerCore", jobPerCore);
+		//console.log("jobPerCore", jobPerCore);
+		
+		
 		for (var i = 0; i < threadCount; i++) {
 			w[i] = new Worker("autoWorkers.js");
 			
 			ARR1CORE[i] = new Array();
-			for (var u = jobPerCore*i; u < Math.min(jobPerCore*i + jobPerCore, ARR1.length);u++) {
+			/*for (var u = jobPerCore*i; u < Math.min(jobPerCore*i + jobPerCore, ARR1.length);u++) {
 				ARR1CORE[i][ARR1CORE[i].length] = ARR1[u];
-			}
+			}*/
 			percentArr[i] = 0;
+		}
+		
+		//assign job loopCore
+		var u = 0;
+		while (u < ARR1.length) {
+			for (var i = 0; i < threadCount && (u < ARR1.length); i++) {
+				ARR1CORE[i][ARR1CORE[i].length] = ARR1[u++];
+			}
 		}
 		
 		for (var i = 0; i < threadCount; i++) {

@@ -58,7 +58,7 @@ var draggable = {
 	};
 	
 onmessage = function(e) {
-	console.log('Message received from main script');
+	//console.log('Message received from main script');
 	var recieved = e.data;
 	
 	if (recieved[0] == "highestDps") {
