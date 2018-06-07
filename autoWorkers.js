@@ -79,6 +79,7 @@ onmessage = function(e) {
 	mUpdate = recieved[15];
 	mFairyData = recieved[16];
 	
+	_SEC = recieved[17];
 	
     mGridOrder.push(["7", "8", "9"]);
     mGridOrder.push(["4", "5", "6"]);

@@ -304,7 +304,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 			w[i].postMessage([
 				i,
 				LOC1,LOC2,LOC3,LOC4,LOC5,
-				ARR1CORE[i],ARR2,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData]);
+				ARR1CORE[i],ARR2,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC]);
 			w[i].onmessage = function(event) {
 				if (event.data[0] == "done") {
 					doneCount++;
