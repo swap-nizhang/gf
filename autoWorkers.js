@@ -325,7 +325,7 @@ function insertResult(dps, team, charList) {
 		preLoadCode["char"] = formation;
 		preLoadCode["fairy"] = fairy;
 	
-		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣形</a>";
+		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣型</a>";
 		var obj = { dps: dps , team: team , char:charList};
 
 

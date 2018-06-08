@@ -50,9 +50,11 @@ $( document ).ready(function () {
 
 
 			$("body").prepend(
-				'<div id="secDiv">秒數: <input id="sec" value="'+_SEC +'"/></div>'+
+				'<div id="secDiv">'+
+				'<h1>自動陣型配對機</h1>'+
+				'輸出秒數: <input id="sec" value="'+_SEC +'"/></div>'+
 				charTable +
-				'<div id="selDiv">'+
+				'<div id="selDiv"><br />'+
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'HG/RF b陣\';findHGRF2()">HG/RF b陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'HG/RF 4保1 F陣\';findHGRF3()">HG/RF 4保1 F陣</a> &nbsp; '+
@@ -62,7 +64,9 @@ $( document ).ready(function () {
 				'<a href="#" onclick="document.title = \'MG/SG/HG T陣\';findMGSG1()">MG/SG/HG T陣</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'MG/SG/HG |:陣\';findMGSG3()">MG/SG/HG |:陣</a> &nbsp; ' +
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74196\';findMGSG4()">MG/SG/HG 74196</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp;<br /><br /><br /><br />  &nbsp;' +
+				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp; <br /><br />'+
+				'<img src="images/grid.png" />'+
+				'<br /><br /><br /><br />  &nbsp;' +
 				'<a href="https://github.com/chibimonxd/gf">Github</a><br /><br /> &nbsp;' +
 				'<a href="https://github.com/ynntk4815/gf">傷害計算核心來自ynntk4815陣型計算機</a><br /><br /> &nbsp;' +
 				'</div>'
@@ -209,8 +213,8 @@ function initTable() {
 	$("body").prepend('<div id="percentDiv"></div>');
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
-				"<th>"+"d"+ _SEC + "s"+"</th>"+
-				"<th>team</th>"+
+				"<th>"+_SEC + "秒傷害"+"</th>"+
+				"<th>隊伍編成(全技能,好感100)</th>"+
 			"</tr>";
 	resultHtml += "</table>";
 
@@ -315,8 +319,8 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 						getDateDiff(new Date(), startTime);
 						var resultHtml = "<table border='1' width='100%'>"+
 								"<tr>"+
-									"<th>"+"d"+ _SEC + "s"+"</th>"+
-									"<th>team</th>"+
+									"<th>"+_SEC + "秒傷害"+"</th>"+
+									"<th>隊伍編成(全技能,好感100)</th>"+
 								"</tr>";
 
 						for (var g = 0; g < RESULTLIST.length;g++) {
