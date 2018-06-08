@@ -421,13 +421,13 @@ function findHGRF1() {
 
 
 		mCharData[i].used = 0;
-		if (mCharData[i].type == "hg") {
+		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "rf") {
 			rf[rf.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "rf") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "rf") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			rfhg[rfhg.length] = mCharData[i];
 		}
 	}
@@ -493,13 +493,13 @@ function findHGRF2() {
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
-		if (mCharData[i].type == "hg") {
+		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "rf") {
 			rf[rf.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "rf") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "rf") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			rfhg[rfhg.length] = mCharData[i];
 		}
 	}
@@ -563,7 +563,7 @@ function findHGRF3() {
 
 
 		mCharData[i].used = 0;
-		if (mCharData[i].type == "hg") {
+		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "rf") {
@@ -629,7 +629,7 @@ function findHGRF4() {
 
 
 		mCharData[i].used = 0;
-		if (mCharData[i].type == "hg") {
+		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "rf") {
@@ -701,7 +701,7 @@ function findMGSG1() {
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
 		mCharData[i].used = 0;
-		if (mCharData[i].type == "hg") {
+		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "mg") {
@@ -711,7 +711,7 @@ function findMGSG1() {
 			sg[sg.length] = mCharData[i];
 		}
 
-		if ((mCharData[i].type == "mg") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "mg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			mghg[mghg.length] = mCharData[i];
 		}
 	}
@@ -790,10 +790,10 @@ function findSMGAR1() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -875,10 +875,10 @@ function findSMGAR2() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -952,10 +952,10 @@ function findSMGAR3() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -1037,10 +1037,10 @@ function findSMGAR4() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
+		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -1119,7 +1119,7 @@ function findMGSG3() {
 			sg[sg.length] = mCharData[i];
 		}
 
-		if ((mCharData[i].type == "mg") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "mg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			mghg[mghg.length] = mCharData[i];
 		}
 	}
@@ -1196,7 +1196,7 @@ function findMGSG4() {	initTable();
 			sg[sg.length] = mCharData[i];
 		}
 
-		if ((mCharData[i].type == "mg") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "mg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			mghg[mghg.length] = mCharData[i];
 		}
 	}
@@ -1275,7 +1275,7 @@ function findMGSG5() {	initTable();
 			sg[sg.length] = mCharData[i];
 		}
 
-		if ((mCharData[i].type == "mg") || (mCharData[i].type == "hg")){
+		if ((mCharData[i].type == "mg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))){
 			mghg[mghg.length] = mCharData[i];
 		}
 	}
