@@ -2014,6 +2014,10 @@ function updateCharObsForBattle() {
 }
 
 function getAttackFrame(charObj) {
+    var frameFromBuff = charObj.cb.buff.filter(v => v.attribute == "attackFrame").reduce((r, v) => {
+        return v.value;
+    }, 0);
+    if (frameFromBuff > 0) return frameFromBuff;
     if (charObj.attackFrame > 0) return charObj.attackFrame;
     if (charObj.type == "mg") return 10;
     if ('cb' in charObj) {
@@ -2779,7 +2783,6 @@ function allyInit(ally) {
         var charObj = ally[i];
         charObj.cb = copyObject(charObj.c);
         charObj.cb.attr = copyObject(charObj.c);
-        charObj.cb.actionFrame = getAttackFrame(charObj);
         charObj.cb.actionType = "attack";
 //        charObj.cb.skillCD = getSkillFirstCooldownTime(charObj) * 30 - walkTime;
         charObj.cb.skillCD = getSkillFirstCooldownTime(charObj) * 30;
@@ -2787,6 +2790,7 @@ function allyInit(ally) {
         charObj.cb.attackedTimes = 0;
         charObj.cb.buff = [];
         charObj.cb.battleTimer = [];
+        charObj.cb.actionFrame = getAttackFrame(charObj);
         var skillType = charObj.skill.type;
         if (skillType == "activeWithPassive") {
             usePassiveSkillForCalculateBattle(charObj);
