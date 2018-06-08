@@ -1474,7 +1474,7 @@ function getCharImgUIObj(id) {
     var img = $('<img>').attr("src","assets/n/" + id + ".png");
     return img;
 }
-
+var timeoutCheck = null;
 function updatePerformance() {
     var index = 1;
     var dpsSum = 0;
@@ -1570,13 +1570,22 @@ function updatePerformance() {
     preLoadCode["char"] = formation;
     preLoadCode["fairy"] = fairy;
 
-    var url = [location.protocol, '//', location.host, location.pathname].join('');
-    $("#code").val(url + "?pre=" + JSON.stringify(preLoadCode));
+	
+	var previousUrl = $("#code").val();
+    var url = [location.protocol, '//', location.host, location.pathname].join('') + "?pre=" + JSON.stringify(preLoadCode) +
+			"&repeat=" + $(".skill_control:checked").map(function() { return this.value; }).get().join(',') +"," +
+			$(".friendship").map(function() { return $(this).attr("value"); }).get().join(',');
 
     //20180602
-    var resultArr = dmgNs();
-    $(".value.d8sSum").html(resultArr[0]);
-    $(".value.d20sSum").html(resultArr[1]);
+	if (previousUrl != url) {
+		$("#code").val(url);
+		clearTimeout(timeoutCheck);
+		timeoutCheck = setTimeout(function() {
+			var resultArr = dmgNs();
+			$(".value.d8sSum").html(resultArr[0]);
+			$(".value.d20sSum").html(resultArr[1]);
+		},500);
+	}
 
 }
 
