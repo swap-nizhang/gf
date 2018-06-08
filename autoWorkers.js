@@ -284,12 +284,49 @@ var highestDps = 0;
 var charList = new Array();
 
 var highestDNs = 0;
-
+var url = [location.protocol, '//', location.host, location.pathname].join('').replace("autoWorkers.js","main2.html");
 function insertResult(dps, team, charList) { 
 
-	var obj = { dps: dps , team: team , char:charList};
 
-	if (obj.dps > highestDps *buffer) {	
+	if (dps > highestDps *buffer) {	
+
+		var preLoadCode = {};
+		var formation = [];
+		var fairy = {};
+		for (var i in mGridHasChar) {
+			var grid = getGridByUIValue(mGridHasChar[i]);
+			if (mGridToChar[grid] != "") {
+				var charObj = mGridToChar[grid];
+
+				var charRow = {};
+				charRow.g = grid;
+				charRow.id = charObj.id;
+				if (charObj.c.modLevel > 0) {
+					charRow.modlv = charObj.c.modLevel;
+				} else {
+					charRow.lv = charObj.c.level;
+				}
+				if (charObj.c.modLevel >= 2) {
+					charRow.mod2slv = charObj.c.mod2SkillLevel;
+				}
+				charRow.slv = charObj.c.skillLevel;
+				charRow.eq = charObj.equipment_code;
+				formation.push(charRow);
+			}
+		}
+
+		if (mFairy != null) {
+			fairy.id = mFairy.id;
+			fairy.lv = mFairy.level;
+			fairy.r = mFairy.rarity;
+			fairy.slv = mFairy.skillLevel;
+			fairy.m = mFairy.mastery.id;
+		}
+		preLoadCode["char"] = formation;
+		preLoadCode["fairy"] = fairy;
+	
+		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣形</a>";
+		var obj = { dps: dps , team: team , char:charList};
 
 
 		RESULTLIST[RESULTLIST.length] = obj;
@@ -299,6 +336,7 @@ function insertResult(dps, team, charList) {
 		}
 	
 		//console.log(obj.dps, obj["d"+ _SEC + "s"], obj.team);
+
 		var resultHtml = 
 					"<tr>"+
 						"<th>"+obj.dps+"</th>"+
