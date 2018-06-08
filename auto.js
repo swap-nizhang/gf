@@ -790,10 +790,10 @@ function findSMGAR1() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -875,10 +875,10 @@ function findSMGAR2() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -952,10 +952,10 @@ function findSMGAR3() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
@@ -1037,10 +1037,10 @@ function findSMGAR4() {
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "smg") || ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG"))) {
+		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
 			smghg[smghg.length] = mCharData[i];
 		}
 	}
