@@ -234,7 +234,7 @@ function initTable() {
 
 		var isUseSkill = true;
 		if (mCharData[i].name == "競爭者") isUseSkill = false;
-		if (mCharData[i].name == "K2") isUseSkill = false;
+		//if (mCharData[i].name == "K2") isUseSkill = false;
 		
 		mCharData[i].isUseSkill = isUseSkill;
 		mGridToChar[7].isUseSkill = isUseSkill;
