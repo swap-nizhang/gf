@@ -5182,7 +5182,7 @@
         "dodge":{"1":7, "100":46},
         "fireOfRate":{"1":50, "100":75},
         "skill":{
-            "name":"Rain of Burial,
+            "name":"Rain of Burial",
             "firstCooldownTime":4,
             "cooldownTime":{"1":20, "10": 16},
             "detailText":{
