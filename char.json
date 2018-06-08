@@ -5182,11 +5182,11 @@
         "dodge":{"1":7, "100":46},
         "fireOfRate":{"1":50, "100":75},
         "skill":{
-            "name":"葬儀之雨",
+            "name":"Rain of Burial,
             "firstCooldownTime":4,
             "cooldownTime":{"1":20, "10": 16},
             "detailText":{
-                "0":"以降低自身命中{0}%為代價,提升射速至150並進行掃射,持續{1}秒",
+                "0":"Reduce own Accuracy by {0}, increase ROF by 150 and enter sweep mode, lasts for {1} seconds.",
                 "format":[{"effectIndex":0, "attr":"value"}, {"effectIndex":0, "attr":"time"}]},
             "effects":[
                 {"filter":"active", "type":"debuff", "target":"self", "attribute":"hit", "value":{"1":30, "10":0}, "time":{"1":3, "10":7}},
