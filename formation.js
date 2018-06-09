@@ -1,4 +1,4 @@
-
+﻿
 const TYPES = ["hg", "smg", "ar", "rf", "mg", "sg"];
 const GRIDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const SKILL_TYPE_IS_PERCENT = ["hit", "dodge", "armor", "fireOfRate", "dmg", "criRate", "cooldownTime", "criDmg", "movementSpeed", "rate", "reducedDamage"];
@@ -54,7 +54,7 @@ var mFormation = [];
 var mGridToUI = [];
 var mGridToChar = [];
 var mGridHasChar = [];
-var mDmgLinkMode = SINGLE_LINK;
+var mDmgLinkMode = MULTI_LINK;
 var mIsDetailCalculate = false;
 var mFairy = null;
 var mVersion = "tw";
@@ -1131,6 +1131,10 @@ function addChar(grid, id) {
     } else {
         mGridHasChar.push(g);
     }
+
+    setEquipment(grid);
+
+
     updateCharObs();
     updateAuraUI(auraUI, mGridToChar[grid]);
     updateEquipmentUI(mGridToChar[grid]);
@@ -1479,7 +1483,7 @@ function getCharImgUIObj(id) {
     var img = $('<img>').attr("src","assets/n/" + id + ".png");
     return img;
 }
-
+var timeoutCheck = null;
 function updatePerformance() {
     var index = 1;
     var dpsSum = 0;
@@ -1575,9 +1579,206 @@ function updatePerformance() {
     preLoadCode["char"] = formation;
     preLoadCode["fairy"] = fairy;
 
-    var url = [location.protocol, '//', location.host, location.pathname].join('');
-    $("#code").val(url + "?pre=" + JSON.stringify(preLoadCode));
+	
+	var previousUrl = $("#code").val();
+    var url = [location.protocol, '//', location.host, location.pathname].join('') + "?pre=" + JSON.stringify(preLoadCode) +
+			"&repeat=" + $(".skill_control:checked").map(function() { return this.value; }).get().join(',') +"," +
+			$(".friendship").map(function() { return $(this).attr("value"); }).get().join(',');
+
+    //20180602
+	if (previousUrl != url) {
+		$("#code").val(url);
+		clearTimeout(timeoutCheck);
+		timeoutCheck = setTimeout(function() {
+			var resultArr = dmgNs();
+			$(".value.d8sSum").html(resultArr[0]);
+			$(".value.d20sSum").html(resultArr[1]);
+		},500);
+	}
+
 }
+
+
+
+function setEquipment(grid) {
+	var charObj = mGridToChar[grid];
+
+	//charObj.c.friendship = "friendly";
+
+	if (charObj.type == "rf") {
+		charObj.equipment[1] = 20;
+		charObj.equipment[2] = 4;
+		charObj.equipment[3] = 90;
+	}
+
+	if (charObj.type == "hg") {
+		if ((grid == 7) || (grid == 4) || (grid == 1)) {
+			charObj.equipment[1] = 66;
+			charObj.equipment[2] = 72;
+			charObj.equipment[3] = 40;
+		} else {
+			charObj.equipment[1] = 66;
+			charObj.equipment[2] = 72;
+			charObj.equipment[3] = 58;
+		}
+	}
+
+
+	/*
+	//ME
+	if (charObj.type == "ar") {
+		charObj.equipment[1] = 8;
+		charObj.equipment[2] = 32;
+		charObj.equipment[3] = 58;
+	}
+
+	if (charObj.type == "smg") { //T bone
+		charObj.equipment[1] = 40;
+		charObj.equipment[2] = 72;
+		charObj.equipment[3] = 66;
+	}*/
+
+	//SEAL
+	if (charObj.type == "ar") {
+		charObj.equipment[1] = 4;
+		charObj.equipment[2] = 32;
+		charObj.equipment[3] = 58;
+	}
+
+	if (charObj.type == "smg") { // Xbone
+		charObj.equipment[1] = 58;
+		charObj.equipment[2] = 72;
+		charObj.equipment[3] = 8;
+	}
+
+	if (charObj.type == "mg") {
+		charObj.equipment[1] = 20;
+		charObj.equipment[2] = 4;
+		charObj.equipment[3] = 68;
+	}
+
+	if (charObj.type == "sg") {
+		charObj.equipment[1] = 44;
+		charObj.equipment[2] = 76;
+		charObj.equipment[3] = 8;
+	}
+
+	if (charObj.name == "競爭者") {
+		charObj.equipment[2] = 20;
+	}
+	if (charObj.name == "C-MS") {
+		charObj.equipment[2] = 20;
+	}
+	if (charObj.name == "MP5") {
+		charObj.equipment[1] = 62;
+	}
+	if (charObj.name == "UMP9") {
+		charObj.equipment[1] = 92;
+	}
+	if (charObj.name == "UMP45") {
+		charObj.equipment[1] = 92;
+	}
+	if (charObj.name == "UMP40") {
+		charObj.equipment[1] = 92;
+	}
+	if (charObj.name == "Kar98k") {
+		charObj.equipment[2] = 105;
+	}
+	if (charObj.name == "春田") {
+		charObj.equipment[1] = 59;
+	}
+	if (charObj.name == "莫辛-納甘") {
+		charObj.equipment[3] = 86;
+	}
+	if (charObj.name == "PTRD") {
+		charObj.equipment[3] = 108;
+	}
+	/*if (charObj.name == "M1918") {
+		charObj.equipment[2] = 112;
+		charObj.equipment[3] = 61;
+	}*/
+	/*if (charObj.name == "MG3") {
+		charObj.equipment[3] = 107;
+	}*/
+	if (charObj.name == "阿梅利") {
+		charObj.equipment[3] = 94;
+	}
+	if (charObj.name == "M4A1" && charObj.mod) {
+		charObj.equipment[3] = 99;
+	}
+	if (charObj.name == "ST AR-15") {
+		if (charObj.mod) {
+			charObj.equipment[1] = 4;
+			charObj.equipment[2] = 100;
+		} else {
+			charObj.equipment[1] = 4;
+			charObj.equipment[2] = 8;
+		}
+		charObj.equipment[3] = 60;
+	}
+
+	if (charObj.name == "M16A1") {
+		charObj.equipment[1] = 32;
+		charObj.equipment[2] = 91;
+		charObj.equipment[3] = 58;
+	}
+
+	if (charObj.name == "M4 SOPMOD II") {
+		charObj.equipment[1] = 4;
+		charObj.equipment[2] = 8;
+		charObj.equipment[3] = 32;
+	}
+	
+	if (charObj.name == "56-1式") {
+		charObj.equipment[1] = 85;
+	}
+	if (charObj.name == "9A-91") {
+		charObj.equipment[1] = 93;
+	}
+	if (charObj.name == "AK-47") {
+		charObj.equipment[1] = 85;
+	}
+
+	if (charObj.name == "納甘左輪" && charObj.mod) {
+		charObj.equipment[1] = 113;
+	}
+	if (charObj.name == "FN-49" && charObj.mod) {
+		charObj.equipment[2] = 104;
+	}
+	if (charObj.name == "64式" && charObj.mod) {
+		charObj.equipment[3] = 103;
+	}
+	if (charObj.name == "M1911" && charObj.mod) {
+		charObj.equipment[2] = 101;
+	}
+	if (charObj.name == "IDW" && charObj.mod) {
+		charObj.equipment[1] = 102;
+	}
+	if (charObj.name == "MP-446" && charObj.mod) {
+		charObj.equipment[1] = 114;
+	}
+
+}
+
+
+function dmgNs() {
+	var SEC = 20;
+	var ally = copyList(getAlly());
+	allyInit(ally);
+	var enemy = copyObject(ally[0]);
+	enemyInit(enemy);
+
+	//Nsdmg
+	var d8sSum = 0;
+	var d20sSum = 0;
+	var sim = battleSimulation(SEC*30, 0, copyList(ally), copyObject(enemy), false);
+	for (var i =0; i < sim.y.length; i++) {
+		d8sSum+= sim.y[i].data[8*30];
+		d20sSum+= sim.y[i].data[20*30];
+	}
+	return [parseInt(d8sSum),parseInt(d20sSum)];
+}
+
 
 function charGetAttrByLevel(attr, lv) {
     var v = ((1.0 * attr["100"] - 1.0 * attr["1"]) / 99 * (lv - 1) + attr["1"] * 1.0);

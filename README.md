@@ -6,3 +6,8 @@ English fork of ynntk4815's calculators, the original chinese calculators can be
 [DPS/Formation sim](https://gfeAsdf.github.io/gf/main2.html)
 
 [T-Doll Gacha sim](https://i.imgur.com/iYieU8U.mp4)
+
+Test-branch / Auto formation generator
+[自動陣型配對機](https://chibimonxd.github.io/gf/auto.html)
+
+[Test version](https://gfeAsdf.github.io/gf/auto.html)
