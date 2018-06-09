@@ -316,7 +316,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					if (nextJob != null) {
 						
 						if (doneCount > (ARR1.length || ARR2.length)) {
-						//if (doneCount > 3) {
+
 							//CLEAN UP ARR
 							for (var x = 0; x < ARR3.length;x++) {
 								ARR3[x].checked = 0;
@@ -369,19 +369,16 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 
 							for (var x = 0; x < ARR3.length;x++) {
 								if (ARR3[x].checked == 0) {
-									ARR3[x].used /= 10000.0;
 									ARR3[x].checked = 1;
 								}
 							}
 							for (var x = 0; x < ARR4.length;x++) {
 								if (ARR4[x].checked == 0) {
-									ARR4[x].used /= 10000.0;
 									ARR4[x].checked = 1;
 								}
 							}
 							for (var x = 0; x < ARR5.length;x++) {
 								if (ARR5[x].checked == 0) {
-									ARR5[x].used /= 10000.0;
 									ARR5[x].checked = 1;
 								}
 							}
@@ -400,6 +397,22 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 									ARR5.pop();
 								}
 							}
+							for (var x = 0; x < ARR3.length;x++) {
+								if (ARR3[x].checked == 0) {
+									ARR3[x].used = 0;
+								}
+							}
+							for (var x = 0; x < ARR4.length;x++) {
+								if (ARR4[x].checked == 0) {
+									ARR4[x].used = 0;
+								}
+							}
+							for (var x = 0; x < ARR5.length;x++) {
+								if (ARR5[x].checked == 0) {
+									ARR5[x].used = 0;
+								}
+							}
+
 						}
 
 						

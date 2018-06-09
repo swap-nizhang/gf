@@ -452,11 +452,11 @@ function loopCore(
 		
 		if (RESULTLIST.length > 10) {
 			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-				//console.log(ARR4[ARR4.length-1].name); 
+				console.log(">"+ARR4[ARR4.length-1].name); 
 				ARR4.pop();
 			}
 			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-				//console.log(ARR5[ARR5.length-1].name); 
+				console.log(">"+ARR5[ARR5.length-1].name); 
 				ARR5.pop();
 			}
 		}
