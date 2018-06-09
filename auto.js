@@ -92,12 +92,18 @@ function updateCheckBox(type,obj){
 
 	if (type == 1) {
 		if ($(".chrare:checked").length == 0) {
-			if ($(obj)[0].id == "chtypehg") { $(".checkTypehg").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chtyperf") { $(".checkTyperf").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chtypear") { $(".checkTypear").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chtypesg") { $(".checkTypesg").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg").prop("checked",$(obj).prop("checked"));}
+			if (!$(obj).prop("checked")) {
+				if ($(obj)[0].id == "chtypehg") { $(".checkTypehg").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtyperf") { $(".checkTyperf").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypear") { $(".checkTypear").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypesg") { $(".checkTypesg").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg").prop("checked",$(obj).prop("checked"));}
+			} else {
+				for (var j =0; j < $(".chtype:checked").length;j++) {
+					$("."+ $(".chtype:checked:eq("+j+")").attr("son")).prop("checked",true);
+				}
+			}
 		} else {
 			$(".checkB").prop("checked",false);
 
@@ -110,11 +116,17 @@ function updateCheckBox(type,obj){
 
 	} else {
 		if ($(".chtype:checked").length == 0) {
-			if ($(obj)[0].id == "chrare2") { $(".checkRare2").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chrare3") { $(".checkRare3").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chrare4") { $(".checkRare4").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chrare5") { $(".checkRare5").prop("checked",$(obj).prop("checked"));}
-			if ($(obj)[0].id == "chrare6") { $(".checkRare6").prop("checked",$(obj).prop("checked"));}
+			if (!$(obj).prop("checked")) {
+				if ($(obj)[0].id == "chrare2") { $(".checkRare2").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare3") { $(".checkRare3").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare4") { $(".checkRare4").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare5") { $(".checkRare5").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chrare6") { $(".checkRare6").prop("checked",$(obj).prop("checked"));}
+			} else {
+				for (var i =0; i < $(".chrare:checked").length;i++) {
+					$("." + $(".chrare:checked:eq("+i+")").attr("son")).prop("checked",true);
+				}
+			}
 		} else {
 			$(".checkB").prop("checked",false);
 
@@ -263,7 +275,7 @@ function getDateDiff(t1, t2) {
 
 var highestDps = 0;
 var w;
-var threadCount = navigator.hardwareConcurrency || 8;
+var threadCount = navigator.hardwareConcurrency || 4;
 var doneCount = 0;
 var percentArr = new Array();
 var remainingList = new Array();
@@ -279,6 +291,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
     if(typeof(Worker) !== "undefined") {
 		
 		if (ARR1.length * ARR2.length < threadCount) {
+			console.log(ARR1.length , ARR2.length , threadCount);
 			threadCount = ARR1.length * ARR2.length;
 		}
 		totalJobCount = ARR1.length * ARR2.length;
@@ -315,19 +328,16 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					var nextJob = remainingList.pop();
 					if (nextJob != null) {
 						
-						if (doneCount > (ARR1.length || ARR2.length)) {
+						if ((doneCount > (ARR1.length || ARR2.length)) && (RESULTLIST.length > 200)) {
 
 							//CLEAN UP ARR
 							for (var x = 0; x < ARR3.length;x++) {
-								ARR3[x].checked = 0;
 								ARR3[x].used = 0;
 							}
 							for (var x = 0; x < ARR4.length;x++) {
-								ARR4[x].checked = 0;
 								ARR4[x].used = 0;
 							}
 							for (var x = 0; x < ARR5.length;x++) {
-								ARR5[x].checked = 0;
 								ARR5[x].used = 0;
 							}
 
@@ -336,29 +346,29 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 
 							for (var t = 0; t <  RESULTLIST.length;t++) {
 
-								if (RESULTLIST[t].dps > highestDps *buffer) {
+								if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 200)) {
 									
-									if (t < 200) {
-										for (var r = 0; r < RESULTLIST[t].charList.length;r++) {
+									//if (t < 200) {
+										for (var r = 2; r < RESULTLIST[t].charList.length;r++) {
 											//RESULTLIST[t].charList[r].used += Math.pow(10, r);
 											//console.log(">" + RESULTLIST[t].charList[r]);
 											for (var x = 0; x < ARR3.length;x++) {
-												if (ARR3[x].name == RESULTLIST[t].charList[r]) {
-													ARR3[x].used += Math.pow(10, r);
+												if (ARR3[x].id == RESULTLIST[t].charList[r]) {
+													ARR3[x].used += Math.pow(10, r-2);
 												}
 											}
 											for (var x = 0; x < ARR4.length;x++) {
-												if (ARR4[x].name == RESULTLIST[t].charList[r]) {
-													ARR4[x].used += Math.pow(10, r);
+												if (ARR4[x].id == RESULTLIST[t].charList[r]) {
+													ARR4[x].used += Math.pow(10, r-2);
 												}
 											}
 											for (var x = 0; x < ARR5.length;x++) {
-												if (ARR5[x].name == RESULTLIST[t].charList[r]) {
-													ARR5[x].used += Math.pow(10, r);
+												if (ARR5[x].id == RESULTLIST[t].charList[r]) {
+													ARR5[x].used += Math.pow(10, r-2);
 												}
 											}
 										}
-									} 
+									//} 
 								} else {
 									RESULTLIST.pop();
 								}
@@ -367,50 +377,29 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							ARR4.sort(function(a, b){return b.used-a.used});
 							ARR5.sort(function(a, b){return b.used-a.used});
 
-							for (var x = 0; x < ARR3.length;x++) {
-								if (ARR3[x].checked == 0) {
-									ARR3[x].checked = 1;
-								}
-							}
-							for (var x = 0; x < ARR4.length;x++) {
-								if (ARR4[x].checked == 0) {
-									ARR4[x].checked = 1;
-								}
-							}
-							for (var x = 0; x < ARR5.length;x++) {
-								if (ARR5[x].checked == 0) {
-									ARR5[x].checked = 1;
-								}
-							}
 							
-							if (RESULTLIST.length > 10) {
-								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used < 0.00000001) {
+							if ((RESULTLIST.length > 200) && (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
+								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used == 0) {
 									console.log(ARR3[ARR3.length-1].name); 
 									ARR3.pop();
 								}
-								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
+								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used == 0) {
 									console.log(ARR4[ARR4.length-1].name); 
 									ARR4.pop();
 								}
-								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
+								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used == 0) {
 									console.log(ARR5[ARR5.length-1].name); 
 									ARR5.pop();
 								}
 							}
 							for (var x = 0; x < ARR3.length;x++) {
-								if (ARR3[x].checked == 0) {
-									ARR3[x].used = 0;
-								}
+								ARR3[x].used = 0;
 							}
 							for (var x = 0; x < ARR4.length;x++) {
-								if (ARR4[x].checked == 0) {
-									ARR4[x].used = 0;
-								}
+								ARR4[x].used = 0;
 							}
 							for (var x = 0; x < ARR5.length;x++) {
-								if (ARR5[x].checked == 0) {
-									ARR5[x].used = 0;
-								}
+								ARR5[x].used = 0;
 							}
 
 						}

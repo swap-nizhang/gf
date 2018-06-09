@@ -351,7 +351,7 @@ function insertResult(dps, team, charList) {
 						"<th>"+obj.team+"</th>"+
 					"</tr>";
 		//$$("body > table").prepend(resultHtml);
-		postMessage([resultHtml, obj.dps, obj.team, [charList[0].name, charList[1].name, charList[2].name, charList[3].name, charList[4].name]]);
+		postMessage([resultHtml, obj.dps, obj.team, [charList[0].id, charList[1].id, charList[2].id, charList[3].id, charList[4].id]]);
 
 	}
 }
@@ -421,13 +421,13 @@ function loopCore(
 
 		for (var t = 0; t <  RESULTLIST.length;t++) {
 
-			if (RESULTLIST[t].dps > highestDps *buffer) {
-				
-				if (t < 200) {
-					for (var r = 0; r < RESULTLIST[t].charList.length;r++) {
-						RESULTLIST[t].charList[r].used += Math.pow(10, r);
-					}
-				} 
+
+			if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 10)) {
+
+				for (var r = 3; r < RESULTLIST[t].charList.length;r++) {
+					RESULTLIST[t].charList[r].used += Math.pow(10, r-3);
+				}
+			
 			} else {
 				RESULTLIST.pop();
 			}
@@ -450,13 +450,13 @@ function loopCore(
 			}
 		}
 		
-		if (RESULTLIST.length > 10) {
+		if ((RESULTLIST.length > 10)&& (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
 			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-				console.log(">"+ARR4[ARR4.length-1].name); 
+				//console.log(">"+ARR4[ARR4.length-1].name); 
 				ARR4.pop();
 			}
 			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-				console.log(">"+ARR5[ARR5.length-1].name); 
+				//console.log(">"+ARR5[ARR5.length-1].name); 
 				ARR5.pop();
 			}
 		}
