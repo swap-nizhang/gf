@@ -51,8 +51,8 @@ $( document ).ready(function () {
 
 			$("body").prepend(
 				'<div id="secDiv">'+
-				'<h1>自動陣型配對機</h1>'+
-				'輸出秒數: <input id="sec" value="'+_SEC +'"/></div>'+
+				'<h1>Auto Formation Generator</h1>'+
+				'Calculate for n seconds: <input id="sec" value="'+_SEC +'"/></div>'+
 				charTable +
 				'<div id="selDiv"><br />'+
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
@@ -215,7 +215,7 @@ function initTable() {
 	$("body").prepend('<div id="percentDiv"></div>');
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
-				"<th>"+_SEC + "秒傷害"+"</th>"+
+				"<th>"+_SEC + "DPS"+"</th>"+
 				"<th>隊伍編成(全技能,好感100)</th>"+
 			"</tr>";
 	resultHtml += "</table>";
@@ -321,8 +321,8 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 						getDateDiff(new Date(), startTime);
 						var resultHtml = "<table border='1' width='100%'>"+
 								"<tr>"+
-									"<th>"+_SEC + "秒傷害"+"</th>"+
-									"<th>隊伍編成(全技能,好感100)</th>"+
+									"<th>"+_SEC + "DPS"+"</th>"+
+									"<th>Formation(All Skills, 100 Affection)</th>"+
 								"</tr>";
 
 						for (var g = 0; g < RESULTLIST.length;g++) {
