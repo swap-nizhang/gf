@@ -298,9 +298,10 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 		ARR5 = ARR5.slice();
 		
 		if (ARR1.length * ARR2.length < threadCount) {
-			console.log(ARR1.length , ARR2.length , threadCount);
 			threadCount = ARR1.length * ARR2.length;
 		}
+		console.log(ARR1.length , ARR2.length ,ARR3.length , ARR4.length ,ARR5.length , threadCount);
+		
 		totalJobCount = ARR1.length * ARR2.length;
 		console.log("threadCount", threadCount);
 		
@@ -343,17 +344,29 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							//CLEAN UP ARR
 							if (doneCount > ARR2_SKIP) {
 								for (var x = 0; x < ARR2.length;x++) {
-									ARR2[x].used = 0;
+									ARR2[x].used2 = 0;
+									ARR2[x].used3 = 0;
+									ARR2[x].used4 = 0;
+									ARR2[x].used5 = 0;
 								}
 							}
 							for (var x = 0; x < ARR3.length;x++) {
-								ARR3[x].used = 0;
+								ARR3[x].used2 = 0;
+								ARR3[x].used3 = 0;
+								ARR3[x].used4 = 0;
+								ARR3[x].used5 = 0;
 							}
 							for (var x = 0; x < ARR4.length;x++) {
-								ARR4[x].used = 0;
+								ARR4[x].used2 = 0;
+								ARR4[x].used3 = 0;
+								ARR4[x].used4 = 0;
+								ARR4[x].used5 = 0;
 							}
 							for (var x = 0; x < ARR5.length;x++) {
-								ARR5[x].used = 0;
+								ARR5[x].used2 = 0;
+								ARR5[x].used3 = 0;
+								ARR5[x].used4 = 0;
+								ARR5[x].used5 = 0;
 							}
 
 							RESULTLIST.sort(function(a, b){return b.dps-a.dps});
@@ -364,82 +377,69 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 								if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 200)) {
 									
 									//if (t < 200) {
-										for (var r = 1; r < RESULTLIST[t].charList.length;r++) {
+									//	for (var r = 1; r < RESULTLIST[t].charList.length;r++) {
 											//RESULTLIST[t].charList[r].used += Math.pow(10, r);
 											//console.log(">" + RESULTLIST[t].charList[r]);
 											if (doneCount > ARR2_SKIP) {
 												for (var x = 0; x < ARR2.length;x++) {
-													if (ARR2[x].id == RESULTLIST[t].charList[r]) {
-														ARR2[x].used += Math.pow(10, r-1);
+													if (ARR2[x].id == RESULTLIST[t].charList[1]) {
+														ARR2[x].used2++;
 													}
 												}
 											}
 											for (var x = 0; x < ARR3.length;x++) {
-												if (ARR3[x].id == RESULTLIST[t].charList[r]) {
-													ARR3[x].used += Math.pow(10, r-1);
+												if (ARR3[x].id == RESULTLIST[t].charList[2]) {
+													ARR3[x].used3++;
 												}
 											}
 											for (var x = 0; x < ARR4.length;x++) {
-												if (ARR4[x].id == RESULTLIST[t].charList[r]) {
-													ARR4[x].used += Math.pow(10, r-1);
+												if (ARR4[x].id == RESULTLIST[t].charList[3]) {
+													ARR4[x].used4++;
 												}
 											}
 											for (var x = 0; x < ARR5.length;x++) {
-												if (ARR5[x].id == RESULTLIST[t].charList[r]) {
-													ARR5[x].used += Math.pow(10, r-1);
+												if (ARR5[x].id == RESULTLIST[t].charList[4]) {
+													ARR5[x].used5++;
 												}
 											}
-										}
+									//	}
 									//} 
 								} else {
 									RESULTLIST.pop();
 								}
 							}
 							if (doneCount > ARR2_SKIP) {
-								ARR2.sort(function(a, b){return b.used-a.used});
+								ARR2.sort(function(a, b){return b.used2-a.used2});
 							}
-							ARR3.sort(function(a, b){return b.used-a.used});
-							ARR4.sort(function(a, b){return b.used-a.used});
-							ARR5.sort(function(a, b){return b.used-a.used});
+							ARR3.sort(function(a, b){return b.used3-a.used3});
+							ARR4.sort(function(a, b){return b.used4-a.used4});
+							ARR5.sort(function(a, b){return b.used5-a.used5});
 
 							
 							if ((RESULTLIST.length > 200) && (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
 								
 								
 								if (doneCount > ARR2_SKIP) {
-									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used == 0) {
+									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used2 == 0) {
 										console.log(2, ARR2[ARR2.length-1].name); 
 										ARR2.pop();
 									}
 								}
 								
-								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used == 0) {
+								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used3 == 0) {
 									console.log(3, ARR3[ARR3.length-1].name); 
 									ARR3.pop();
 								}
-								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used == 0) {
+								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 == 0) {
 									console.log(4, ARR4[ARR4.length-1].name); 
 									ARR4.pop();
 								}
-								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used == 0) {
+								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used5 == 0) {
 									console.log(5, ARR5[ARR5.length-1].name); 
 									ARR5.pop();
 								}
 							}
-							for (var x = 0; x < ARR2.length;x++) {
-								ARR2[x].used = 0;
-							}
-							
-							for (var x = 0; x < ARR3.length;x++) {
-								ARR3[x].used = 0;
-							}
-							for (var x = 0; x < ARR4.length;x++) {
-								ARR4[x].used = 0;
-							}
-							for (var x = 0; x < ARR5.length;x++) {
-								ARR5[x].used = 0;
-							}
-
+			
 						}
 						if (doneCount > (ARR1.length || ARR2.length)*1.5) {
 							for (var x = 0; x < ARR2.length;x++) {
