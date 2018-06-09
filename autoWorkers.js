@@ -6,7 +6,8 @@ var threadId;
 var _SEC = 8; //<------second
 var buffer = 0.9;
 var startTime;
-
+var started = false;
+var jobId = 0;
 var $ = function(input) {
 		
 		if (input == ".battle_control .enemyDodge") {
@@ -66,11 +67,16 @@ onmessage = function(e) {
 		return;
 	}
 	
-	name = "Thread" + recieved[0];
-	threadId = recieved[0];
-    importScripts("lib/random.min.js");
-    importScripts("formation.js");
+	if (!started) {
+		name = "Thread" + recieved[0];
+		threadId = recieved[0];
+		importScripts("lib/random.min.js");
+		importScripts("formation.js");
+		started = true;
+	}
 	
+	RESULTLIST = new Array();
+	charList = new Array();
 	
 	mCharData = recieved[11];
 	mAttackFrameData = recieved[12];
@@ -80,6 +86,8 @@ onmessage = function(e) {
 	mFairyData = recieved[16];
 	
 	_SEC = recieved[17];
+	
+	jobId = recieved[18];
 	
     mGridOrder.push(["7", "8", "9"]);
     mGridOrder.push(["4", "5", "6"]);
@@ -326,7 +334,7 @@ function insertResult(dps, team, charList) {
 		preLoadCode["fairy"] = fairy;
 	
 		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣型</a>";
-		var obj = { dps: dps , team: team , char:charList};
+		var obj = { dps: dps , team: team , charList:charList};
 
 
 		RESULTLIST[RESULTLIST.length] = obj;
@@ -343,7 +351,7 @@ function insertResult(dps, team, charList) {
 						"<th>"+obj.team+"</th>"+
 					"</tr>";
 		//$$("body > table").prepend(resultHtml);
-		postMessage([resultHtml, obj.dps, obj.team]);
+		postMessage([resultHtml, obj.dps, obj.team, [charList[0].name, charList[1].name, charList[2].name, charList[3].name, charList[4].name]]);
 
 	}
 }
@@ -397,21 +405,10 @@ function loopCore(
 	var toBreak = false;
 
 	if (I5 == ARR5.length) { I5 = 0; I4++; I4Changed = true; }
-	if (I4 == ARR4.length) { I4 = 0; I3++; I3Changed = true; }
-	if (I3 == ARR3.length) { I3 = 0; I2++; I2Changed = true; }
-	if (I2 == ARR2.length) { 
-		I2 = 0; I1++; I1Changed = true; 
-		console.log("Round", I1); 
-		
-			
-
+	if (I4 == ARR4.length) { 
+		I4 = 0; I3++; I3Changed = true; 
+	
 		//CLEAN UP ARR
-		for (var i = 0; i < ARR2.length;i++) {
-			ARR2[i].checked = 0;
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			ARR3[i].checked = 0;
-		}
 		for (var i = 0; i < ARR4.length;i++) {
 			ARR4[i].checked = 0;
 		}
@@ -427,8 +424,8 @@ function loopCore(
 			if (RESULTLIST[t].dps > highestDps *buffer) {
 				
 				if (t < 200) {
-					for (var r = 0; r < RESULTLIST[t].char.length;r++) {
-						RESULTLIST[t].char[r].used += Math.pow(10, r);
+					for (var r = 0; r < RESULTLIST[t].charList.length;r++) {
+						RESULTLIST[t].charList[r].used += Math.pow(10, r);
 					}
 				} 
 			} else {
@@ -436,24 +433,10 @@ function loopCore(
 			}
 		}
 
-		ARR2.sort(function(a, b){return b.used-a.used});
-		ARR3.sort(function(a, b){return b.used-a.used});
 		ARR4.sort(function(a, b){return b.used-a.used});
 		ARR5.sort(function(a, b){return b.used-a.used});
 
 
-		for (var i = 0; i < ARR2.length;i++) {
-			if (ARR2[i].checked == 0) {
-				ARR2[i].used /= 10000.0;
-				ARR2[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			if (ARR3[i].checked == 0) {
-				ARR3[i].used /= 10000.0;
-				ARR3[i].checked = 1;
-			}
-		}
 		for (var i = 0; i < ARR4.length;i++) {
 			if (ARR4[i].checked == 0) {
 				ARR4[i].used /= 10000.0;
@@ -467,79 +450,36 @@ function loopCore(
 			}
 		}
 		
-		while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used < 0.00000001) {
-			ARR2.pop();
+		if (RESULTLIST.length > 10) {
+			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
+				//console.log(ARR4[ARR4.length-1].name); 
+				ARR4.pop();
+			}
+			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
+				//console.log(ARR5[ARR5.length-1].name); 
+				ARR5.pop();
+			}
 		}
-		while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used < 0.00000001) {
-			ARR3.pop();
-		}
-		while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-			ARR4.pop();
-		}
-		while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-			ARR5.pop();
-		}
-
-
-
 		
 	}
 	
 	if (I4Changed) {
-		/*$$("#percentDiv").text(
-			parseInt((I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length) *10000) / 100 +"%"
-		);*/
-		
 		postMessage(["percent", threadId, (I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length), highestDps]);
+			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length), highestDps,jobId]);
 	}
-	if (I1 == ARR1.length) { 
+	
+	if ((I3 >= ARR3.length) || (I2 >= ARR2.length) || (I1 >= ARR1.length)) {
+
+		//console.log(I1,I2,I3,I4,I5);
+		I3 = 0;
 		//DONE
-		postMessage(["done"]);
+		postMessage(["done",threadId,jobId]);
 				
-				
-		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
-		console.log(name, RESULTLIST);
-
-		for (var j = 0; j < RESULTLIST.length; j++) {
-			if (RESULTLIST[j].dps > highestDps* buffer) {
-				for (var y =0; y < RESULTLIST[j].char.length;y++) {
-					if (charList.indexOf(RESULTLIST[j].char[y]) === -1){
-						charList[charList.length] = RESULTLIST[j].char[y];
-						////charCount++;;
-						}
-				}
-			}
-		}
-
-		for (var y =0; y <ARR2.length;y++) {
-			if (charList.indexOf(ARR2[y]) === -1){
-				charList[charList.length] = ARR2[y];
-				}
-		}
-		for (var y =0; y <ARR3.length;y++) {
-			if (charList.indexOf(ARR3[y]) === -1){
-				charList[charList.length] = ARR3[y];
-				}
-		}
-		for (var y =0; y <ARR4.length;y++) {
-			if (charList.indexOf(ARR4[y]) === -1){
-				charList[charList.length] = ARR4[y];
-				}
-		}
-		for (var y =0; y <ARR5.length;y++) {
-			if (charList.indexOf(ARR5[y]) === -1){
-				charList[charList.length] = ARR5[y];
-				}
-		}
-		charList.sort(function(b,a){return (b.rarity == "extra"?6:b.rarity) - (a.rarity == "extra"?6:a.rarity)});
-		console.log(name, charList);
-		
-		
 		returnFunction();
-	}
-	else {
+		return;
+
+	} else { 
+
 		
 
 		if (I1Changed) { addChar2(LOC1,ARR1[I1].id); }

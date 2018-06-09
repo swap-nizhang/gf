@@ -263,9 +263,12 @@ function getDateDiff(t1, t2) {
 
 var highestDps = 0;
 var w;
-var threadCount = 8;
+var threadCount = navigator.hardwareConcurrency || 8;
 var doneCount = 0;
 var percentArr = new Array();
+var remainingList = new Array();
+var totalJobCount = 0;
+var threadDone = new Array();
 function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 				ARR1,
 				ARR2,
@@ -275,74 +278,172 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 	w = new Array();
     if(typeof(Worker) !== "undefined") {
 		
-		var ARR1CORE = new Array();
-		if (ARR1.length < threadCount) {
-			threadCount = ARR1.length;
+		if (ARR1.length * ARR2.length < threadCount) {
+			threadCount = ARR1.length * ARR2.length;
 		}
-		
-		//var jobPerCore = Math.ceil(ARR1.length / threadCount);
-		/*threadCount = Math.ceil(ARR1.length / jobPerCore);
-		console.log("ARR1", ARR1.length);*/
+		totalJobCount = ARR1.length * ARR2.length;
 		console.log("threadCount", threadCount);
-		//console.log("jobPerCore", jobPerCore);
 		
 		
 		for (var i = 0; i < threadCount; i++) {
 			w[i] = new Worker("autoWorkers.js");
-			
-			ARR1CORE[i] = new Array();
-			/*for (var u = jobPerCore*i; u < Math.min(jobPerCore*i + jobPerCore, ARR1.length);u++) {
-				ARR1CORE[i][ARR1CORE[i].length] = ARR1[u];
-			}*/
-			percentArr[i] = 0;
+			threadDone[i] = false;
 		}
 		
-		//assign job loopCore
-		var u = 0;
-		while (u < ARR1.length) {
-			for (var i = 0; i < threadCount && (u < ARR1.length); i++) {
-				ARR1CORE[i][ARR1CORE[i].length] = ARR1[u++];
+		//create job list
+		for (var i = 0; i < ARR1.length; i++) {
+			for (var j = 0; j < ARR2.length; j++) {
+				remainingList[remainingList.length] = [[ARR1[i]], [ARR2[j]],remainingList.length];
+				percentArr[percentArr.length] = 0;
 			}
 		}
+
 		
 		for (var i = 0; i < threadCount; i++) {
-				
+			
+			var nextJob = remainingList.pop();
 			w[i].postMessage([
 				i,
 				LOC1,LOC2,LOC3,LOC4,LOC5,
-				ARR1CORE[i],ARR2,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC]);
+				nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
 			w[i].onmessage = function(event) {
 				if (event.data[0] == "done") {
 					doneCount++;
-					if (doneCount == threadCount) {
-						RESULTLIST.sort(function(a, b){return b.dps-a.dps});
-						console.log(RESULTLIST);
+					console.log(event.data[1],event.data[2],percentArr.length, "done");
+					percentArr[event.data[2]] = 1;
+					
+					var nextJob = remainingList.pop();
+					if (nextJob != null) {
+						
+						if (doneCount > (ARR1.length || ARR2.length)) {
+						//if (doneCount > 3) {
+							//CLEAN UP ARR
+							for (var x = 0; x < ARR3.length;x++) {
+								ARR3[x].checked = 0;
+								ARR3[x].used = 0;
+							}
+							for (var x = 0; x < ARR4.length;x++) {
+								ARR4[x].checked = 0;
+								ARR4[x].used = 0;
+							}
+							for (var x = 0; x < ARR5.length;x++) {
+								ARR5[x].checked = 0;
+								ARR5[x].used = 0;
+							}
 
-						getDateDiff(new Date(), startTime);
-						var resultHtml = "<table border='1' width='100%'>"+
-								"<tr>"+
-									"<th>"+_SEC + "秒傷害"+"</th>"+
-									"<th>隊伍編成(全技能,好感100)</th>"+
-								"</tr>";
+							RESULTLIST.sort(function(a, b){return b.dps-a.dps});
 
-						for (var g = 0; g < RESULTLIST.length;g++) {
-							resultHtml += 
-								"<tr>"+
-									"<td>"+RESULTLIST[g].dps+"</td>"+
-									"<td>"+RESULTLIST[g].team+"</td>"+
-								"</tr>";
+
+							for (var t = 0; t <  RESULTLIST.length;t++) {
+
+								if (RESULTLIST[t].dps > highestDps *buffer) {
+									
+									if (t < 200) {
+										for (var r = 0; r < RESULTLIST[t].charList.length;r++) {
+											//RESULTLIST[t].charList[r].used += Math.pow(10, r);
+											//console.log(">" + RESULTLIST[t].charList[r]);
+											for (var x = 0; x < ARR3.length;x++) {
+												if (ARR3[x].name == RESULTLIST[t].charList[r]) {
+													ARR3[x].used += Math.pow(10, r);
+												}
+											}
+											for (var x = 0; x < ARR4.length;x++) {
+												if (ARR4[x].name == RESULTLIST[t].charList[r]) {
+													ARR4[x].used += Math.pow(10, r);
+												}
+											}
+											for (var x = 0; x < ARR5.length;x++) {
+												if (ARR5[x].name == RESULTLIST[t].charList[r]) {
+													ARR5[x].used += Math.pow(10, r);
+												}
+											}
+										}
+									} 
+								} else {
+									RESULTLIST.pop();
+								}
+							}
+							ARR3.sort(function(a, b){return b.used-a.used});
+							ARR4.sort(function(a, b){return b.used-a.used});
+							ARR5.sort(function(a, b){return b.used-a.used});
+
+							for (var x = 0; x < ARR3.length;x++) {
+								if (ARR3[x].checked == 0) {
+									ARR3[x].used /= 10000.0;
+									ARR3[x].checked = 1;
+								}
+							}
+							for (var x = 0; x < ARR4.length;x++) {
+								if (ARR4[x].checked == 0) {
+									ARR4[x].used /= 10000.0;
+									ARR4[x].checked = 1;
+								}
+							}
+							for (var x = 0; x < ARR5.length;x++) {
+								if (ARR5[x].checked == 0) {
+									ARR5[x].used /= 10000.0;
+									ARR5[x].checked = 1;
+								}
+							}
+							
+							if (RESULTLIST.length > 10) {
+								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used < 0.00000001) {
+									console.log(ARR3[ARR3.length-1].name); 
+									ARR3.pop();
+								}
+								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
+									console.log(ARR4[ARR4.length-1].name); 
+									ARR4.pop();
+								}
+								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
+									console.log(ARR5[ARR5.length-1].name); 
+									ARR5.pop();
+								}
+							}
 						}
 
-						resultHtml += "</table>";
+						
+						w[event.data[1]].postMessage([
+							event.data[1],
+							LOC1,LOC2,LOC3,LOC4,LOC5,
+							nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+					} else {
+						threadDone[event.data[1]] = true;
+						
+						var allDone = true;
+						for (var k = 0; k < threadCount; k++) {
+							allDone &= threadDone[k];
+						}
+						if (allDone) {
+							RESULTLIST.sort(function(a, b){return b.dps-a.dps});
+							console.log(RESULTLIST);
 
-						$("body").html(resultHtml);
+							getDateDiff(new Date(), startTime);
+							var resultHtml = "<table border='1' width='100%'>"+
+									"<tr>"+
+										"<th>"+_SEC + "秒傷害"+"</th>"+
+										"<th>隊伍編成(全技能,好感100)</th>"+
+									"</tr>";
+
+							for (var g = 0; g < RESULTLIST.length;g++) {
+								resultHtml += 
+									"<tr>"+
+										"<td>"+RESULTLIST[g].dps+"</td>"+
+										"<td>"+RESULTLIST[g].team+"</td>"+
+									"</tr>";
+							}
+
+							resultHtml += "</table>";
+
+							$("body").html(resultHtml);
+						}
 					}
 				} else if (event.data[0] == "percent") {
 					//console.log(event.data[1],event.data[2]);
-					percentArr[event.data[1]] = event.data[2];
+					percentArr[event.data[4]] = event.data[2];
 					var sumP = 0;
 					for (var g = 0; g < percentArr.length;g++) {
-						sumP += percentArr[g]/threadCount;
+						sumP += percentArr[g]/percentArr.length;
 					}
 					$("#percentDiv").text(
 						parseInt(sumP *10000) / 100 +"%"
@@ -357,7 +458,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					
 				} else {
 					$("body > table").prepend(event.data[0]);
-					var obj = { dps: event.data[1] , team: event.data[2] };
+					var obj = { dps: event.data[1] , team: event.data[2], charList: event.data[3] };
 					RESULTLIST[RESULTLIST.length] = obj;
 				}
 			};
