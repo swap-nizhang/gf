@@ -72,6 +72,20 @@ onmessage = function(e) {
 		threadId = recieved[0];
 		importScripts("lib/random.min.js");
 		importScripts("formation.js");
+		
+		mGridOrder.push(["7", "8", "9"]);
+		mGridOrder.push(["4", "5", "6"]);
+		mGridOrder.push(["1", "2", "3"]);
+		for (var i in mGridOrder) {
+			for (var j in mGridOrder[i]) {
+				var order = mGridOrder[i][j];
+				mGridToUI[order] = "grid_container_" + order;
+				mGridToChar[order] = "";
+			}
+		}
+
+		gridToUi = _gridToUi;
+		
 		started = true;
 	}
 	
@@ -89,18 +103,13 @@ onmessage = function(e) {
 	
 	jobId = recieved[18];
 	
-    mGridOrder.push(["7", "8", "9"]);
-    mGridOrder.push(["4", "5", "6"]);
-    mGridOrder.push(["1", "2", "3"]);
-    for (var i in mGridOrder) {
-        for (var j in mGridOrder[i]) {
-            var order = mGridOrder[i][j];
-            mGridToUI[order] = "grid_container_" + order;
-            mGridToChar[order] = "";
-        }
-    }
+	if ((recieved[7] == null) || (recieved[6][0].id == recieved[7][0].id)) {
+		//DONE
+		postMessage(["done",threadId,jobId]);	
+		return;
+	}
+	
 
-	gridToUi = _gridToUi;
 	loopCore(
 				recieved[1], //LOC1,
 				recieved[2], //LOC2,
@@ -136,24 +145,24 @@ function _gridToUi(grid, elementName) {
     } else if (elementName == EQUIPMENT_CONTAINER) {
         return { 
 				find: function(item){
-										if ((item == ".equipment_1") || (item == ".equipment_2") || (item == ".equipment_3")) {
-											return { 
-													html: function(){ 
-																		return { 
-																				click: function(){ return null },
-																				off: function(){ return null }
-																				};  
-																	} 
-												   }; 
-										}
-					
-										if ((item == ".equipment_strengthen_1") || (item == ".equipment_strengthen_2") || (item == ".equipment_strengthen_3")) {
-											return { 
-													val: function(){ return "10" } 
-												   }; 
-										}
-					
-									} 
+						if ((item == ".equipment_1") || (item == ".equipment_2") || (item == ".equipment_3")) {
+							return { 
+									html: function(){ 
+														return { 
+																click: function(){ return null },
+																off: function(){ return null }
+																};  
+													} 
+								   }; 
+						}
+
+						if ((item == ".equipment_strengthen_1") || (item == ".equipment_strengthen_2") || (item == ".equipment_strengthen_3")) {
+							return { 
+									val: function(){ return "10" } 
+								   }; 
+						}
+
+					} 
 			   };
     } else if (elementName == CONTROL_CONTAINER) {
         return { 
@@ -200,31 +209,6 @@ function _gridToUi(grid, elementName) {
 }
 
 
-
-
-function initThread(SEC) {
-	_SEC = SEC;
-	
-	updatePerformance = function(){};
-	updateSkillControlUI = function(){};
-	updateAuraUI = function(){};
-	updateEquipmentUI = function(){};
-	startTime = new Date();
-	
-
-	
-	console.log(name, startTime);
-	for (var i = 0; i < mCharData.length;i++) {
-
-		var isUseSkill = true;
-		if (mCharData[i].name == "競爭者") isUseSkill = false;
-		if (mCharData[i].name == "K2") isUseSkill = false;
-		
-		mCharData[i].isUseSkill = isUseSkill;
-		mGridToChar[7].isUseSkill = isUseSkill;
-	}
-
-}
 
 
 

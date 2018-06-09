@@ -290,6 +290,13 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 	w = new Array();
     if(typeof(Worker) !== "undefined") {
 		
+		
+		ARR1 = ARR1.slice();
+		ARR2 = ARR2.slice();
+		ARR3 = ARR3.slice();
+		ARR4 = ARR4.slice();
+		ARR5 = ARR5.slice();
+		
 		if (ARR1.length * ARR2.length < threadCount) {
 			console.log(ARR1.length , ARR2.length , threadCount);
 			threadCount = ARR1.length * ARR2.length;
@@ -328,9 +335,17 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					var nextJob = remainingList.pop();
 					if (nextJob != null) {
 						
-						if ((doneCount > (ARR1.length || ARR2.length)) && (RESULTLIST.length > 200)) {
-
+						var ARR2_LIST = ",";
+						//var ARR2_SKIP = (ARR1.length || ARR2.length)*1.5;
+						//if ((doneCount > (ARR1.length || ARR2.length)) && (RESULTLIST.length > 200)) {
+						var ARR2_SKIP = ARR2.length*1.5+1;
+						if ((doneCount > ARR2.length+1) && (RESULTLIST.length > 200)) {
 							//CLEAN UP ARR
+							if (doneCount > ARR2_SKIP) {
+								for (var x = 0; x < ARR2.length;x++) {
+									ARR2[x].used = 0;
+								}
+							}
 							for (var x = 0; x < ARR3.length;x++) {
 								ARR3[x].used = 0;
 							}
@@ -349,22 +364,29 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 								if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 200)) {
 									
 									//if (t < 200) {
-										for (var r = 2; r < RESULTLIST[t].charList.length;r++) {
+										for (var r = 1; r < RESULTLIST[t].charList.length;r++) {
 											//RESULTLIST[t].charList[r].used += Math.pow(10, r);
 											//console.log(">" + RESULTLIST[t].charList[r]);
+											if (doneCount > ARR2_SKIP) {
+												for (var x = 0; x < ARR2.length;x++) {
+													if (ARR2[x].id == RESULTLIST[t].charList[r]) {
+														ARR2[x].used += Math.pow(10, r-1);
+													}
+												}
+											}
 											for (var x = 0; x < ARR3.length;x++) {
 												if (ARR3[x].id == RESULTLIST[t].charList[r]) {
-													ARR3[x].used += Math.pow(10, r-2);
+													ARR3[x].used += Math.pow(10, r-1);
 												}
 											}
 											for (var x = 0; x < ARR4.length;x++) {
 												if (ARR4[x].id == RESULTLIST[t].charList[r]) {
-													ARR4[x].used += Math.pow(10, r-2);
+													ARR4[x].used += Math.pow(10, r-1);
 												}
 											}
 											for (var x = 0; x < ARR5.length;x++) {
 												if (ARR5[x].id == RESULTLIST[t].charList[r]) {
-													ARR5[x].used += Math.pow(10, r-2);
+													ARR5[x].used += Math.pow(10, r-1);
 												}
 											}
 										}
@@ -373,25 +395,41 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 									RESULTLIST.pop();
 								}
 							}
+							if (doneCount > ARR2_SKIP) {
+								ARR2.sort(function(a, b){return b.used-a.used});
+							}
 							ARR3.sort(function(a, b){return b.used-a.used});
 							ARR4.sort(function(a, b){return b.used-a.used});
 							ARR5.sort(function(a, b){return b.used-a.used});
 
 							
 							if ((RESULTLIST.length > 200) && (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
+								
+								
+								if (doneCount > ARR2_SKIP) {
+									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used == 0) {
+										console.log(2, ARR2[ARR2.length-1].name); 
+										ARR2.pop();
+									}
+								}
+								
 								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used == 0) {
-									console.log(ARR3[ARR3.length-1].name); 
+									console.log(3, ARR3[ARR3.length-1].name); 
 									ARR3.pop();
 								}
 								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used == 0) {
-									console.log(ARR4[ARR4.length-1].name); 
+									console.log(4, ARR4[ARR4.length-1].name); 
 									ARR4.pop();
 								}
 								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used == 0) {
-									console.log(ARR5[ARR5.length-1].name); 
+									console.log(5, ARR5[ARR5.length-1].name); 
 									ARR5.pop();
 								}
 							}
+							for (var x = 0; x < ARR2.length;x++) {
+								ARR2[x].used = 0;
+							}
+							
 							for (var x = 0; x < ARR3.length;x++) {
 								ARR3[x].used = 0;
 							}
@@ -403,12 +441,28 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							}
 
 						}
-
-						
-						w[event.data[1]].postMessage([
-							event.data[1],
-							LOC1,LOC2,LOC3,LOC4,LOC5,
-							nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+						if (doneCount > (ARR1.length || ARR2.length)*1.5) {
+							for (var x = 0; x < ARR2.length;x++) {
+								ARR2_LIST += ARR2[x].id + ",";
+							}
+							if (ARR2_LIST.indexOf(","+nextJob[1][0].id +",") != -1) {
+								w[event.data[1]].postMessage([
+									event.data[1],
+									LOC1,LOC2,LOC3,LOC4,LOC5,
+									nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+							} else {
+								//direct Done
+								w[event.data[1]].postMessage([
+									event.data[1],
+									LOC1,LOC2,LOC3,LOC4,LOC5,
+									nextJob[0],null,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+							}
+						} else {
+							w[event.data[1]].postMessage([
+								event.data[1],
+								LOC1,LOC2,LOC3,LOC4,LOC5,
+								nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+						}
 					} else {
 						threadDone[event.data[1]] = true;
 						
@@ -539,14 +593,11 @@ function findHGRF1() {
 	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	rfhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var rf1 = rf.slice();
-
-	
 	
 	
 	loopCore(
 		7,4,1,8,5,
-		rf1,
+		rf,
 		rfhg,
 		rf,
 		hg,
@@ -611,14 +662,11 @@ function findHGRF2() {
 	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	rfhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var rf1 = rf.slice();
-
-	
 	
 	
 	loopCore(
 		7,4,1,5,2,
-		rf1,
+		rf,
 		rfhg,
 		rf,
 		hg,
@@ -678,14 +726,12 @@ function findHGRF3() {
 	rf.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var hg1 = hg.slice();
 
-	
 	
 	
 	loopCore(
 		7,4,1,8,5,
-		hg1,
+		hg,
 		rf,
 		hg,
 		hg,
@@ -744,14 +790,11 @@ function findHGRF4() {
 	rf.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	hg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var hg1 = hg.slice();
-
-	
 	
 	
 	loopCore(
 		7,4,1,5,2,
-		hg1,
+		hg,
 		rf,
 		hg,
 		hg,
@@ -825,13 +868,11 @@ function findMGSG1() {
 	sg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	mghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var mg1 = mg.slice();
 
-	
 	
 	loopCore(
 		7,4,1,5,6,
-		mg1,
+		mg,
 		mghg,
 		mg,
 		hg,
@@ -906,12 +947,11 @@ function findSMGAR1() {
 	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
-	var ar1 = ar.slice();
-	
+
 	
 	loopCore(
 		7,4,1,8,5,
-		ar1,
+		ar,
 		arhg,
 		ar,
 		smghg,
@@ -991,12 +1031,11 @@ function findSMGAR2() {
 	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
-	var ar1 = ar.slice();
-	
+
 	
 	loopCore(
 		7,4,1,5,2,
-		ar1,
+		ar,
 		arhg,
 		ar,
 		smg,
@@ -1068,12 +1107,12 @@ function findSMGAR3() {
 	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
-	var ar1 = ar.slice();
+
 	
 	
 	loopCore(
 		7,4,1,8,5,
-		ar1,
+		ar,
 		arhg,
 		ar,
 		smg,
@@ -1153,12 +1192,11 @@ function findSMGAR4() {
 	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
-	var ar1 = ar.slice();
-	
+
 	
 	loopCore(
 		7,4,1,5,2,
-		ar1,
+		ar,
 		arhg,
 		ar,
 		smghg,
@@ -1233,12 +1271,10 @@ function findMGSG3() {
 	sg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	mghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var mg1 = mg.slice();
-	
 	
 	loopCore(
 		7,4,1,9,3,
-		mg1,
+		mg,
 		mghg,
 		mg,
 		sg,
@@ -1310,12 +1346,11 @@ function findMGSG4() {	initTable();
 	sg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	mghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var mg1 = mg.slice();
-	
+
 	
 	loopCore(
 		7,4,1,9,6,
-		mg1,
+		mg,
 		mghg,
 		mg,
 		sg,
@@ -1389,12 +1424,10 @@ function findMGSG5() {	initTable();
 	sg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 	mghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
 
-	var mg1 = mg.slice();
-	
-	
+
 	loopCore(
 		7,4,1,6,3,
-		mg1,
+		mg,
 		mghg,
 		mg,
 		sg,
