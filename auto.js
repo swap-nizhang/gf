@@ -69,8 +69,8 @@ $( document ).ready(function () {
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp; <br /><br />'+
 				'<img src="images/grid.png" />'+
 				'<br /><br /><br /><br />  &nbsp;' +
-				'<a href="https://github.com/chibimonxd/gf">Github</a><br /><br /> &nbsp;' +
-				'<a href="https://github.com/ynntk4815/gf">傷害計算核心來自ynntk4815陣型計算機</a><br /><br /> &nbsp;' +
+				'<a href="https://github.com/chibimonxd/gf">Original Auto Formation by chibimonxd</a><br /><br /> &nbsp;' +
+				'<a href="https://github.com/ynntk4815/gf">Original DPS/Formation sim by ynntk4815</a><br /><br /> &nbsp;' +
 				'</div>'
 			);
 			
