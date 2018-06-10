@@ -399,7 +399,7 @@ function loopCore(
 		for (var t = 0; t <  RESULTLIST.length;t++) {
 
 
-			if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 10)) {
+			if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 12)) {
 
 				/*for (var r = 3; r < RESULTLIST[t].charList.length;r++) {
 					RESULTLIST[t].charList[r].used += Math.pow(10, r-3);
@@ -423,7 +423,7 @@ function loopCore(
 		ARR4.sort(function(a, b){return b.used4-a.used4});
 		ARR5.sort(function(a, b){return b.used5-a.used5});
 
-		if ((RESULTLIST.length > 10)&& (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
+		if ((RESULTLIST.length > 10)&& (RESULTLIST[9].dps > highestDps *0.7)) {
 			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 < 0.0000001) {
 				//console.log("		4 "+ARR4[ARR4.length-1].name); 
 				ARR4.pop();

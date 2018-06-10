@@ -281,6 +281,7 @@ var percentArr = new Array();
 var remainingList = new Array();
 var totalJobCount = 0;
 var threadDone = new Array();
+var unlockGunRemoval = false;
 function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 				ARR1,
 				ARR2,
@@ -374,7 +375,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 
 							for (var t = 0; t <  RESULTLIST.length;t++) {
 
-								if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 200)) {
+								if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 202)) {
 									
 									//if (t < 200) {
 									//	for (var r = 1; r < RESULTLIST[t].charList.length;r++) {
@@ -416,8 +417,8 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							ARR5.sort(function(a, b){return b.used5-a.used5});
 
 							
-							if ((RESULTLIST.length > 200) && (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
-								
+							if (unlockGunRemoval || ((RESULTLIST.length > 200) && (RESULTLIST[199].dps > highestDps *0.7))) {
+								unlockGunRemoval = true;
 								
 								if (doneCount > ARR2_SKIP) {
 									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used2 == 0) {
@@ -441,7 +442,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							}
 			
 						}
-						if (doneCount > (ARR1.length || ARR2.length)*1.5) {
+						if (doneCount > ARR2_SKIP) {
 							for (var x = 0; x < ARR2.length;x++) {
 								ARR2_LIST += ARR2[x].id + ",";
 							}
@@ -513,9 +514,11 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					}
 					
 				} else {
+					
 					$("body > table").prepend(event.data[0]);
 					var obj = { dps: event.data[1] , team: event.data[2], charList: event.data[3] };
 					RESULTLIST[RESULTLIST.length] = obj;
+					
 				}
 			};
 		}
