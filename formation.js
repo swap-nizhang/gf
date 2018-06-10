@@ -1574,7 +1574,7 @@ function updatePerformance() {
 	var previousUrl = $("#code").val();
     var url = [location.protocol, '//', location.host, location.pathname].join('') + "?pre=" + JSON.stringify(preLoadCode) +
 			"&repeat=" + $(".skill_control:checked").map(function() { return this.value; }).get().join(',') +"," +
-			$(".friendship").map(function() { return $(this).attr("value"); }).get().join(',');
+			$(".friendship").map(function() { return $(this).attr("value"); }).get().join(',')+",elite,"+$('.battle_control .enemyEliteTarget').is(":checked")+",link,"+mDmgLinkMode;
 
     //20180602
 	if (previousUrl != url) {
