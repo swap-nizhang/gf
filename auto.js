@@ -98,7 +98,7 @@ function updateCheckBox(type,obj){
 				if ($(obj)[0].id == "chtypesmg") { $(".checkTypesmg").prop("checked",$(obj).prop("checked"));}
 				if ($(obj)[0].id == "chtypear") { $(".checkTypear").prop("checked",$(obj).prop("checked"));}
 				if ($(obj)[0].id == "chtypesg") { $(".checkTypesg").prop("checked",$(obj).prop("checked"));}
-				if ($(obj)[0].id == "chtypemg") { $(".checkTypsmg").prop("checked",$(obj).prop("checked"));}
+				if ($(obj)[0].id == "chtypemg") { $(".checkTypemg").prop("checked",$(obj).prop("checked"));}
 			} else {
 				for (var j =0; j < $(".chtype:checked").length;j++) {
 					$("."+ $(".chtype:checked:eq("+j+")").attr("son")).prop("checked",true);
