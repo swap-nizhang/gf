@@ -5276,7 +5276,7 @@
                 "format":[{"textIndex":0, "effectIndex":0, "attr":"time"}]},
             "effects":[
                 {"filter":"active", "type":"buff", "target":"self","attribute":"criRate", "value":{"1":500, "10":500}, "time":{"1":3, "10":6}},
-                {"filter":"attack", "buffFilter":"人偶板機", "type":"attack", "target":"enemy", "value":{"0":1}}
+                {"filter":"attack", "buffFilter":"鎖鏈衝擊", "type":"attack", "target":"enemy", "value":{"0":1}}
             ]},
         "aura":{
             "target":"all", "effect":{
