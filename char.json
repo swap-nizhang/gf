@@ -5183,15 +5183,14 @@
         "hit":{"1":"6", "100":"62"},
         "fireOfRate":{"1":"29", "100":"61"},
         "skill":{
-            "name":"",
-            "type":"",
-            "target":"",
+            "name":"再接再厲！(Beta)",
+            "type":"buff",
+            "target":"ally",
             "firstCooldownTime":"6",
             "cooldownTime":{"1":"15", "10": "12"},
             "effect":{
-			},
-            "effectNight":{
-			}},
+            "dmg":{"1":"9", "10":"18"},
+            "time":{"1":"6","10":"6"}}},
         "aura":{
             "target":"all", "effect":{
                 "fireOfRate":{"1":"15", "5":"30"}, "hit":{"1":"25", "5":"50"}},
