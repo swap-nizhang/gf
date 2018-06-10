@@ -12,7 +12,7 @@ var __gridToUi = null;
 $( document ).ready(function () {
 
 	//$(".endTime").val(8);
-	setTimeout(
+	doUntillInit(
 		function(){
 
 
@@ -77,14 +77,20 @@ $( document ).ready(function () {
 			//adapter
 			__gridToUi = gridToUi;
 			gridToUi = _gridToUi; 
-		},1000
+		}
 	);
 
 
 
 });
 
-
+function doUntillInit(func) {
+	if ((mCharData == null) || (mCharData.length == 0)) {
+		setTimeout(function() {doUntillInit(func);},100);
+	} else {
+		func();
+	}
+}
 
 function updateCheckBox(type,obj){
 	//$(\".checkType"+ typeArray[i] +"\").prop(\"checked\",$(this).prop(\"checked\"));
