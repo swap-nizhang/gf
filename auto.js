@@ -348,7 +348,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 		//create job list
 		for (var i = 0; i < ARR1.length; i++) {
 			for (var j = 0; j < ARR2.length; j++) {
-				if (j == 0) {
+				if (i == ARR1.length-1) {
 					firstRound += remainingList.length + ",";
 				}
 				remainingList[remainingList.length] = [[ARR1[i]], [ARR2[j]],remainingList.length];
@@ -356,11 +356,15 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 
 			}
 		}
-
+		
+		var firstCharId = null;
 		
 		for (var i = 0; i < threadCount; i++) {
 			
 			var nextJob = remainingList.pop();
+			if (firstCharId == null) {
+				firstCharId = nextJob[0][0].id;
+			}
 			w[i].postMessage([
 				i,
 				LOC1,LOC2,LOC3,LOC4,LOC5,
@@ -456,25 +460,38 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							ARR5.sort(function(a, b){return b.used5-a.used5});
 
 							
-							if (unlockGunRemoval || ((RESULTLIST.length > 200) && (RESULTLIST[199].dps > highestDps *0.7))) {
-								unlockGunRemoval = true;
+							var sumP = 0;
+							for (var g = 0; g < percentArr.length;g++) {
+								sumP += percentArr[g]/percentArr.length;
+							}
+							if (
+								(
+									unlockGunRemoval || 
+									((RESULTLIST.length > 200) && (RESULTLIST[199].dps > highestDps *0.7))
+								)  && (firstRound == ",")
+							) {
+								if (!unlockGunRemoval) {
+									unlockGunRemoval = true;
+									console.log("unlocked");
+								}
+
 								
 								if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
-									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used2 == 0) {
+									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used2 == 0 && ARR2[ARR2.length-1].id != firstCharId) {
 										console.log(2, ARR2[ARR2.length-1].name); 
 										ARR2.pop();
 									}
 								}
 								
-								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used3 == 0) {
+								while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used3 == 0 && ARR3[ARR3.length-1].id != firstCharId) {
 									console.log(3, ARR3[ARR3.length-1].name); 
 									ARR3.pop();
 								}
-								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 == 0) {
+								while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 == 0 && ARR4[ARR4.length-1].id != firstCharId) {
 									console.log(4, ARR4[ARR4.length-1].name); 
 									ARR4.pop();
 								}
-								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used5 == 0) {
+								while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used5 == 0 && ARR4[ARR4.length-1].id != firstCharId) {
 									console.log(5, ARR5[ARR5.length-1].name); 
 									ARR5.pop();
 								}
