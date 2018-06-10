@@ -979,13 +979,13 @@ function findSMGAR1() {
 		mCharData[i].used3 = 0;
 		mCharData[i].used4 = 0;
 		mCharData[i].used5 = 0;
-		if (mCharData[i].type == "ar") {
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
 			ar[ar.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if (((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
 		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
@@ -1066,13 +1066,13 @@ function findSMGAR2() {
 		mCharData[i].used3 = 0;
 		mCharData[i].used4 = 0;
 		mCharData[i].used5 = 0;
-		if (mCharData[i].type == "ar") {
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
 			ar[ar.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if (((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
 		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
@@ -1145,13 +1145,13 @@ function findSMGAR3() {
 		mCharData[i].used3 = 0;
 		mCharData[i].used4 = 0;
 		mCharData[i].used5 = 0;
-		if (mCharData[i].type == "ar") {
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
 			ar[ar.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if (((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
 		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
@@ -1233,13 +1233,13 @@ function findSMGAR4() {
 		mCharData[i].used3 = 0;
 		mCharData[i].used4 = 0;
 		mCharData[i].used5 = 0;
-		if (mCharData[i].type == "ar") {
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
 			ar[ar.length] = mCharData[i];
 		}
 		if (mCharData[i].type == "smg") {
 			smg[smg.length] = mCharData[i];
 		}
-		if ((mCharData[i].type == "ar") || (mCharData[i].type == "hg")) {
+		if (((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) || (mCharData[i].type == "hg")) {
 			arhg[arhg.length] = mCharData[i];
 		}
 		if ((mCharData[i].type == "smg") || (mCharData[i].type == "hg")) {
