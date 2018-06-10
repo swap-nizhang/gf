@@ -393,13 +393,6 @@ function loopCore(
 		I4 = 0; I3++; I3Changed = true; 
 	
 		//CLEAN UP ARR
-		for (var i = 0; i < ARR4.length;i++) {
-			ARR4[i].checked = 0;
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			ARR5[i].checked = 0;
-		}
-
 		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
 
 
@@ -408,8 +401,18 @@ function loopCore(
 
 			if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 10)) {
 
-				for (var r = 3; r < RESULTLIST[t].charList.length;r++) {
+				/*for (var r = 3; r < RESULTLIST[t].charList.length;r++) {
 					RESULTLIST[t].charList[r].used += Math.pow(10, r-3);
+				}*/
+				for (var x = 0; x < ARR4.length;x++) {
+					if (ARR4[x].id == RESULTLIST[t].charList[3].id) {
+						ARR4[x].used4++;
+					}
+				}
+				for (var x = 0; x < ARR5.length;x++) {
+					if (ARR5[x].id == RESULTLIST[t].charList[4].id) {
+						ARR5[x].used5++;
+					}
 				}
 			
 			} else {
@@ -417,32 +420,27 @@ function loopCore(
 			}
 		}
 
-		ARR4.sort(function(a, b){return b.used-a.used});
-		ARR5.sort(function(a, b){return b.used-a.used});
+		ARR4.sort(function(a, b){return b.used4-a.used4});
+		ARR5.sort(function(a, b){return b.used5-a.used5});
 
-
-		for (var i = 0; i < ARR4.length;i++) {
-			if (ARR4[i].checked == 0) {
-				ARR4[i].used /= 10000.0;
-				ARR4[i].checked = 1;
+		if ((RESULTLIST.length > 10)&& (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
+			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 < 0.0000001) {
+				//console.log("		4 "+ARR4[ARR4.length-1].name); 
+				ARR4.pop();
 			}
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			if (ARR5[i].checked == 0) {
-				ARR5[i].used /= 10000.0;
-				ARR5[i].checked = 1;
+			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used5 < 0.0000001) {
+				//console.log("		5 "+ARR5[ARR5.length-1].name); 
+				ARR5.pop();
 			}
 		}
 		
-		if ((RESULTLIST.length > 10)&& (RESULTLIST[RESULTLIST.length-1].dps > highestDps *buffer)) {
-			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-				//console.log(">"+ARR4[ARR4.length-1].name); 
-				ARR4.pop();
-			}
-			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-				//console.log(">"+ARR5[ARR5.length-1].name); 
-				ARR5.pop();
-			}
+		for (var i = 0; i < ARR4.length;i++) {
+			ARR4[i].used4 /= 1000;
+
+		}
+		for (var i = 0; i < ARR5.length;i++) {
+			ARR5[i].used5 /= 1000;
+
 		}
 		
 	}

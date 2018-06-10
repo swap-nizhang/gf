@@ -577,7 +577,10 @@ function findHGRF1() {
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
@@ -646,7 +649,10 @@ function findHGRF2() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
@@ -713,7 +719,10 @@ function findHGRF3() {
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
@@ -777,7 +786,10 @@ function findHGRF4() {
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
@@ -846,7 +858,10 @@ function findMGSG1() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if ((mCharData[i].type == "hg") || (mCharData[i].name == "AUG")) {
 			hg[hg.length] = mCharData[i];
 		}
@@ -927,7 +942,10 @@ function findSMGAR1() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "ar") {
 			ar[ar.length] = mCharData[i];
 		}
@@ -1011,7 +1029,10 @@ function findSMGAR2() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "ar") {
 			ar[ar.length] = mCharData[i];
 		}
@@ -1087,7 +1108,10 @@ function findSMGAR3() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "ar") {
 			ar[ar.length] = mCharData[i];
 		}
@@ -1172,7 +1196,10 @@ function findSMGAR4() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "ar") {
 			ar[ar.length] = mCharData[i];
 		}
@@ -1252,7 +1279,10 @@ function findMGSG3() {
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "mg") {
 			mg[mg.length] = mCharData[i];
 		}
@@ -1327,7 +1357,10 @@ function findMGSG4() {	initTable();
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "mg") {
 			mg[mg.length] = mCharData[i];
 		}
@@ -1405,7 +1438,10 @@ function findMGSG5() {	initTable();
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
 
-		mCharData[i].used = 0;
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
 		if (mCharData[i].type == "mg") {
 			mg[mg.length] = mCharData[i];
 		}
