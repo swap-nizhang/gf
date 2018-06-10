@@ -312,11 +312,16 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 			threadDone[i] = false;
 		}
 		
+		var firstRound = ",";
 		//create job list
 		for (var i = 0; i < ARR1.length; i++) {
 			for (var j = 0; j < ARR2.length; j++) {
+				if (j == 0) {
+					firstRound += remainingList.length + ",";
+				}
 				remainingList[remainingList.length] = [[ARR1[i]], [ARR2[j]],remainingList.length];
 				percentArr[percentArr.length] = 0;
+
 			}
 		}
 
@@ -333,7 +338,9 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 					doneCount++;
 					console.log(event.data[1],event.data[2],percentArr.length, "done");
 					percentArr[event.data[2]] = 1;
-					
+					if (firstRound.length > 1) {
+						firstRound = firstRound.replace(","+event.data[2]+",",",");
+					}
 					var nextJob = remainingList.pop();
 					if (nextJob != null) {
 						
@@ -343,7 +350,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 						var ARR2_SKIP = ARR2.length*1.5+1;
 						if ((doneCount > ARR2.length+1) && (RESULTLIST.length > 200)) {
 							//CLEAN UP ARR
-							if (doneCount > ARR2_SKIP) {
+							if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
 								for (var x = 0; x < ARR2.length;x++) {
 									ARR2[x].used2 = 0;
 									ARR2[x].used3 = 0;
@@ -381,7 +388,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 									//	for (var r = 1; r < RESULTLIST[t].charList.length;r++) {
 											//RESULTLIST[t].charList[r].used += Math.pow(10, r);
 											//console.log(">" + RESULTLIST[t].charList[r]);
-											if (doneCount > ARR2_SKIP) {
+											if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
 												for (var x = 0; x < ARR2.length;x++) {
 													if (ARR2[x].id == RESULTLIST[t].charList[1]) {
 														ARR2[x].used2++;
@@ -409,7 +416,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 									RESULTLIST.pop();
 								}
 							}
-							if (doneCount > ARR2_SKIP) {
+							if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
 								ARR2.sort(function(a, b){return b.used2-a.used2});
 							}
 							ARR3.sort(function(a, b){return b.used3-a.used3});
@@ -420,7 +427,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							if (unlockGunRemoval || ((RESULTLIST.length > 200) && (RESULTLIST[199].dps > highestDps *0.7))) {
 								unlockGunRemoval = true;
 								
-								if (doneCount > ARR2_SKIP) {
+								if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
 									while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used2 == 0) {
 										console.log(2, ARR2[ARR2.length-1].name); 
 										ARR2.pop();
@@ -442,7 +449,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							}
 			
 						}
-						if (doneCount > ARR2_SKIP) {
+						if ((doneCount > ARR2_SKIP) && (firstRound == ",")) {
 							for (var x = 0; x < ARR2.length;x++) {
 								ARR2_LIST += ARR2[x].id + ",";
 							}
