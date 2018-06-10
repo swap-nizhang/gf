@@ -6,7 +6,8 @@ var threadId;
 var _SEC = 8; //<------second
 var buffer = 0.9;
 var startTime;
-
+var started = false;
+var jobId = 0;
 var $ = function(input) {
 		
 		if (input == ".battle_control .enemyDodge") {
@@ -66,11 +67,30 @@ onmessage = function(e) {
 		return;
 	}
 	
-	name = "Thread" + recieved[0];
-	threadId = recieved[0];
-    importScripts("lib/random.min.js");
-    importScripts("formation.js");
+	if (!started) {
+		name = "Thread" + recieved[0];
+		threadId = recieved[0];
+		importScripts("lib/random.min.js");
+		importScripts("formation.js");
+		
+		mGridOrder.push(["7", "8", "9"]);
+		mGridOrder.push(["4", "5", "6"]);
+		mGridOrder.push(["1", "2", "3"]);
+		for (var i in mGridOrder) {
+			for (var j in mGridOrder[i]) {
+				var order = mGridOrder[i][j];
+				mGridToUI[order] = "grid_container_" + order;
+				mGridToChar[order] = "";
+			}
+		}
+
+		gridToUi = _gridToUi;
+		
+		started = true;
+	}
 	
+	RESULTLIST = new Array();
+	charList = new Array();
 	
 	mCharData = recieved[11];
 	mAttackFrameData = recieved[12];
@@ -81,18 +101,15 @@ onmessage = function(e) {
 	
 	_SEC = recieved[17];
 	
-    mGridOrder.push(["7", "8", "9"]);
-    mGridOrder.push(["4", "5", "6"]);
-    mGridOrder.push(["1", "2", "3"]);
-    for (var i in mGridOrder) {
-        for (var j in mGridOrder[i]) {
-            var order = mGridOrder[i][j];
-            mGridToUI[order] = "grid_container_" + order;
-            mGridToChar[order] = "";
-        }
-    }
+	jobId = recieved[18];
+	
+	if ((recieved[7] == null) || (recieved[6][0].id == recieved[7][0].id)) {
+		//DONE
+		postMessage(["done",threadId,jobId]);	
+		return;
+	}
+	
 
-	gridToUi = _gridToUi;
 	loopCore(
 				recieved[1], //LOC1,
 				recieved[2], //LOC2,
@@ -128,24 +145,24 @@ function _gridToUi(grid, elementName) {
     } else if (elementName == EQUIPMENT_CONTAINER) {
         return { 
 				find: function(item){
-										if ((item == ".equipment_1") || (item == ".equipment_2") || (item == ".equipment_3")) {
-											return { 
-													html: function(){ 
-																		return { 
-																				click: function(){ return null },
-																				off: function(){ return null }
-																				};  
-																	} 
-												   }; 
-										}
-					
-										if ((item == ".equipment_strengthen_1") || (item == ".equipment_strengthen_2") || (item == ".equipment_strengthen_3")) {
-											return { 
-													val: function(){ return "10" } 
-												   }; 
-										}
-					
-									} 
+						if ((item == ".equipment_1") || (item == ".equipment_2") || (item == ".equipment_3")) {
+							return { 
+									html: function(){ 
+														return { 
+																click: function(){ return null },
+																off: function(){ return null }
+																};  
+													} 
+								   }; 
+						}
+
+						if ((item == ".equipment_strengthen_1") || (item == ".equipment_strengthen_2") || (item == ".equipment_strengthen_3")) {
+							return { 
+									val: function(){ return "10" } 
+								   }; 
+						}
+
+					} 
 			   };
     } else if (elementName == CONTROL_CONTAINER) {
         return { 
@@ -192,31 +209,6 @@ function _gridToUi(grid, elementName) {
 }
 
 
-
-
-function initThread(SEC) {
-	_SEC = SEC;
-	
-	updatePerformance = function(){};
-	updateSkillControlUI = function(){};
-	updateAuraUI = function(){};
-	updateEquipmentUI = function(){};
-	startTime = new Date();
-	
-
-	
-	console.log(name, startTime);
-	for (var i = 0; i < mCharData.length;i++) {
-
-		var isUseSkill = true;
-		if (mCharData[i].name == "競爭者") isUseSkill = false;
-		if (mCharData[i].name == "K2") isUseSkill = false;
-		
-		mCharData[i].isUseSkill = isUseSkill;
-		mGridToChar[7].isUseSkill = isUseSkill;
-	}
-
-}
 
 
 
@@ -326,7 +318,7 @@ function insertResult(dps, team, charList) {
 		preLoadCode["fairy"] = fairy;
 	
 		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣型</a>";
-		var obj = { dps: dps , team: team , char:charList};
+		var obj = { dps: dps , team: team , charList:charList};
 
 
 		RESULTLIST[RESULTLIST.length] = obj;
@@ -343,7 +335,7 @@ function insertResult(dps, team, charList) {
 						"<th>"+obj.team+"</th>"+
 					"</tr>";
 		//$$("body > table").prepend(resultHtml);
-		postMessage([resultHtml, obj.dps, obj.team]);
+		postMessage([resultHtml, obj.dps, obj.team, [charList[0].id, charList[1].id, charList[2].id, charList[3].id, charList[4].id]]);
 
 	}
 }
@@ -397,149 +389,79 @@ function loopCore(
 	var toBreak = false;
 
 	if (I5 == ARR5.length) { I5 = 0; I4++; I4Changed = true; }
-	if (I4 == ARR4.length) { I4 = 0; I3++; I3Changed = true; }
-	if (I3 == ARR3.length) { I3 = 0; I2++; I2Changed = true; }
-	if (I2 == ARR2.length) { 
-		I2 = 0; I1++; I1Changed = true; 
-		console.log("Round", I1); 
-		
-			
-
+	if (I4 == ARR4.length) { 
+		I4 = 0; I3++; I3Changed = true; 
+	
 		//CLEAN UP ARR
-		for (var i = 0; i < ARR2.length;i++) {
-			ARR2[i].checked = 0;
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			ARR3[i].checked = 0;
-		}
-		for (var i = 0; i < ARR4.length;i++) {
-			ARR4[i].checked = 0;
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			ARR5[i].checked = 0;
-		}
-
 		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
 
 
 		for (var t = 0; t <  RESULTLIST.length;t++) {
 
-			if (RESULTLIST[t].dps > highestDps *buffer) {
-				
-				if (t < 200) {
-					for (var r = 0; r < RESULTLIST[t].char.length;r++) {
-						RESULTLIST[t].char[r].used += Math.pow(10, r);
+
+			if ((RESULTLIST[t].dps > highestDps *buffer) || (RESULTLIST.length < 12)) {
+
+				/*for (var r = 3; r < RESULTLIST[t].charList.length;r++) {
+					RESULTLIST[t].charList[r].used += Math.pow(10, r-3);
+				}*/
+				for (var x = 0; x < ARR4.length;x++) {
+					if (ARR4[x].id == RESULTLIST[t].charList[3].id) {
+						ARR4[x].used4++;
 					}
-				} 
+				}
+				for (var x = 0; x < ARR5.length;x++) {
+					if (ARR5[x].id == RESULTLIST[t].charList[4].id) {
+						ARR5[x].used5++;
+					}
+				}
+			
 			} else {
 				RESULTLIST.pop();
 			}
 		}
 
-		ARR2.sort(function(a, b){return b.used-a.used});
-		ARR3.sort(function(a, b){return b.used-a.used});
-		ARR4.sort(function(a, b){return b.used-a.used});
-		ARR5.sort(function(a, b){return b.used-a.used});
+		ARR4.sort(function(a, b){return b.used4-a.used4});
+		ARR5.sort(function(a, b){return b.used5-a.used5});
 
-
-		for (var i = 0; i < ARR2.length;i++) {
-			if (ARR2[i].checked == 0) {
-				ARR2[i].used /= 10000.0;
-				ARR2[i].checked = 1;
+		if ((RESULTLIST.length > 10)&& (RESULTLIST[9].dps > highestDps *0.7)) {
+			while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used4 < 0.0000001) {
+				//console.log("		4 "+ARR4[ARR4.length-1].name); 
+				ARR4.pop();
 			}
-		}
-		for (var i = 0; i < ARR3.length;i++) {
-			if (ARR3[i].checked == 0) {
-				ARR3[i].used /= 10000.0;
-				ARR3[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR4.length;i++) {
-			if (ARR4[i].checked == 0) {
-				ARR4[i].used /= 10000.0;
-				ARR4[i].checked = 1;
-			}
-		}
-		for (var i = 0; i < ARR5.length;i++) {
-			if (ARR5[i].checked == 0) {
-				ARR5[i].used /= 10000.0;
-				ARR5[i].checked = 1;
+			while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used5 < 0.0000001) {
+				//console.log("		5 "+ARR5[ARR5.length-1].name); 
+				ARR5.pop();
 			}
 		}
 		
-		while (ARR2.length-1 > 0 && ARR2[ARR2.length-1].used < 0.00000001) {
-			ARR2.pop();
-		}
-		while (ARR3.length-1 > 0 && ARR3[ARR3.length-1].used < 0.00000001) {
-			ARR3.pop();
-		}
-		while (ARR4.length-1 > 0 && ARR4[ARR4.length-1].used < 0.00000001) {
-			ARR4.pop();
-		}
-		while (ARR5.length-1 > 0 && ARR5[ARR5.length-1].used < 0.00000001) {
-			ARR5.pop();
-		}
+		for (var i = 0; i < ARR4.length;i++) {
+			ARR4[i].used4 /= 1000;
 
+		}
+		for (var i = 0; i < ARR5.length;i++) {
+			ARR5[i].used5 /= 1000;
 
-
+		}
 		
 	}
 	
 	if (I4Changed) {
-		/*$$("#percentDiv").text(
-			parseInt((I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length) *10000) / 100 +"%"
-		);*/
-		
 		postMessage(["percent", threadId, (I1 *ARR2.length*ARR3.length*ARR4.length*ARR5.length + I2 *ARR3.length*ARR4.length*ARR5.length + I3 *ARR4.length*ARR5.length + I4 * ARR5.length + I5) / 
-			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length), highestDps]);
+			(ARR1.length * ARR2.length * ARR3.length * ARR4.length * ARR5.length), highestDps,jobId]);
 	}
-	if (I1 == ARR1.length) { 
+	
+	if ((I3 >= ARR3.length) || (I2 >= ARR2.length) || (I1 >= ARR1.length)) {
+
+		//console.log(I1,I2,I3,I4,I5);
+		I3 = 0;
 		//DONE
-		postMessage(["done"]);
+		postMessage(["done",threadId,jobId]);
 				
-				
-		RESULTLIST.sort(function(a, b){return b.dps-a.dps});
-		console.log(name, RESULTLIST);
-
-		for (var j = 0; j < RESULTLIST.length; j++) {
-			if (RESULTLIST[j].dps > highestDps* buffer) {
-				for (var y =0; y < RESULTLIST[j].char.length;y++) {
-					if (charList.indexOf(RESULTLIST[j].char[y]) === -1){
-						charList[charList.length] = RESULTLIST[j].char[y];
-						////charCount++;;
-						}
-				}
-			}
-		}
-
-		for (var y =0; y <ARR2.length;y++) {
-			if (charList.indexOf(ARR2[y]) === -1){
-				charList[charList.length] = ARR2[y];
-				}
-		}
-		for (var y =0; y <ARR3.length;y++) {
-			if (charList.indexOf(ARR3[y]) === -1){
-				charList[charList.length] = ARR3[y];
-				}
-		}
-		for (var y =0; y <ARR4.length;y++) {
-			if (charList.indexOf(ARR4[y]) === -1){
-				charList[charList.length] = ARR4[y];
-				}
-		}
-		for (var y =0; y <ARR5.length;y++) {
-			if (charList.indexOf(ARR5[y]) === -1){
-				charList[charList.length] = ARR5[y];
-				}
-		}
-		charList.sort(function(b,a){return (b.rarity == "extra"?6:b.rarity) - (a.rarity == "extra"?6:a.rarity)});
-		console.log(name, charList);
-		
-		
 		returnFunction();
-	}
-	else {
+		return;
+
+	} else { 
+
 		
 
 		if (I1Changed) { addChar2(LOC1,ARR1[I1].id); }
