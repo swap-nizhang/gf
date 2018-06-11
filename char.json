@@ -4426,8 +4426,7 @@
 		"mod2Skill":{
             "name":"蒼白收割者",
             "detailText":{
-                "0":"普通攻擊擊殺敵人後提升自身傷害{2}%,持續{1}秒<br>技能擊殺敵人後提升自身射速{0}%",
-                "format":[{"textIndex":0, "effectIndex":0, "attr":"value"}, {"textIndex":1, "effectIndex":0, "attr":"time"}, {"textIndex":1, "effectIndex":2, "attr":"time"}]},
+                "val":"普通攻擊擊殺敵人後提升自身傷害{2}%,持續{1}秒<br>技能擊殺敵人後提升自身射速{0}%"},
             "effects":[
                 {"filter":"active", "type":"buff", "target":"self","attribute":"fireOfRate", "value":{"1":15, "10":30}, "time":{"1":3, "10":3}},
 				{"filter":"active", "type":"buff", "target":"self","attribute":"dmg", "value":{"1":0, "10":0}, "time":{"1":3, "10":3}}
