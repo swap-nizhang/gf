@@ -5239,6 +5239,7 @@
         "hit":{"1":7, "100":57},
         "dodge":{"1":7, "100":46},
         "fireOfRate":{"1":50, "100":75},
+        "criRate":30,
         "skill":{
             "name":"葬儀之雨",
             "firstCooldownTime":4,
