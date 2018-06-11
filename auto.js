@@ -67,6 +67,8 @@ $( document ).ready(function () {
 				'<a href="#" onclick="document.title = \'MG/SG/HG |:陣\';findMGSG3()">MG/SG/HG |:陣</a> &nbsp; ' +
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74196\';findMGSG4()">MG/SG/HG 74196</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp; <br /><br />'+
+				'<a href="#" onclick="document.title = \'5AR F陣\';findAR1()">5AR F陣</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'5AR b陣\';findAR2()">5AR b陣</a> &nbsp; <br /><br />'+
 				'<img src="images/grid.png" />'+
 				'<br /><br /><br /><br />  &nbsp;' +
 				'<a href="https://github.com/chibimonxd/gf">Github</a><br /><br /> &nbsp;' +
@@ -1509,4 +1511,140 @@ function findMGSG5() {	initTable();
 }
 
 	
+
+function findAR1() {
+
+	initTable();
+
+
+	
+
+	// 7 8 9
+	// 4 5 6
+	// 1 2 3
+
+	RESULTLIST = new Array();
+	var hg = new Array();
+	var rf = new Array();
+	var smg = new Array();
+	var ar = new Array();
+	var mg = new Array();
+	var sg = new Array();
+
+	var smghg = new Array();
+	var arhg = new Array();
+
+
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
+	for (var i = 0; i < mCharData.length;i++) {
+
+		if (mCharData[i].version == "cn") continue;
+	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
+
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
+			ar[ar.length] = mCharData[i];
+		}
+	}
+
+
+	ar.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+
+	
+	loopCore(
+		7,4,1,8,5,
+		ar,
+		ar,
+		ar,
+		ar,
+		ar
+	);
+		
+	
+
+
+}
+
+
+	
+
+function findAR2() {
+
+	initTable();
+
+
+	
+
+	// 7 8 9
+	// 4 5 6
+	// 1 2 3
+
+	RESULTLIST = new Array();
+	var hg = new Array();
+	var rf = new Array();
+	var smg = new Array();
+	var ar = new Array();
+	var mg = new Array();
+	var sg = new Array();
+
+	var smghg = new Array();
+	var arhg = new Array();
+
+
+	var combineStr =",";
+	for (var d = 0; d < $(".checkB:checked").length; d++) {
+		combineStr += $(".checkB:checked:eq("+d+")").val() + ",";
+	}
+
+
+	for (var i = 0; i < mCharData.length;i++) {
+
+		if (mCharData[i].version == "cn") continue;
+	
+		//if (mCharData[i].rarity != 5) continue;
+		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
+
+		mCharData[i].used2 = 0;
+		mCharData[i].used3 = 0;
+		mCharData[i].used4 = 0;
+		mCharData[i].used5 = 0;
+		if ((mCharData[i].type == "ar") || (mCharData[i].name == "UMP40")) {
+			ar[ar.length] = mCharData[i];
+		}
+	}
+
+
+	ar.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	smg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	arhg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+	smghg.sort(function(a, b){return b.dmgSkill-a.dmgSkill});
+
+	
+	loopCore(
+		7,4,1,5,2,
+		ar,
+		ar,
+		ar,
+		ar,
+		ar
+	);
+		
+	
+
+
+}
+
 
