@@ -51,7 +51,7 @@ $( document ).ready(function () {
 
 			$("body").prepend(
 				'<div id="secDiv">'+
-				'<h1>自動陣型配對機</h1>'+
+				'<h1>自動陣型配對機</h1><a href="https://github.com/chibimonxd/gf/releases/tag/0.1">查看使用方法</a><br /><br />'+
 				'輸出秒數: <input id="sec" value="'+_SEC +'"/></div>'+
 				charTable +
 				'<div id="selDiv"><br />'+
