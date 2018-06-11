@@ -1688,6 +1688,10 @@ function setEquipment(grid) {
 	if (charObj.name == "莫辛-納甘") {
 		charObj.equipment[3] = 86;
 	}
+	if (charObj.name == "莫辛-納甘" && charObj.mod) {
+		charObj.equipment[3] = 86;
+		charObj.equipment[2] = 111;
+	}
 	if (charObj.name == "PTRD") {
 		charObj.equipment[3] = 108;
 	}
