@@ -4,6 +4,13 @@ var name = "";
 var threadId;
 
 var _SEC = 8; //<------second
+
+var _nightBattle = false;
+var _bossMode = true;
+var _armorEnemy = false;
+var _dodgeEnemy = false;
+
+
 var buffer = 0.9;
 var startTime;
 var started = false;
@@ -12,11 +19,11 @@ var $ = function(input) {
 		
 		if (input == ".battle_control .enemyDodge") {
 			return { 
-					val: function(){ return "10"; } 
+					val: function(){ return (_dodgeEnemy?"81":"10"); } 
 				   }; 
 		} else if (input == ".battle_control .enemyArmor") {
 			return { 
-					val: function(){ return "0"; } 
+					val: function(){ return (_armorEnemy?"100":"0"); } 
 				   }; 
 		} else if (input == ".battle_control .enemyCount") {
 			return { 
@@ -32,11 +39,11 @@ var $ = function(input) {
 				   }; 
 		} else if (input == '.battle_control .battleisNight') {
 			return { 
-					is: function(){ return false; } 
+					is: function(){ return _nightBattle; } 
 				   }; 
 		} else if (input == '.battle_control .enemyEliteTarget') {
 			return { 
-					is: function(){ return true; } 
+					is: function(){ return _bossMode; } 
 				   }; 
 		} else {
 			if (input != "") {
@@ -84,9 +91,17 @@ onmessage = function(e) {
 			}
 		}
 
+		
+		_nightBattle = recieved[19];
+		_bossMode = recieved[20];
+		_armorEnemy  = recieved[21];
+		_dodgeEnemy  = recieved[22];
+		
 		gridToUi = _gridToUi;
 		
+	
 		started = true;
+		
 	}
 	
 	RESULTLIST = new Array();
@@ -317,7 +332,7 @@ function insertResult(dps, team, charList) {
 		preLoadCode["char"] = formation;
 		preLoadCode["fairy"] = fairy;
 	
-		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顥示陣型</a>";
+		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顯示陣型</a>";
 		var obj = { dps: dps , team: team , charList:charList};
 
 

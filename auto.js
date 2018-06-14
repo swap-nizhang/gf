@@ -5,8 +5,10 @@
 var _SEC = 8; //<------second
 var buffer = 0.9;
 
-
-
+var _nightBattle = false;
+var _bossMode = true;
+var _armorEnemy  = false;
+var _dodgeEnemy = false;
 var __gridToUi = null;
 
 $( document ).ready(function () {
@@ -52,7 +54,12 @@ $( document ).ready(function () {
 			$("body").prepend(
 				'<div id="secDiv">'+
 				'<h1>Auto Formation Generator</h1>'+
-				'Calculate for n seconds: <input id="sec" value="'+_SEC +'"/></div>'+
+				'Calculate for n seconds: <input id="sec" value="'+_SEC +'"/> &nbsp; &nbsp; '+
+				'Night Battle: <input id="nightBattle" type="checkbox" /> &nbsp; &nbsp; '+
+				'Boss Mode: <input id="bossMode" type="checkbox" /> &nbsp; &nbsp; '+
+				'Armored Enemy: <input id="armorEnemy" type="checkbox" /> &nbsp; &nbsp; '+
+				'High EVA Enemy: <input id="dodgeEnemy" type="checkbox" /> &nbsp; &nbsp; '+
+				'</div>'+
 				charTable +
 				'<div id="selDiv"><br />'+
 				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF F陣</a> &nbsp; '+
@@ -229,15 +236,28 @@ function _gridToUi(grid, elementName) {
 
 function initTable() {
 	_SEC = $("#sec").val();
+	
+	_nightBattle = $("#nightBattle").prop("checked");
+	_bossMode = $("#bossMode").prop("checked");
+	_armorEnemy  = $("#armorEnemy").prop("checked");
+	_dodgeEnemy  = $("#dodgeEnemy").prop("checked");	
+	
 	$("body > a").remove();
 	$("body > div > table").css("display","none");
 	$("#secDiv").css("display","none");
 	$("#selDiv").css("display","none");
 	$("body").prepend('<div id="percentDiv"></div>');
+	
+	
+	var btoptions = (_nightBattle?', Night Battle':'')+
+					(_bossMode?', Boss Mode':'')+
+					(_armorEnemy?', Armored Enemy':'')+
+					(_dodgeEnemy?', High EVA Enemy':'');
+	
 	var resultHtml = "<table border='1' width='100%'>"+
 			"<tr>"+
-				"<th>"+_SEC + "DPS"+"</th>"+
-				"<th>隊伍編成(全技能,好感100)</th>"+
+				"<th>"+"Damage over "+_SEC+"s"+"</th>"+
+				"<th>Echelon(max Skill and Affection"+btoptions+")</th>"+
 			"</tr>";
 	resultHtml += "</table>";
 
@@ -254,7 +274,10 @@ function initTable() {
 	for (var i = 0; i < mCharData.length;i++) {
 
 		var isUseSkill = true;
-		if (mCharData[i].name == "競爭者") isUseSkill = false;
+		
+		if (!_bossMode) {
+			if (mCharData[i].name == "競爭者") isUseSkill = false;
+		}
 		//if (mCharData[i].name == "K2") isUseSkill = false;
 		
 		mCharData[i].isUseSkill = isUseSkill;
@@ -341,7 +364,7 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 			w[i].postMessage([
 				i,
 				LOC1,LOC2,LOC3,LOC4,LOC5,
-				nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+				nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2],_nightBattle,_bossMode,_armorEnemy,_dodgeEnemy]);
 			w[i].onmessage = function(event) {
 				if (event.data[0] == "done") {
 					doneCount++;
@@ -466,19 +489,19 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 								w[event.data[1]].postMessage([
 									event.data[1],
 									LOC1,LOC2,LOC3,LOC4,LOC5,
-									nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+									nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2],_nightBattle,_bossMode,_armorEnemy,_dodgeEnemy]);
 							} else {
 								//direct Done
 								w[event.data[1]].postMessage([
 									event.data[1],
 									LOC1,LOC2,LOC3,LOC4,LOC5,
-									nextJob[0],null,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+									nextJob[0],null,ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2],_nightBattle,_bossMode,_armorEnemy,_dodgeEnemy]);
 							}
 						} else {
 							w[event.data[1]].postMessage([
 								event.data[1],
 								LOC1,LOC2,LOC3,LOC4,LOC5,
-								nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2]]);
+								nextJob[0],nextJob[1],ARR3,ARR4,ARR5,mCharData,mAttackFrameData,mEquipmentData,mStringData,mUpdate,mFairyData,_SEC,nextJob[2],_nightBattle,_bossMode,_armorEnemy,_dodgeEnemy]);
 						}
 					} else {
 						threadDone[event.data[1]] = true;
@@ -492,10 +515,16 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 							console.log(RESULTLIST);
 
 							getDateDiff(new Date(), startTime);
+							
+							var btoptions = (_nightBattle?', Night Battle':'')+
+											(_bossMode?', Boss Mode':'')+
+											(_armorEnemy?', Armored Enemy':'')+
+											(_dodgeEnemy?', High EVA Enemy':'');
+							
 							var resultHtml = "<table border='1' width='100%'>"+
 									"<tr>"+
-										"<th>"+_SEC + "秒傷害"+"</th>"+
-										"<th>Formation(All Skills, 100 Affection)</th>"+
+										"<th>"+"Damage over "+_SEC+"s"+"</th>"+
+										"<th>Echelon(max Skill and Affection"+btoptions+")</th>"+
 									"</tr>";
 
 							for (var g = 0; g < RESULTLIST.length;g++) {
