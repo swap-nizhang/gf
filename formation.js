@@ -1767,6 +1767,10 @@ function setEquipment(grid) {
 			charObj.equipment[1] = 113;
 		}
 	}
+	
+	if (charObj.name == "6P62") {
+		charObj.equipment[2] = 20;
+	}
 
 }
 
