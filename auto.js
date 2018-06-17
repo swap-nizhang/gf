@@ -9,7 +9,22 @@ var _nightBattle = false;
 var _bossMode = true;
 var _armorEnemy  = false;
 var _dodgeEnemy = false;
+
+var _dpsSmgAtGrid5 = false;
+
 var __gridToUi = null;
+
+var dpsSmg = [
+		135, //SR-3MP
+		136, //PP-19
+		20, //Vector
+		203, //密獾
+		22, //PPS-43
+		177, //KLIN
+		20094, //64式
+		27, //蠍式
+		20093 //IDW
+	];
 
 $( document ).ready(function () {
 
@@ -40,7 +55,13 @@ $( document ).ready(function () {
 						if (mCharData[j].version == "cn") continue;
 						if (mCharData[j].type != typeArray[i]) continue;
 						if (mCharData[j].rarity != (rarity==6?"extra":rarity)) continue;
-						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + mCharData[j].name + "<br />";
+						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + mCharData[j].name +
+									(
+										("," + dpsSmg.join(",") + ",").indexOf("," + mCharData[j].id + ",") != -1?
+										"(副坦)": //DPS SMG
+										""
+									) +
+									"<br />";
 					}
 					charTable += "</td>";
 				}
@@ -56,9 +77,10 @@ $( document ).ready(function () {
 				'<h1>自動陣型配對機</h1><a href="https://github.com/chibimonxd/gf/releases/tag/0.1">查看使用方法</a><br /><br />'+
 				'輸出秒數: <input id="sec" value="'+_SEC +'"/> &nbsp; &nbsp; '+
 				'夜戰模式: <input id="nightBattle" type="checkbox" /> &nbsp; &nbsp; '+
-				'對Boss模式: <input id="bossMode" type="checkbox" /> &nbsp; &nbsp; '+
-				'對裝甲單位: <input id="armorEnemy" type="checkbox" /> &nbsp; &nbsp; '+
-				'高迴避單位: <input id="dodgeEnemy" type="checkbox" /> &nbsp; &nbsp; '+
+				'對Boss模式: <input id="bossMode" type="checkbox" /> &nbsp; &nbsp; '+ //night battle
+				'對裝甲單位: <input id="armorEnemy" type="checkbox" /> &nbsp; &nbsp; '+ //high armor enemy
+				'高迴避單位: <input id="dodgeEnemy" type="checkbox" /> &nbsp; &nbsp; '+ //high dodge enemy
+				'5號位放副坦: <input id="dpsSmgAtGrid5" type="checkbox" /> &nbsp; &nbsp; '+ //allow dps tank at grid 5
 				'</div>'+
 				charTable +
 				'<div id="selDiv"><br />'+
@@ -239,7 +261,9 @@ function initTable() {
 	_nightBattle = $("#nightBattle").prop("checked");
 	_bossMode = $("#bossMode").prop("checked");
 	_armorEnemy  = $("#armorEnemy").prop("checked");
-	_dodgeEnemy  = $("#dodgeEnemy").prop("checked");	
+	_dodgeEnemy  = $("#dodgeEnemy").prop("checked");
+
+	_dpsSmgAtGrid5  = $("#dpsSmgAtGrid5").prop("checked");
 	
 	$("body > a").remove();
 	$("body > div > table").css("display","none");
@@ -328,6 +352,28 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 		ARR3 = ARR3.slice();
 		ARR4 = ARR4.slice();
 		ARR5 = ARR5.slice();
+		
+		if (!_dpsSmgAtGrid5) {
+			if (LOC1 == 5) {
+				ARR1 = ARR1.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC2 == 5) {
+				ARR2 = ARR2.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC3 == 5) {
+				ARR3 = ARR3.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC4 == 5) {
+				ARR4 = ARR4.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC5 == 5) {
+				ARR5 = ARR5.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			
+		}
+		
+		
+		
 		
 		if (ARR1.length * ARR2.length < threadCount) {
 			threadCount = ARR1.length * ARR2.length;
