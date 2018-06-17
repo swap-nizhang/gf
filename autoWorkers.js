@@ -294,64 +294,72 @@ var highestDNs = 0;
 var url = [location.protocol, '//', location.host, location.pathname].join('').replace("autoWorkers.js","main2.html");
 function insertResult(dps, team, charList) { 
 
-
 	if (dps > highestDps *buffer) {	
 
-		var preLoadCode = {};
-		var formation = [];
-		var fairy = {};
-		for (var i in mGridHasChar) {
-			var grid = getGridByUIValue(mGridHasChar[i]);
-			if (mGridToChar[grid] != "") {
-				var charObj = mGridToChar[grid];
+		if (
+				!_nightBattle ||
+				(_nightBattle && charList.filter(v => v.type == "hg").length > 0)
+			) {
+					
+		
+		
+			var preLoadCode = {};
+			var formation = [];
+			var fairy = {};
+			for (var i in mGridHasChar) {
+				var grid = getGridByUIValue(mGridHasChar[i]);
+				if (mGridToChar[grid] != "") {
+					var charObj = mGridToChar[grid];
 
-				var charRow = {};
-				charRow.g = grid;
-				charRow.id = charObj.id;
-				if (charObj.c.modLevel > 0) {
-					charRow.modlv = charObj.c.modLevel;
-				} else {
-					charRow.lv = charObj.c.level;
+					var charRow = {};
+					charRow.g = grid;
+					charRow.id = charObj.id;
+					if (charObj.c.modLevel > 0) {
+						charRow.modlv = charObj.c.modLevel;
+					} else {
+						charRow.lv = charObj.c.level;
+					}
+					if (charObj.c.modLevel >= 2) {
+						charRow.mod2slv = charObj.c.mod2SkillLevel;
+					}
+					charRow.slv = charObj.c.skillLevel;
+					charRow.eq = charObj.equipment_code;
+					formation.push(charRow);
 				}
-				if (charObj.c.modLevel >= 2) {
-					charRow.mod2slv = charObj.c.mod2SkillLevel;
-				}
-				charRow.slv = charObj.c.skillLevel;
-				charRow.eq = charObj.equipment_code;
-				formation.push(charRow);
 			}
+
+			if (mFairy != null) {
+				fairy.id = mFairy.id;
+				fairy.lv = mFairy.level;
+				fairy.r = mFairy.rarity;
+				fairy.slv = mFairy.skillLevel;
+				fairy.m = mFairy.mastery.id;
+			}
+			preLoadCode["char"] = formation;
+			preLoadCode["fairy"] = fairy;
+		
+			team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顯示陣型</a>";
+			var obj = { dps: dps , team: team , charList:charList};
+
+
+			RESULTLIST[RESULTLIST.length] = obj;
+		
+			if (highestDps < obj.dps) {
+				highestDps = obj.dps;
+			}
+		
+			//console.log(obj.dps, obj["d"+ _SEC + "s"], obj.team);
+
+			var resultHtml = 
+						"<tr>"+
+							"<th>"+obj.dps+"</th>"+
+							"<th>"+obj.team+"</th>"+
+						"</tr>";
+			//$$("body > table").prepend(resultHtml);
+			postMessage([resultHtml, obj.dps, obj.team, [charList[0].id, charList[1].id, charList[2].id, charList[3].id, charList[4].id]]);
+
 		}
-
-		if (mFairy != null) {
-			fairy.id = mFairy.id;
-			fairy.lv = mFairy.level;
-			fairy.r = mFairy.rarity;
-			fairy.slv = mFairy.skillLevel;
-			fairy.m = mFairy.mastery.id;
-		}
-		preLoadCode["char"] = formation;
-		preLoadCode["fairy"] = fairy;
-	
-		team += " <a href='" + url + "?pre=" + JSON.stringify(preLoadCode) + "' target='_blank'>顯示陣型</a>";
-		var obj = { dps: dps , team: team , charList:charList};
-
-
-		RESULTLIST[RESULTLIST.length] = obj;
-	
-		if (highestDps < obj.dps) {
-			highestDps = obj.dps;
-		}
-	
-		//console.log(obj.dps, obj["d"+ _SEC + "s"], obj.team);
-
-		var resultHtml = 
-					"<tr>"+
-						"<th>"+obj.dps+"</th>"+
-						"<th>"+obj.team+"</th>"+
-					"</tr>";
-		//$$("body > table").prepend(resultHtml);
-		postMessage([resultHtml, obj.dps, obj.team, [charList[0].id, charList[1].id, charList[2].id, charList[3].id, charList[4].id]]);
-
+		
 	}
 }
 
