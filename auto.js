@@ -9,7 +9,22 @@ var _nightBattle = false;
 var _bossMode = true;
 var _armorEnemy  = false;
 var _dodgeEnemy = false;
+
+var _dpsSmgAtGrid5 = false;
+
 var __gridToUi = null;
+
+var dpsSmg = [
+		135, //SR-3MP
+		00136, //PP-19
+		20, //Vector
+		00203, //密獾 Honey Badger
+		22, //PPS-43
+		177, //KLIN
+		20094, //Type64
+		27, //Skorpion
+		20093 //IDW
+	];
 
 $( document ).ready(function () {
 
@@ -40,7 +55,13 @@ $( document ).ready(function () {
 						if (mCharData[j].version == "cn") continue;
 						if (mCharData[j].type != typeArray[i]) continue;
 						if (mCharData[j].rarity != (rarity==6?"extra":rarity)) continue;
-						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + mCharData[j].name + "<br />";
+						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + mCharData[j].name +
+									(
+										("," + dpsSmg.join(",") + ",").indexOf("," + mCharData[j].id + ",") != -1?
+										"(副坦)": //DPS SMG
+										""
+									) +
+									"<br />";
 					}
 					charTable += "</td>";
 				}
@@ -55,10 +76,11 @@ $( document ).ready(function () {
 				'<div id="secDiv">'+
 				'<h1>Auto Formation Generator</h1>'+
 				'Calculate for n seconds: <input id="sec" value="'+_SEC +'"/> &nbsp; &nbsp; '+
-				'Night Battle: <input id="nightBattle" type="checkbox" /> &nbsp; &nbsp; '+
+				'Night Battle: <input id="nightBattle" type="checkbox" /> &nbsp; &nbsp; '+ //night battle
 				'Boss Mode: <input id="bossMode" type="checkbox" /> &nbsp; &nbsp; '+
-				'Armored Enemy: <input id="armorEnemy" type="checkbox" /> &nbsp; &nbsp; '+
-				'High EVA Enemy: <input id="dodgeEnemy" type="checkbox" /> &nbsp; &nbsp; '+
+				'Armored Enemy: <input id="armorEnemy" type="checkbox" /> &nbsp; &nbsp; '+ //high armor enemy
+				'High EVA Enemy: <input id="dodgeEnemy" type="checkbox" /> &nbsp; &nbsp; '+ //high dodge enemy
+				'Allow Offtank / DPS SMG on Grid #5: <input id="dpsSmgAtGrid5" type="checkbox" /> &nbsp; &nbsp; '+ //allow dps tank at grid 5
 				'</div>'+
 				charTable +
 				'<div id="selDiv"><br />'+
@@ -240,7 +262,9 @@ function initTable() {
 	_nightBattle = $("#nightBattle").prop("checked");
 	_bossMode = $("#bossMode").prop("checked");
 	_armorEnemy  = $("#armorEnemy").prop("checked");
-	_dodgeEnemy  = $("#dodgeEnemy").prop("checked");	
+	_dodgeEnemy  = $("#dodgeEnemy").prop("checked");
+
+	_dpsSmgAtGrid5  = $("#dpsSmgAtGrid5").prop("checked");
 	
 	$("body > a").remove();
 	$("body > div > table").css("display","none");
@@ -329,6 +353,28 @@ function startWorker(LOC1,LOC2,LOC3,LOC4,LOC5,
 		ARR3 = ARR3.slice();
 		ARR4 = ARR4.slice();
 		ARR5 = ARR5.slice();
+		
+		if (!_dpsSmgAtGrid5) {
+			if (LOC1 == 5) {
+				ARR1 = ARR1.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC2 == 5) {
+				ARR2 = ARR2.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC3 == 5) {
+				ARR3 = ARR3.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC4 == 5) {
+				ARR4 = ARR4.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			if (LOC5 == 5) {
+				ARR5 = ARR5.filter(v => ("," + dpsSmg.join(",") + ",").indexOf(","+v.id+",") == -1);
+			}
+			
+		}
+		
+		
+		
 		
 		if (ARR1.length * ARR2.length < threadCount) {
 			threadCount = ARR1.length * ARR2.length;
