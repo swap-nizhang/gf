@@ -53,14 +53,20 @@ $( document ).ready(function () {
 
 					for (var j = 0; j < mCharData.length;j++) {
 						if (mCharData[j].version == "cn") continue;
+						
+						if (mCharData[j].id.startsWith("00")) continue; //for eng ver
+						
 						if (mCharData[j].type != typeArray[i]) continue;
 						if (mCharData[j].rarity != (rarity==6?"extra":rarity)) continue;
-						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + mCharData[j].name +
+						charTable += "<input class='checkB checkRare"+ rarity +" checkType"+ typeArray[i] +"' type='checkbox' value='" + mCharData[j].id + "'>" + 
+
+									mCharData[j].name +
 									(
 										("," + dpsSmg.join(",") + ",").indexOf("," + mCharData[j].id + ",") != -1?
 										"(副坦)": //DPS SMG
 										""
 									) +
+
 									"<br />";
 					}
 					charTable += "</td>";
