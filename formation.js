@@ -1582,15 +1582,20 @@ function updatePerformance() {
 			",enemyArmor,"+ $('.battle_control .enemyArmor').val();
 
     //20180602
-	if (previousUrl != url) {
+	if (previousUrl != urlFull) {
 		$("#code").val(url);
+		previousUrl = urlFull;
 		
-		previousUrl
 		clearTimeout(timeoutCheck);
 		timeoutCheck = setTimeout(function() {
-			var resultArr = dmgNs();
-			$(".value.d8sSum").html(resultArr[0]);
-			$(".value.d20sSum").html(resultArr[1]);
+			if (getAlly().length  > 0) {
+				var resultArr = dmgNs();
+				$(".value.d8sSum").html(resultArr[0]);
+				$(".value.d20sSum").html(resultArr[1]);
+			} else {
+				$(".value.d8sSum").html(0);
+				$(".value.d20sSum").html(0);
+			}
 		},500);
 	}
 
