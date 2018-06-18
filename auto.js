@@ -31,7 +31,7 @@ $( document ).ready(function () {
 	//$(".endTime").val(8);
 	doUntillInit(
 		function(){
-
+			var cn = (getUrlParameter("cn") == 1);
 
 			$(".enemyEliteTarget").prop("checked",true);
 
@@ -52,7 +52,7 @@ $( document ).ready(function () {
 					charTable += "<td>";
 
 					for (var j = 0; j < mCharData.length;j++) {
-						if (mCharData[j].version == "cn") continue;
+						if ((!cn) && (mCharData[j].version == "cn")) continue;
 						
 						if (mCharData[j].id.startsWith("00")) continue; //for eng ver
 						
@@ -687,7 +687,7 @@ function findHGRF1() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -760,7 +760,7 @@ function findHGRF2() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		////if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -829,7 +829,7 @@ function findHGRF3() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -896,7 +896,7 @@ function findHGRF4() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -969,7 +969,7 @@ function findMGSG1() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1053,7 +1053,7 @@ function findSMGAR1() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1140,7 +1140,7 @@ function findSMGAR2() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1219,7 +1219,7 @@ function findSMGAR3() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1307,7 +1307,7 @@ function findSMGAR4() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1390,7 +1390,7 @@ function findMGSG3() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1468,7 +1468,7 @@ function findMGSG4() {	initTable();
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1549,7 +1549,7 @@ function findMGSG5() {	initTable();
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1624,7 +1624,7 @@ function findAR1() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
@@ -1693,7 +1693,7 @@ function findAR2() {
 
 	for (var i = 0; i < mCharData.length;i++) {
 
-		if (mCharData[i].version == "cn") continue;
+		//if (mCharData[i].version == "cn") continue;
 	
 		//if (mCharData[i].rarity != 5) continue;
 		if (combineStr.indexOf(","+mCharData[i].id+",") === -1) { continue; }
