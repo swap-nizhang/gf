@@ -1,4 +1,7 @@
 {"update":[
+    {"date": "Sat Jun 30 17:55:00 2018 +0200", "log": ["Additional options for auto-formation: Night, Boss, High Armor/EVA enemies, Offtank position"]},
+    {"date": "Sat Jun 30 17:25:00 2018 +0200", "log": ["Add Unreleased Dolls: Tac-50, MP-443, PP-19-01, Mosin Nagant mod, T77, Gsh-18, Clear and Fail"]},
+    {"date": "Sat Jun 16 18:30:00 2018 +0200", "log": ["Logistics: Checkboxes will default to available content"]},
     {"date": "Mon Jun 04 20:19:19 2018 +0200", "log": ["Unreleased dolls now have a red indicator on the pick button"]},
     {"date": "Tue Jun 05 16:30:00 2018 +0200", "log": ["Translations, fixed image display for unreleased dolls"]}
 ]
