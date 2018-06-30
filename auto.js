@@ -85,21 +85,21 @@ $( document ).ready(function () {
 				charTable +
 				'<div id="selDiv"><br />'+
 				'<h1>Formation Types:</h1>'+
-				'<a href="#" onclick="document.title = \'HG/RF F陣\';findHGRF1()">HG/RF type F</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'HG/RF b陣\';findHGRF2()">HG/RF type b</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'HG/RF 4保1 F陣\';findHGRF3()">4HG/1RF type F</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'HG/RF 4保1 b陣\';findHGRF4()">4HG/1RF type b</a> &nbsp; <br /><br />'+
-				'<a href="#" onclick="document.title = \'SMG/AR/HG F陣\';findSMGAR1()">SMG/AR/HG type F</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'SMG/AR/HG b陣\';findSMGAR2()">SMG/AR/HG type b</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'SMG/AR/HG F陣\';findSMGAR3()">SMG/AR/HG type F(HG on #5)</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'SMG/AR/HG b陣\';findSMGAR4()">SMG/AR/HG type b(HG on #5)</a> &nbsp; <br /><br />'+
-				'<a href="#" onclick="document.title = \'MG/SG/HG T陣\';findMGSG1()">MG/SG/HG type T</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'MG/SG/HG |:陣\';findMGSG3()">MG/SG/HG type |:</a> &nbsp; ' +
+				'<a href="#" onclick="document.title = \'HG/RF type F\';findHGRF1()">HG/RF type F</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'HG/RF type b\';findHGRF2()">HG/RF type b</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'4HG/1RF type F\';findHGRF3()">4HG/1RF type F</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'4HG/1RF type b\';findHGRF4()">4HG/1RF type b</a> &nbsp; <br /><br />'+
+				'<a href="#" onclick="document.title = \'SMG/AR/HG type F\';findSMGAR1()">SMG/AR/HG type F</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'SMG/AR/HG type b\';findSMGAR2()">SMG/AR/HG type b</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'SMG/AR/HG type F(HG on #5)\';findSMGAR3()">SMG/AR/HG type F(HG on #5)</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'SMG/AR/HG type b(HG on #5)\';findSMGAR4()">SMG/AR/HG type b(HG on #5)</a> &nbsp; <br /><br />'+
+				'<a href="#" onclick="document.title = \'MG/SG/HG type T\';findMGSG1()">MG/SG/HG type T</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'MG/SG/HG type |:\';findMGSG3()">MG/SG/HG type |:</a> &nbsp; ' +
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74196\';findMGSG4()">MG/SG/HG 74196</a> &nbsp; '+
 				'<a href="#" onclick="document.title = \'MG/SG/HG 74163\';findMGSG5()">MG/SG/HG 74163</a> &nbsp; <br /><br />'+
-				'<a href="#" onclick="document.title = \'5AR F陣\';findAR1()">5AR type F</a> &nbsp; '+
-				'<a href="#" onclick="document.title = \'5AR b陣\';findAR2()">5AR type b</a> &nbsp; <br /><br />'+
-				'<a href="#" onclick="document.title = \'5HG F陣\';findHG1()">5HG type F</a> &nbsp; <br /><br />'+
+				'<a href="#" onclick="document.title = \'5AR type F\';findAR1()">5AR type F</a> &nbsp; '+
+				'<a href="#" onclick="document.title = \'5AR type b\';findAR2()">5AR type b</a> &nbsp; <br /><br />'+
+				'<a href="#" onclick="document.title = \'5HG type F\';findHG1()">5HG type F</a> &nbsp; <br /><br />'+
 				'<img src="images/grid.png" />'+
 				'<br /><br /><br /><br />  &nbsp;' +
 				'<a href="https://github.com/chibimonxd/gf">Original Auto Formation by chibimonxd</a><br /><br /> &nbsp;' +
