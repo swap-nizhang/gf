@@ -689,7 +689,7 @@
             "grid":[
                 {"x":"0", "y":"1"},
                 {"x":"0", "y":"-1"}]}},
-    {"id":"33", "name":"M45", "type":"smg", "rarity":"2",
+    {"id":"33", "name":"m45", "type":"smg", "rarity":"2",
         "hp":{"1":"93", "100":"185"},
         "dmg":{"1":"12", "100":"30"},
         "dodge":{"1":"9", "100":"62"},
@@ -1411,7 +1411,7 @@
                 "hit":{"1":"50", "5":"50"}},
             "grid":[
                 {"x":"0", "y":"-1"}]}},
-    {"id":"69", "name":"FMS", "type":"ar", "rarity":"4",
+    {"id":"69", "name":"Fr FAMAS", "type":"ar", "rarity":"4",
         "hp":{"1":"61", "100":"121"},
         "dmg":{"1":"17", "100":"44"},
         "dodge":{"1":"6", "100":"40"},
@@ -1433,7 +1433,7 @@
                 "hit":{"1":"60", "5":"60"}},
             "grid":[
                 {"x":"1", "y":"1"}]}},
-    {"id":"70", "name":"FFC", "type":"ar", "rarity":"3",
+    {"id":"70", "name":"FF FNC", "type":"ar", "rarity":"3",
         "hp":{"1":"55", "100":"110"},
         "dmg":{"1":"19", "100":"51"},
         "dodge":{"1":"5", "100":"37"},
@@ -2018,7 +2018,7 @@
                 {"x":"1", "y":"1"},
                 {"x":"-1", "y":"-1"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"0098", "name":"SPP-1", "type":"hg", "rarity":"4",
+    {"id":"98", "name":"SPP-1", "type":"hg", "rarity":"4",
         "hp":{"1":"38", "100":"76"},
         "dmg":{"1":"12", "100":"35"},
         "dodge":{"1":"9", "100":"75"},
@@ -2426,7 +2426,7 @@
             "grid":[
                 {"x":"-1", "y":"1"},
                 {"x":"-1", "y":"-1"}]}},
-    {"id":"00116", "name":"Z-62", "type":"smg", "rarity":"3",
+    {"id":"116", "name":"Z-62", "type":"smg", "rarity":"3",
         "hp":{"1":"110", "100":"168"},
         "dmg":{"1":"11", "100":"28"},
         "dodge":{"1":"8", "100":"77"},
@@ -2450,7 +2450,7 @@
             "grid":[
                 {"x":"-1", "y":"1"},
                 {"x":"-1", "y":"0"}]}},
-    {"id":"00117", "name":"PSG-1", "type":"rf", "rarity":"4",
+    {"id":"117", "name":"Gr PSG-1", "type":"rf", "rarity":"4",
         "hp":{"1":"47", "100":"93"},
         "dmg":{"1":"47", "100":"120"},
         "dodge":{"1":"4", "100":"26"},
@@ -2496,7 +2496,7 @@
             "grid":[
                 {"x":"1", "y":"1"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"00119", "name":"OTs-14", "type":"ar", "rarity":"5",
+    {"id":"119", "name":"OTs-14", "type":"ar", "rarity":"5",
         "hp":{"1":"55", "100":"110"},
         "dmg":{"1":"17", "100":"49"},
         "dodge":{"1":"7", "100":"54"},
@@ -2522,7 +2522,7 @@
                 {"x":"1", "y":"1"},
                 {"x":"1", "y":"0"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"00120", "name":"ARX-160", "type":"ar", "rarity":"3",
+    {"id":"120", "name":"ARX-160", "type":"ar", "rarity":"3",
         "hp":{"1":"50", "100":"99"},
         "dmg":{"1":"18", "100":"49"},
         "dodge":{"1":"6", "100":"48"},
@@ -2568,14 +2568,14 @@
             "grid":[
                 {"x":"1", "y":"1"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"00122", "name":"G11", "type":"ar", "rarity":"5",
+    {"id":"122", "name":"Gr G11", "type":"ar", "rarity":"5",
         "hp":{"1":"61", "100":"121"},
         "dmg":{"1":"16", "100":"43"},
         "dodge":{"1":"6", "100":"41"},
         "hit":{"1":"6", "100":"44"},
         "fireOfRate":{"1":"66", "100":"95"},
         "skill":{
-            "name":"突擊者之眼",
+            "name":"Eye of the Assaulter",
             "type":"buff",
             "target":"self",
             "firstCooldownTime":"6",
@@ -3131,7 +3131,7 @@
         "ammoCount":"4",
         "armor":{"1":"3", "100":"21"},
         "skill":{
-            "name":"震盪打擊",
+            "name":"Burst Impact",
             "type":"attack",
             "target":"enemy",
             "firstCooldownTime":"8",
@@ -3156,7 +3156,7 @@
         "ammoCount":"4",
         "armor":{"1":"3", "100":"22"},
         "skill":{
-            "name":"震盪打擊",
+            "name":"Burst Impact",
             "type":"attack",
             "target":"enemy",
             "firstCooldownTime":"8",
@@ -3181,7 +3181,7 @@
         "ammoCount":"4",
         "armor":{"1":"3", "100":"21"},
         "skill":{
-            "name":"防護專注",
+            "name":"Protection Focus",
             "type":"buff",
             "target":"self",
             "firstCooldownTime":"10",
@@ -3205,7 +3205,7 @@
         "ammoCount":"4",
         "armor":{"1":"3", "100":"22"},
         "skill":{
-            "name":"防護專注",
+            "name":"Protection Focus",
             "type":"buff",
             "target":"self",
             "firstCooldownTime":"10",
@@ -3229,7 +3229,7 @@
         "ammoCount":"3",
         "armor":{"1":"3", "100":"20"},
         "skill":{
-            "name":"生存本能",
+            "name":"Survival Instinct",
             "type":"buff",
             "target":"self",
             "firstCooldownTime":"10",
@@ -3254,7 +3254,7 @@
         "ammoCount":"5",
         "armor":{"1":"3", "100":"24"},
         "skill":{
-            "name":"生存本能",
+            "name":"Survival Instinct",
             "type":"buff",
             "target":"self",
             "firstCooldownTime":"10",
@@ -3304,7 +3304,7 @@
         "ammoCount":"4",
         "armor":{"1":"3", "100":"22"},
         "skill":{
-            "name":"震盪打擊",
+            "name":"Burst Impact",
             "type":"attack",
             "target":"enemy",
             "firstCooldownTime":"8",
@@ -3628,7 +3628,7 @@
                 {"x":"1", "y":"1"},
                 {"x":"1", "y":"0"},
                 {"x":"1", "y":"-1"}]}},
-    {"id":"00173", "name":"PKP", "type":"mg", "rarity":"5",
+    {"id":"173", "name":"PKP", "type":"mg", "rarity":"5",
         "hp":{"1":"83", "100":"165"},
         "dmg":{"1":"35", "100":"95"},
         "dodge":{"1":"4", "100":"29"},
@@ -3636,7 +3636,7 @@
         "fireOfRate":{"1":"87", "100":"127"},
         "ammoCount":"10",
         "skill":{
-            "name":"暴動宣告",
+            "name":"Ultimatum",
             "type":"passive",
             "target":"enemy",
             "everyAttack":"1",
@@ -4143,7 +4143,7 @@
         "ammoCount":"5",
         "armor":{"1":"3", "100":"20"},
         "skill":{
-            "name":"震盪打擊",
+            "name":"Burst Impact",
             "type":"attack",
             "target":"enemy",
             "firstCooldownTime":"8",
@@ -5414,7 +5414,7 @@
 	
 ], "attackFrame":[
     {"id":"00208", "frame":9},
-    {"id":"00173", "frame":11},
+    {"id":"173", "frame":11},
     {"id":"77", "frame":11},
     {"id":"109", "frame":11},
     {"id":"85", "frame":11}
