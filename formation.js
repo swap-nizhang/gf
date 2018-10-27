@@ -3787,3 +3787,10 @@ Date.prototype.yyyymmdd = function() {
          ].join('/');
 };
 //alert(JSON.stringify(charObj));
+
+function copy2() {
+  var copyText = document.getElementById("code");
+  copyText.select();
+  document.execCommand("copy");
+  //alert("Copied the text: " + copyText.value);
+}
