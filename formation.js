@@ -3788,6 +3788,11 @@ Date.prototype.yyyymmdd = function() {
 };
 //alert(JSON.stringify(charObj));
 
+function selectall() {
+    document.getElementById("code").focus();
+    document.getElementById("code").select();
+}
+
 function copy2() {
   var copyText = document.getElementById("code");
   copyText.select();

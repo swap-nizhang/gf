@@ -16,11 +16,11 @@ var __gridToUi = null;
 
 var dpsSmg = [
 		135, //SR-3MP
-		00136, //PP-19
+		136, //PP-19
 		20, //Vector
 		00203, //密獾 Honey Badger
 		22, //PPS-43
-		177, //KLIN
+		00177, //KLIN
 		20094, //Type64
 		27, //Skorpion
 		20093 //IDW
@@ -35,7 +35,7 @@ $( document ).ready(function () {
 
 			$(".enemyEliteTarget").prop("checked",true);
 
-
+			//type checkboxes / columns
 			var charTable = "<div><table width='100%' border='1'>";
 			var typeArray = ["hg", "rf","smg","ar","sg","mg"];
 			charTable += "<tr><th></th>";
@@ -44,7 +44,8 @@ $( document ).ready(function () {
 
 			}
 			charTable += "</tr>";
-
+			
+			//rarity checkboxes / rows
 			for (var rarity = 6; rarity  >= 2;rarity--) {
 				charTable += "<tr>";
 				charTable += "<td><input class='chrare' id='chrare"+rarity+"' son='checkRare"+rarity+"' type='checkbox' onclick='updateCheckBox(2,this)'>" + (rarity==6?"extra":rarity) + "</td>";
@@ -116,6 +117,10 @@ $( document ).ready(function () {
 
 
 });
+
+function isUnreleased(id) {
+    return /^([0-9]{4,})$/.test(id);
+}
 
 function doUntillInit(func) {
 	if ((mCharData == null) || (mCharData.length == 0)) {
